@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trạm Học Tập Đa Ngôn Ngữ 26.0 (Full Dynamic) 🌍</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary-color: #ff9a9e; --primary-dark: #ff758c; --bg-color: #fecfef; --card-bg: #ffffff; --text-main: #333333; --text-muted: #666666; --correct-color: #4caf50; --wrong-color: #f44336; --warning-color: #ff9800; }
+        body { font-family: 'Quicksand', sans-serif; background: linear-gradient(135deg, var(--bg-color) 0%, #a1c4fd 100%); min-height: 100vh; margin: 0; display: flex; flex-direction: column; align-items: center; color: var(--text-main); overflow-x: hidden; }
+        .top-nav { width: 100%; background: rgba(255,255,255,0.95); box-shadow: 0 4px 15px rgba(0,0,0,0.05); padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-sizing: border-box; }
+        .hamburger { font-size: 1.8rem; background: none; border: none; color: var(--primary-dark); cursor: pointer; transition: transform 0.2s;}
+        .hamburger:hover { transform: scale(1.1); }
+        .auth-buttons { display: flex; align-items: center; gap: 10px; }
+        .auth-buttons button { background: #fff; border: 2px solid var(--primary-color); padding: 8px 15px; border-radius: 20px; font-weight: 700; color: var(--primary-dark); cursor: pointer; transition: 0.3s; }
+        .auth-buttons button.btn-login { background: var(--primary-color); color: #fff; }
+        #welcome-text { font-weight: bold; color: var(--primary-dark); margin-right: 10px; font-size: 1rem;}
+        .noti-btn { position: relative; background: none !important; border: none !important; font-size: 1.5rem !important; padding: 0 !important; margin-right: 10px; cursor: pointer; transition: transform 0.2s; }
+        .noti-btn:hover { transform: scale(1.1); }
+        .noti-badge { position: absolute; top: -5px; right: -5px; background: red; color: white; font-size: 0.7rem; font-weight: bold; border-radius: 50%; padding: 2px 6px; display: none; } 
+        .side-menu { position: fixed; top: 0; left: -280px; width: 250px; height: 100vh; background: #fff; box-shadow: 4px 0 15px rgba(0,0,0,0.1); z-index: 200; transition: 0.4s; display: flex; flex-direction: column; padding: 20px; box-sizing: border-box; }
+        .side-menu.active { left: 0; }
+        .side-menu h2 { color: var(--primary-dark); margin-top: 0; border-bottom: 2px dashed #eee; padding-bottom: 15px; }
+        .exam-tab-btn { background: transparent; border: none; padding: 12px; font-size: 1.1rem; font-weight: 700; color: var(--text-muted); border-radius: 15px; cursor: pointer; text-align: left; margin-bottom: 10px; transition: 0.3s;}
+        .exam-tab-btn:hover { background: #f0f8ff; color: #4facfe; }
+        .exam-tab-btn.active { background: #4facfe; color: #fff; }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 150; display: none; }
+        .overlay.active { display: block; }
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 300; display: none; justify-content: center; align-items: center; }
+        .modal.active { display: flex; }
+        .modal-content { background: #fff; width: 90%; max-width: 400px; padding: 30px; border-radius: 25px; text-align: center; position: relative;}
+        .close-modal { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; color: #aaa; cursor: pointer; }
+        .auth-input { width: 100%; padding: 12px; margin-bottom: 15px; border: 2px solid #eee; border-radius: 15px; box-sizing: border-box; }
+        .btn-submit { width: 100%; background: var(--primary-color); border: none; padding: 12px; border-radius: 15px; color: #fff; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        .auth-switch { margin-top: 20px; color: #666; font-size: 0.95rem; cursor: pointer; }
+        .auth-switch span { color: var(--primary-dark); font-weight: bold; }
+        #authMessage { margin-top: 15px; font-weight: bold; }
+        .main-content { flex: 1; width: 100%; display: flex; flex-direction: column; align-items: center; padding-bottom: 40px; }
+        .header { text-align: center; margin-bottom: 15px; margin-top: 20px; width: 100%; display: flex; flex-direction: column; align-items: center; }
+        .header h1 { color: #fff; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+        .country-img { width: 90%; max-width: 650px; height: 250px; object-fit: cover; border-radius: 20px; border: 4px solid rgba(255,255,255,0.6); }
+        .quote-section { width: 100%; max-width: 650px; text-align: center; margin-top: 15px; font-style: italic; color: #444; font-weight: 600; background: rgba(255,255,255,0.4); padding: 10px 20px; border-radius: 15px; box-sizing: border-box; backdrop-filter: blur(5px); }
+        .main-tabs { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; background: rgba(255,255,255,0.3); padding: 10px; border-radius: 30px; margin: 20px 0; max-width: 95%; }
+        .tab-btn { background: transparent; border: none; padding: 10px 15px; font-weight: 700; color: var(--text-muted); border-radius: 20px; cursor: pointer; transition: 0.3s;}
+        .tab-btn.active { background: #fff; color: var(--primary-dark); box-shadow: 0 4px 10px rgba(0,0,0,0.1);}
+        .level-selector { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 30px; }
+        .level-btn { background: rgba(255,255,255,0.6); border: 2px solid #fff; padding: 8px 16px; border-radius: 20px; font-weight: 700; color: var(--text-muted); cursor: pointer; transition: 0.3s;}
+        .level-btn.active { background: var(--primary-dark); color: #fff; border-color: var(--primary-dark); }
+        .content-section { display: none; flex-direction: column; align-items: center; width: 100%; max-width: 600px; padding: 0 10px; box-sizing: border-box;}
+        .content-section.active { display: flex; }
+        
+        .intro-card { background: #fff; width: 100%; border-radius: 25px; padding: 30px; box-sizing: border-box; text-align: left; box-shadow: 0 8px 20px rgba(0,0,0,0.05);}
+        .intro-warning { background: #fff8e1; color: var(--warning-color); padding: 10px; border-radius: 10px; text-align: center; font-weight: bold; margin-top: 15px; border: 1px dashed var(--warning-color); }
+        .feature-list { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
+        .feature-item { background: #f0f8ff; padding: 15px; border-radius: 15px; border-left: 5px solid #4facfe; font-size: 1.05rem; color: #333; }
+        .progress-bar-bg { width: 100%; background: #ddd; border-radius: 10px; height: 18px; margin-top: 10px; overflow: hidden; }
+        .progress-bar-fill { background: var(--correct-color); height: 100%; border-radius: 10px; transition: width 0.5s ease; }
+        .history-list-item { background: #f9f9f9; padding: 10px 15px; border-radius: 10px; margin-bottom: 8px; border-left: 4px solid var(--primary-color); font-size: 0.95rem; }
+
+        .flashcard-container { perspective: 1000px; width: 350px; height: 450px; margin-bottom: 20px; max-width: 100%; }
+        .flashcard { width: 100%; height: 100%; position: relative; transition: transform 0.6s; transform-style: preserve-3d; cursor: pointer; box-shadow: 0 15px 35px rgba(0,0,0,0.1); border-radius: 25px; }
+        .flashcard.flipped { transform: rotateY(180deg); }
+        .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 25px; background: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; text-align: center; border: 4px solid #fff; }
+        .back { transform: rotateY(180deg); }
+        .word { font-size: 3.5rem; font-weight: 700; color: var(--primary-dark); margin-bottom: 5px; }
+        .pinyin { font-size: 1.5rem; color: var(--text-muted); font-weight: 600; margin-bottom: 10px; }
+        .meaning { font-size: 1.8rem; font-weight: 700; color: #4facfe; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px dashed #eee; width: 100%; }
+        .controls { display: flex; align-items: center; gap: 20px; background: rgba(255,255,255,0.4); padding: 10px 25px; border-radius: 50px; }
+        .nav-btn { background: #fff; border: none; padding: 10px 20px; font-weight: 600; color: var(--primary-dark); border-radius: 25px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.05);}
+        .audio-btn { background: #f0f8ff; border: 2px solid #a1c4fd; border-radius: 50%; width: 50px; height: 50px; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; cursor: pointer; margin-bottom: 15px;}
+        .btn-bookmark { position: absolute; top: 15px; right: 20px; font-size: 2rem; background: none; border: none; cursor: pointer; color: #ddd; transition: 0.3s; z-index: 10; }
+        .btn-bookmark.saved { color: #ffd700; text-shadow: 0 2px 5px rgba(255,215,0,0.5); }
+        
+        .grammar-list, .notebook-list { width: 100%; display: flex; flex-direction: column; gap: 15px; }
+        .grammar-card { background: #fff; border-radius: 20px; padding: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.05); text-align: left; border-left: 5px solid #4facfe; position: relative;}
+        .g-title { font-size: 1.3rem; color: var(--primary-dark); font-weight: 700; margin: 0 0 10px 0; padding-right: 30px;}
+        .g-formula { background: #f0f8ff; padding: 10px; border-radius: 10px; font-family: monospace; font-size: 1.1rem; color: #333; margin-bottom: 10px; font-weight: bold; text-align: center;}
+        
+        .exam-list { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .exam-card { background: #fff; border-radius: 20px; padding: 20px; text-align: center; box-shadow: 0 8px 20px rgba(0,0,0,0.05); border: 2px solid transparent; }
+        .e-title { font-size: 1.2rem; font-weight: 700; margin: 0 0 10px 0; }
+        .e-btn { background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%); border: none; padding: 10px 20px; border-radius: 15px; font-weight: 700; color: #1a5f7a; cursor: pointer; width: 100%; }
+
+        .review-mode-selector { display: flex; gap: 10px; margin-bottom: 20px; width: 100%; justify-content: center; flex-wrap: wrap;}
+        .btn-mode { background: #fff; border: 2px solid var(--primary-color); padding: 10px 20px; border-radius: 25px; font-size: 1rem; font-weight: bold; color: var(--primary-dark); cursor: pointer; transition: 0.3s;}
+        .btn-mode.active { background: var(--primary-color); color: #fff; }
+        
+        .quiz-container { background: #fff; width: 100%; border-radius: 25px; padding: 25px; box-sizing: border-box; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; }
+        .q-text { font-size: 1.3rem; font-weight: bold; color: #333; margin-bottom: 20px; }
+        .q-word-hl { font-size: 2rem; color: var(--primary-dark); display: block; margin: 10px 0; }
+        .options-grid { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+        .opt-btn { background: #f8f9fa; border: 2px solid #eee; padding: 12px; border-radius: 15px; font-size: 1rem; cursor: pointer; text-align: left; font-weight: 600; color: #444; }
+        .opt-btn.correct { background: var(--correct-color); color: #fff; border-color: var(--correct-color); }
+        .opt-btn.wrong { background: var(--wrong-color); color: #fff; border-color: var(--wrong-color); }
+        .opt-btn:disabled { cursor: not-allowed; }
+        .btn-next-q { background: var(--primary-dark); color: #fff; border: none; padding: 12px 30px; font-size: 1.1rem; font-weight: bold; border-radius: 25px; cursor: pointer; display: none; margin: 0 auto;}
+
+        .nb-card { background: #fff; border-radius: 15px; padding: 15px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .nb-info { flex: 1; text-align: left; }
+        .nb-word { font-size: 1.4rem; font-weight: bold; color: var(--primary-dark); margin: 0 0 5px 0;}
+        .nb-status { font-size: 0.85rem; font-weight: bold; padding: 5px 10px; border-radius: 15px; margin-left: 10px; white-space: nowrap; }
+        .status-bad { background: #ffebee; color: var(--wrong-color); }
+        .status-good { background: #e8f5e9; color: var(--correct-color); }
+        .status-saved { background: #fff8e1; color: var(--warning-color); }
+
+        .empty-state { text-align: center; padding: 40px 20px; background: rgba(255,255,255,0.5); border-radius: 20px; width: 100%; font-size: 1.2rem; font-weight: 600; color: #666; }
+        .hidden { display: none !important; }
+        .footer { width: 100%; background: rgba(255,255,255,0.7); padding: 20px; text-align: center; font-size: 0.95rem; color: var(--text-muted); box-sizing: border-box; margin-top: auto; }
+    </style>
+</head>
+<body>
+
+    <nav class="top-nav">
+        <button class="hamburger" onclick="toggleMenu()">☰ Menu</button>
+        <div class="auth-buttons">
+            <button class="noti-btn" onclick="openNotiModal()" title="Thông báo">🔔<span class="noti-badge" id="noti-badge"></span></button>
+            <div id="guest-nav">
+                <button class="btn-register" onclick="openModal('register')">Đăng ký</button>
+                <button class="btn-login" onclick="openModal('login')">Đăng nhập</button>
+            </div>
+            <div id="user-nav" style="display: none; align-items: center;">
+                <span id="welcome-text"></span>
+                <button class="btn-login" onclick="logout()" style="background: var(--wrong-color); border-color: var(--wrong-color);">Đăng xuất</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="side-menu" id="sideMenu">
+        <h2>Ngôn Ngữ</h2>
+        <button class="exam-tab-btn active" onclick="changeExamType('HSK')">🇨🇳 Tiếng Trung HSK</button>
+        <button class="exam-tab-btn" onclick="changeExamType('TOEIC')">🇺🇸 Tiếng Anh TOEIC</button>
+        <button class="exam-tab-btn" onclick="changeExamType('IELTS')">🇬🇧 Tiếng Anh IELTS</button>
+        <button class="exam-tab-btn" onclick="changeExamType('TOPIK')">🇰🇷 Tiếng Hàn TOPIK</button>
+        <button class="exam-tab-btn" onclick="changeExamType('JLPT')">🇯🇵 Tiếng Nhật JLPT</button>
+    </div>
+    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+
+    <div class="modal" id="notiModal">
+        <div class="modal-content" style="text-align: left;">
+            <span class="close-modal" onclick="closeNotiModal()">✖</span>
+            <h2 class="modal-title" style="text-align: center;">🔔 Thông Báo Mới</h2>
+            <div id="noti-list"></div>
+        </div>
+    </div>
+
+    <div class="modal" id="authModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">✖</span>
+            <h2 class="modal-title" id="modalTitle">Đăng nhập</h2>
+            <input type="text" id="authUsername" placeholder="Tên tài khoản" class="auth-input">
+            <input type="password" id="authPassword" placeholder="Mật khẩu" class="auth-input">
+            <button class="btn-submit" id="btnSubmitAuth" onclick="handleAuth()">Vào học ngay</button>
+            <div id="authMessage"></div> 
+            <p class="auth-switch" onclick="switchAuthMode()"><span id="authSwitchText">Chưa có tài khoản? Đăng ký ngay</span></p>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <h1 id="main-title">🐼 Trạm Tiếng Trung HSK 🐼</h1>
+            <img id="country-img" class="country-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWvwrhek5XM0mudiM2OR1QKO7SK_97CbzUw4ViFk-c2g&s=10" alt="Minh họa">
+            <div class="quote-section">"Học thêm một ngôn ngữ mới là mở ra một cửa sổ mới nhìn ra thế giới."</div>
+        </div>
+
+        <div class="main-tabs">
+            <button class="tab-btn active" onclick="switchTab('intro')">🏠 Giới Thiệu</button>
+            <button class="tab-btn" onclick="switchTab('vocab')">📇 Từ Vựng</button>
+            <button class="tab-btn" onclick="switchTab('grammar')">📖 Ngữ Pháp</button>
+            <button class="tab-btn" onclick="switchTab('exam')">📝 Luyện Đề</button>
+            <button class="tab-btn" onclick="switchTab('review')">🎮 Ôn Tập</button>
+            <button class="tab-btn" onclick="switchTab('notebook')">📚 Sổ Tay</button>
+            <button class="tab-btn" onclick="switchTab('history')">⏱ Lịch Sử</button>
+        </div>
+
+        <div class="level-selector" id="level-buttons"></div>
+
+        <div id="intro-section" class="content-section active">
+            <div class="intro-card">
+                <h2>Chào mừng đến với Trạm Học Tập 🚀</h2>
+                <div class="intro-warning" id="intro-warning">🔒 Bạn cần Đăng nhập / Đăng ký để lưu tiến trình học lên Đám mây!</div>
+                <div class="feature-list">
+                    <div class="feature-item"><strong>📇 Flashcard:</strong> Ghi nhớ từ vựng qua thẻ lật trực quan, tích hợp phát âm chuẩn xác.</div>
+                    <div class="feature-item"><strong>🎮 Ôn Tập Thông Minh:</strong> Spaced Repetition ưu tiên hiển thị các từ vựng bạn làm sai.</div>
+                    <div class="feature-item"><strong>📚 Sổ Tay Lưu Trữ:</strong> Đánh dấu các điểm ngữ pháp, từ vựng khó để tự động tạo bài trắc nghiệm ôn lại.</div>
+                    <div class="feature-item"><strong>⏱ Lịch Sử & Tiến Độ:</strong> Dữ liệu học tập được đồng bộ hóa hoàn toàn lên MongoDB Cloud.</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="vocab-section" class="content-section">
+            <div class="flashcard-container" id="fc-container">
+                <div class="flashcard" id="flashcard" onclick="flipCard()">
+                    <div class="card-face front">
+                        <button class="btn-bookmark" id="btn-bookmark" onclick="toggleSaveWord(event)" title="Lưu từ này">★</button>
+                        <div class="word" id="word-cn">...</div>
+                        <div class="pinyin" id="word-pinyin">...</div>
+                        <button class="audio-btn" onclick="playAudio(event)">🔊</button>
+                        <div style="font-size: 0.9rem; color: #ccc;">👆 Chạm nền để lật</div>
+                    </div>
+                    <div class="card-face back">
+                        <div class="meaning" id="word-meaning">...</div>
+                        <div class="example-cn" id="ex-cn">...</div>
+                        <div class="example-vn" id="ex-vn">...</div>
+                    </div>
+                </div>
+            </div>
+            <div class="controls" id="vocab-controls">
+                <button class="nav-btn" onclick="prevCard()">⬅️ Trước</button>
+                <div id="progress" style="font-weight: bold; width: 80px; text-align: center;">0 / 0</div>
+                <button class="nav-btn" onclick="nextCard()">Sau ➡️</button>
+            </div>
+            <div id="vocab-empty" class="empty-state hidden">🚧 Đang cập nhật từ vựng...</div>
+        </div>
+
+        <div id="grammar-section" class="content-section">
+            <div class="grammar-list" id="grammar-list"></div>
+            <div id="grammar-empty" class="empty-state hidden">🚧 Đang cập nhật ngữ pháp...</div>
+        </div>
+
+        <div id="exam-section" class="content-section">
+            <div class="exam-list" id="exam-list"></div>
+            <div id="exam-empty" class="empty-state hidden">🚧 Đề thi đang được biên soạn...</div>
+        </div>
+
+        <div id="review-section" class="content-section">
+            <div class="review-mode-selector" id="review-controls">
+                <button class="btn-mode active" id="btn-rev-vocab" onclick="startReview('vocab')">🎯 Ôn Từ Vựng</button>
+                <button class="btn-mode" id="btn-rev-grammar" onclick="startReview('grammar')">🧩 Ôn Ngữ Pháp</button>
+            </div>
+            <div style="margin-bottom:10px; font-size:0.9rem; color:#888;">💡 Hệ thống ưu tiên chọn các từ/ngữ pháp bạn đã "Lưu" hoặc "Hay làm sai"!</div>
+            
+            <div class="quiz-container hidden" id="quiz-board">
+                <div class="q-text" id="quiz-question">Câu hỏi</div>
+                <div class="options-grid" id="quiz-options"></div>
+                <button class="btn-next-q" id="btn-next-quiz" onclick="loadNextQuiz()">Tiếp theo ➡️</button>
+            </div>
+            <div id="review-empty" class="empty-state hidden">🚧 Bạn cần học ít nhất 2 từ vựng/ngữ pháp để làm bài tập ôn tập!</div>
+        </div>
+
+        <div id="notebook-section" class="content-section">
+            <div style="margin-bottom: 20px; text-align: center; color: var(--primary-dark); font-weight: bold;">Danh sách đã lưu & Thường xuyên quên:</div>
+            <div class="notebook-list" id="notebook-list"></div>
+            <div id="notebook-empty" class="empty-state hidden">📭 Sổ tay đang trống.<br>Nhấn dấu ★ ở thẻ từ vựng hoặc làm trắc nghiệm để hệ thống ghi nhận!</div>
+        </div>
+
+        <div id="history-section" class="content-section">
+            <div class="intro-card" style="margin-bottom: 20px;">
+                <h3 style="color: var(--primary-dark); margin-top:0;">📊 Tiến độ (<span id="hist-lang-title"></span>)</h3>
+                <div id="progress-stats"></div>
+            </div>
+            <div class="intro-card">
+                <h3 style="color: var(--primary-dark); margin-top:0;">🕒 Nhật ký trực tuyến (Đồng bộ MongoDB)</h3>
+                <div id="login-history-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>👨‍💻 <strong>Phát triển bởi:</strong> Lê Quốc Thịnh</p>
+    </footer>
+
+    <script>
+        const config = {
+            HSK: { title: "Tiếng Trung HSK", levels: ["1", "2"], img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvpt88mlCcbizuDj8HmSA99ajRs8UFf0i4bwp-bXQ1xA&s=10" }, 
+            TOEIC: { title: "Tiếng Anh TOEIC", levels: ["Mục tiêu 500+"], img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqJKOtXNAXSo5WoYQjzlCyWs9OGvWDF3rM3SP7tuf2hw&s=10" }, 
+            IELTS: { title: "Tiếng Anh IELTS", levels: ["Band 5.0"], img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6bhO27FyJgz1x7vOoVr203QiC0fy1eltkWw5d91_T7g&s=10" }, 
+            TOPIK: { title: "Tiếng Hàn TOPIK", levels: ["Cấp 1"], img: "https://images.unsplash.com/photo-1517154421773-0529f29ea451?auto=format&fit=crop&w=800&q=80" }, 
+            JLPT: { title: "Tiếng Nhật JLPT", levels: ["N5"], img: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=800&q=80" } 
+        };
+
+        const db = {
+            HSK: {
+                vocab: {
+                    "1": [
+                        { word: "爱", pinyin: "ài", meaning: "yêu, thích", exCn: "我爱我的妈妈。", exVn: "Tôi yêu mẹ của tôi." },
+                        { word: "八", pinyin: "bā", meaning: "số 8", exCn: "现在是八点。", exVn: "Bây giờ là 8 giờ." },
+                        { word: "包子", pinyin: "bāozi", meaning: "bánh bao", exCn: "这个包子很好吃。", exVn: "Cái bánh bao này rất ngon." },
+                        { word: "杯子", pinyin: "bēizi", meaning: "cái cốc", exCn: "请给我一个杯子。", exVn: "Làm ơn cho tôi 1 cái cốc." }
+                    ]
+                },
+                grammar: {
+                    "1": [ 
+                        { title: "Đại từ chỉ thị (这, 那)", formula: "这 / 那 + [Lượng từ] + Danh từ", desc: "Dùng để chỉ định người hoặc sự vật ở gần (这 - Đây) hoặc ở xa (那 - Kia)." },
+                        { title: "Câu chữ 很 (hěn)", formula: "Chủ ngữ + 很 + Tính từ", desc: "Dùng để miêu tả tính chất. VD: Cô ấy rất xinh đẹp." },
+                        { title: "Câu hỏi với 吗 (ma)", formula: "Câu trần thuật + 吗？", desc: "Đặt cuối câu để tạo câu hỏi Có/Không. VD: Bạn khỏe không?" }
+                    ]
+                },
+                exam: {
+                    "1": [
+                        { title: "Đề mô phỏng HSK 1 - Phần Nghe", time: "15 phút", qCount: 20 },
+                        { title: "Đề mô phỏng HSK 1 - Phần Đọc", time: "17 phút", qCount: 20 }
+                    ]
+                }
+            },
+            TOEIC: {
+                vocab: { "Mục tiêu 500+": [ { word: "Accommodate", pinyin: "/əˈkɑː.mə.deɪt/", meaning: "cung cấp chỗ ở", exCn: "The hotel can accommodate 500 guests.", exVn: "Khách sạn đáp ứng 500 khách." }, { word: "Fluctuate", pinyin: "/ˈflʌk.tʃu.eɪt/", meaning: "dao động", exCn: "Prices fluctuate daily.", exVn: "Giá cả dao động mỗi ngày." } ] },
+                grammar: { "Mục tiêu 500+": [ { title: "Thì Hiện tại hoàn thành", formula: "S + have/has + V3/ED", desc: "Diễn tả hành động bắt đầu trong quá khứ kéo dài đến hiện tại." } ] },
+                exam: { "Mục tiêu 500+": [ { title: "TOEIC Reading Test 1", time: "75 phút", qCount: 100 } ] }
+            },
+            IELTS: { vocab: {}, grammar: {}, exam: {} }, TOPIK: { vocab: {}, grammar: {}, exam: {} }, JLPT: { vocab: {}, grammar: {}, exam: {} }
+        };
+
+        const notificationsData = [
+            { date: "Hôm nay", title: "🎉 Hoàn thiện Toàn Tập", desc: "Website đã có cấu trúc thư mục hoàn chỉnh, backend an toàn với MongoDB, sẵn sàng Deploy lên Render!" },
+            { date: "Tháng này", title: "📝 Bộ đề mô phỏng HSK & TOEIC", desc: "Thêm danh mục Đề thi thử các cấp độ, sẵn sàng để bạn ôn luyện." }
+        ];
+
+        let currentExamType = localStorage.getItem('app_last_exam') || 'HSK';
+        let currentLevel = localStorage.getItem('app_last_level') || "1";
+        let currentTab = 'intro';
+        let vocabIndex = 0;
+        let reviewMode = 'vocab';
+        let currentQuizItemKey = "";
+        let currentQuizCorrectAns = "";
+        let isLoggedIn = localStorage.getItem('app_is_logged_in') === 'true';
+        let currentUser = localStorage.getItem('app_username') || '';
+        let userProgress = {}; 
+
+        window.onload = () => { 
+            checkNotifications();
+            document.getElementById('main-title').innerText = `${config[currentExamType].icon} Trạm ${config[currentExamType].title} ${config[currentExamType].icon}`;
+            document.getElementById('country-img').src = config[currentExamType].img;
+            
+            if (isLoggedIn) {
+                let localSave = localStorage.getItem('app_progress_offline_' + currentUser);
+                if(localSave) userProgress = JSON.parse(localSave);
+                recordLoginTime();
+            }
+            updateAuthUI();
+            buildLevelButtons(); 
+            switchTab(isLoggedIn ? (localStorage.getItem('app_last_tab') || 'vocab') : 'intro'); 
+        };
+
+        async function handleAuth() {
+            const user = document.getElementById('authUsername').value.trim();
+            const pass = document.getElementById('authPassword').value.trim();
+            const msgBox = document.getElementById('authMessage');
+            if (!user || !pass) { msgBox.innerHTML = "<span style='color:red;'>Vui lòng nhập đủ thông tin!</span>"; return; }
+
+            try {
+                const response = await fetch('/api/auth', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username: user, password: pass, type: currentAuthMode }) });
+                const data = await response.json();
+
+                if (!response.ok) { msgBox.innerHTML = `<span style='color:red;'>${data.error}</span>`; } 
+                else {
+                    isLoggedIn = true; currentUser = user;
+                    userProgress = data.progress || {}; 
+                    if(!userProgress.loginHistory) userProgress.loginHistory = [];
+                    
+                    localStorage.setItem('app_is_logged_in', 'true');
+                    localStorage.setItem('app_username', user);
+                    localStorage.setItem('app_progress_offline_' + user, JSON.stringify(userProgress));
+                    
+                    recordLoginTime(); closeModal(); updateAuthUI();
+                    msgBox.innerHTML = "";
+                    if(currentTab === 'intro') switchTab('vocab');
+                }
+            } catch (err) {
+                msgBox.innerHTML = "<span style='color:var(--warning-color);'>Máy chủ chưa bật hoặc chưa lấy được DB. Bạn có thể học offline.</span>";
+                isLoggedIn = true; currentUser = user;
+                let localSave = localStorage.getItem('app_progress_offline_' + user);
+                userProgress = localSave ? JSON.parse(localSave) : { loginHistory: [] };
+                localStorage.setItem('app_is_logged_in', 'true');
+                localStorage.setItem('app_username', user);
+                recordLoginTime(); setTimeout(() => { closeModal(); updateAuthUI(); if(currentTab === 'intro') switchTab('vocab'); }, 1500);
+            }
+        }
+
+        async function saveProgress() {
+            if(!isLoggedIn) return;
+            localStorage.setItem('app_progress_offline_' + currentUser, JSON.stringify(userProgress));
+            try {
+                await fetch('/api/progress', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username: currentUser, progress: userProgress }) });
+            } catch(e) {} 
+        }
+
+        function recordLoginTime() {
+            if(!isLoggedIn) return;
+            if(!userProgress.loginHistory) userProgress.loginHistory = [];
+            const now = new Date().toLocaleString('vi-VN');
+            if(userProgress.loginHistory.length > 0 && userProgress.loginHistory[0].includes(now.substring(0, 15))) return; 
+            userProgress.loginHistory.unshift(now);
+            if(userProgress.loginHistory.length > 15) userProgress.loginHistory.pop(); 
+            saveProgress();
+        }
+
+        function getItemKey(item, mode) { return `${currentExamType}_${currentLevel}_${mode}_${item.word || item.title}`; }
+        function updateAuthUI() {
+            if (isLoggedIn) {
+                document.getElementById('guest-nav').style.display = 'none';
+                document.getElementById('user-nav').style.display = 'flex';
+                document.getElementById('welcome-text').innerText = `👋 Chào, ${currentUser}`;
+                document.getElementById('intro-warning').style.display = 'none'; 
+            } else {
+                document.getElementById('guest-nav').style.display = 'block';
+                document.getElementById('user-nav').style.display = 'none';
+                document.getElementById('intro-warning').style.display = 'block';
+            }
+        }
+        function logout() { isLoggedIn = false; currentUser = ''; localStorage.setItem('app_is_logged_in', 'false'); localStorage.removeItem('app_username'); updateAuthUI(); switchTab('intro'); }
+        function toggleMenu() { document.getElementById('sideMenu').classList.toggle('active'); document.getElementById('overlay').classList.toggle('active'); }
+        let currentAuthMode = 'login';
+        function openModal(mode) { currentAuthMode = mode; document.getElementById('authMessage').innerHTML=""; document.getElementById('modalTitle').innerText = mode === 'login' ? "Đăng nhập" : "Đăng ký"; document.getElementById('btnSubmitAuth').innerText = mode === 'login' ? "Vào học ngay" : "Tạo tài khoản"; document.getElementById('authSwitchText').innerText = mode === 'login' ? "Chưa có tài khoản? Đăng ký ngay" : "Đã có tài khoản? Đăng nhập"; document.getElementById('authModal').classList.add('active'); }
+        function closeModal() { document.getElementById('authModal').classList.remove('active'); }
+        function switchAuthMode() { openModal(currentAuthMode === 'login' ? 'register' : 'login'); }
+        function checkNotifications() { const readCount = parseInt(localStorage.getItem('app_noti_read_count') || '0'); const badge = document.getElementById('noti-badge'); if (readCount < notificationsData.length) { badge.style.display = 'block'; badge.innerText = notificationsData.length - readCount; } else { badge.style.display = 'none'; } }
+        function openNotiModal() { document.getElementById('notiModal').classList.add('active'); localStorage.setItem('app_noti_read_count', notificationsData.length.toString()); document.getElementById('noti-badge').style.display = 'none'; let html = ''; notificationsData.forEach(n => { html += `<div style="border-bottom:1px solid #eee; padding:15px 0;"><div style="font-size:0.85rem; color:#888;">🕒 ${n.date}</div><div style="font-weight:bold; color:var(--primary-dark); font-size:1.1rem;">${n.title}</div><div style="font-size:0.95rem; color:#444;">${n.desc}</div></div>`; }); document.getElementById('noti-list').innerHTML = html; }
+        function closeNotiModal() { document.getElementById('notiModal').classList.remove('active'); }
+
+        function changeExamType(examType) {
+            currentExamType = examType; localStorage.setItem('app_last_exam', currentExamType); 
+            document.querySelectorAll('.exam-tab-btn').forEach(btn => btn.classList.remove('active')); event.target.classList.add('active');
+            document.getElementById('main-title').innerText = `${config[examType].icon} Trạm ${config[examType].title} ${config[examType].icon}`;
+            document.getElementById('country-img').src = config[examType].img;
+            currentLevel = config[examType].levels[0]; localStorage.setItem('app_last_level', currentLevel); 
+            buildLevelButtons(); renderContent(); toggleMenu();
+        }
+
+        function buildLevelButtons() {
+            const container = document.getElementById('level-buttons'); container.innerHTML = '';
+            config[currentExamType].levels.forEach(levelName => {
+                const btn = document.createElement('button'); btn.className = `level-btn ${levelName === currentLevel ? 'active' : ''}`; btn.innerText = levelName;
+                btn.onclick = () => {
+                    if (!isLoggedIn) { openModal('login'); return; }
+                    document.querySelectorAll('.level-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active');
+                    currentLevel = levelName; localStorage.setItem('app_last_level', currentLevel); renderContent();
+                };
+                container.appendChild(btn);
+            });
+        }
+
+        function switchTab(tabName) {
+            if (!isLoggedIn && tabName !== 'intro') { openModal('login'); return; }
+            currentTab = tabName; localStorage.setItem('app_last_tab', currentTab); 
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.querySelector(`.tab-btn[onclick="switchTab('${tabName}')"]`); if(activeBtn) activeBtn.classList.add('active');
+            document.querySelectorAll('.content-section').forEach(sec => sec.classList.remove('active'));
+            document.getElementById(`${tabName}-section`).classList.add('active');
+            renderContent();
+        }
+
+        function renderContent() {
+            if (currentTab === 'vocab') renderVocab();
+            else if (currentTab === 'grammar') renderGrammar();
+            else if (currentTab === 'exam') renderExam();
+            else if (currentTab === 'review') { reviewMode = 'vocab'; startReview('vocab'); }
+            else if (currentTab === 'notebook') renderNotebook();
+            else if (currentTab === 'history') renderHistory();
+        }
+
+        function renderVocab() {
+            const data = (db[currentExamType].vocab && db[currentExamType].vocab[currentLevel]) ? db[currentExamType].vocab[currentLevel] : [];
+            if (data.length === 0) { document.getElementById('fc-container').classList.add('hidden'); document.getElementById('vocab-controls').classList.add('hidden'); document.getElementById('vocab-empty').classList.remove('hidden'); } 
+            else { document.getElementById('fc-container').classList.remove('hidden'); document.getElementById('vocab-controls').classList.remove('hidden'); document.getElementById('vocab-empty').classList.add('hidden'); vocabIndex = 0; loadFlashcard(vocabIndex, data); }
+        }
+        function loadFlashcard(index, dataArray) {
+            const data = dataArray[index];
+            document.getElementById('word-cn').textContent = data.word; document.getElementById('word-pinyin').textContent = data.pinyin; document.getElementById('word-meaning').textContent = data.meaning; document.getElementById('ex-cn').textContent = data.exCn || ''; document.getElementById('ex-vn').textContent = data.exVn || ''; document.getElementById('progress').textContent = `${index + 1} / ${dataArray.length}`;
+            const key = getItemKey(data, 'vocab');
+            if(!userProgress[key]) { userProgress[key] = { correct: 0, wrong: 0, saved: false, itemData: data }; saveProgress(); }
+            const btn = document.getElementById('btn-bookmark'); if(userProgress[key].saved) btn.classList.add('saved'); else btn.classList.remove('saved');
+            if (document.getElementById('flashcard').classList.contains('flipped')) document.getElementById('flashcard').classList.remove('flipped');
+        }
+        function flipCard() { document.getElementById('flashcard').classList.toggle('flipped'); }
+        function nextCard() { const data = db[currentExamType].vocab[currentLevel]; if (vocabIndex < data.length - 1) { vocabIndex++; loadFlashcard(vocabIndex, data); } }
+        function prevCard() { const data = db[currentExamType].vocab[currentLevel]; if (vocabIndex > 0) { vocabIndex--; loadFlashcard(vocabIndex, data); } }
+        function toggleSaveWord(event) { event.stopPropagation(); const data = db[currentExamType].vocab[currentLevel][vocabIndex]; const key = getItemKey(data, 'vocab'); userProgress[key].saved = !userProgress[key].saved; saveProgress(); const btn = document.getElementById('btn-bookmark'); if(userProgress[key].saved) btn.classList.add('saved'); else btn.classList.remove('saved'); }
+        function playAudio(event) { event.stopPropagation(); const wordText = document.getElementById('word-cn').textContent; if ('speechSynthesis' in window) { window.speechSynthesis.cancel(); const utterance = new SpeechSynthesisUtterance(wordText); utterance.lang = config[currentExamType].lang; window.speechSynthesis.speak(utterance); } }
+
+        function renderGrammar() {
+            const data = (db[currentExamType].grammar && db[currentExamType].grammar[currentLevel]) ? db[currentExamType].grammar[currentLevel] : [];
+            const list = document.getElementById('grammar-list'); list.innerHTML = '';
+            if (data.length === 0) { list.classList.add('hidden'); document.getElementById('grammar-empty').classList.remove('hidden'); } 
+            else {
+                list.classList.remove('hidden'); document.getElementById('grammar-empty').classList.add('hidden');
+                data.forEach((item, idx) => { 
+                    const key = getItemKey(item, 'grammar'); if(!userProgress[key]) { userProgress[key] = { correct: 0, wrong: 0, saved: false, itemData: item }; saveProgress(); }
+                    list.innerHTML += `<div class="grammar-card"><button class="btn-bookmark ${userProgress[key].saved ? 'saved' : ''}" style="top:15px; color:#ccc;" onclick="toggleSaveGrammar(this, ${idx})">★</button><h3 class="g-title">📌 ${item.title}</h3><div class="g-formula">${item.formula}</div><div class="g-desc">${item.desc}</div></div>`; 
+                });
+            }
+        }
+        function toggleSaveGrammar(btn, index) { const item = db[currentExamType].grammar[currentLevel][index]; const key = getItemKey(item, 'grammar'); userProgress[key].saved = !userProgress[key].saved; saveProgress(); if(userProgress[key].saved) btn.classList.add('saved'); else btn.classList.remove('saved'); }
+
+        function renderExam() {
+            const data = (db[currentExamType].exam && db[currentExamType].exam[currentLevel]) ? db[currentExamType].exam[currentLevel] : [];
+            const list = document.getElementById('exam-list'); list.innerHTML = '';
+            if (data.length === 0) { list.classList.add('hidden'); document.getElementById('exam-empty').classList.remove('hidden'); } 
+            else {
+                list.classList.remove('hidden'); document.getElementById('exam-empty').classList.add('hidden');
+                data.forEach(item => { list.innerHTML += `<div class="exam-card"><h3 class="e-title">📄 ${item.title}</h3><div style="margin-bottom: 15px; color:#666;">⏳ ${item.time} • ❓ ${item.qCount} câu</div><button class="e-btn" onclick="alert('Đang tải dữ liệu đề thi từ máy chủ...')">Bắt đầu làm bài 🚀</button></div>`; });
+            }
+        }
+
+        function startReview(mode) {
+            reviewMode = mode; document.getElementById('btn-rev-vocab').classList.remove('active'); document.getElementById('btn-rev-grammar').classList.remove('active'); document.getElementById(`btn-rev-${mode}`).classList.add('active');
+            const data = (db[currentExamType][mode] && db[currentExamType][mode][currentLevel]) ? db[currentExamType][mode][currentLevel] : [];
+            const board = document.getElementById('quiz-board'); const empty = document.getElementById('review-empty');
+            if (data.length < 2) { board.classList.add('hidden'); empty.classList.remove('hidden'); } else { board.classList.remove('hidden'); empty.classList.add('hidden'); loadNextQuiz(data); }
+        }
+        function loadNextQuiz(data) {
+            document.getElementById('btn-next-quiz').style.display = 'none';
+            let weightedArray = [];
+            data.forEach((item, index) => {
+                const key = getItemKey(item, reviewMode); const stats = userProgress[key] || { correct: 0, wrong: 0 };
+                let weight = 10 + (stats.wrong * 5) - (stats.correct * 2); if (weight < 1) weight = 1; 
+                for(let i=0; i<weight; i++) { weightedArray.push(index); }
+            });
+            const correctIndex = weightedArray[Math.floor(Math.random() * weightedArray.length)]; const currentItem = data[correctIndex]; currentQuizItemKey = getItemKey(currentItem, reviewMode);
+            let options = [currentItem]; let available = data.filter((_, i) => i !== correctIndex); available.sort(() => 0.5 - Math.random()); options = options.concat(available.slice(0, 3)); options.sort(() => 0.5 - Math.random());
+            const qBox = document.getElementById('quiz-question'); const optBox = document.getElementById('quiz-options'); optBox.innerHTML = '';
+            if (reviewMode === 'vocab') {
+                currentQuizCorrectAns = currentItem.meaning; qBox.innerHTML = `Nghĩa của từ <span class="q-word-hl">${currentItem.word}</span> <br><span style="font-size:1rem;color:#888">${currentItem.pinyin}</span><br> là gì?`;
+                options.forEach(opt => { optBox.innerHTML += `<button class="opt-btn" onclick="checkAnswer(this, '${opt.meaning.replace(/'/g, "\\'")}')">${opt.meaning}</button>`; });
+            } else {
+                currentQuizCorrectAns = currentItem.desc; qBox.innerHTML = `Cấu trúc: <span style="color:var(--primary-dark)">${currentItem.formula}</span><br>có cách dùng như thế nào?`;
+                options.forEach(opt => { optBox.innerHTML += `<button class="opt-btn" onclick="checkAnswer(this, '${opt.desc.replace(/'/g, "\\'")}')">${opt.desc}</button>`; });
+            }
+        }
+        function checkAnswer(btn, selectedAns) {
+            const allBtns = document.querySelectorAll('.opt-btn'); allBtns.forEach(b => b.disabled = true);
+            if (selectedAns === currentQuizCorrectAns) { btn.classList.add('correct'); userProgress[currentQuizItemKey].correct++; } 
+            else { btn.classList.add('wrong'); userProgress[currentQuizItemKey].wrong++; allBtns.forEach(b => { if (b.innerText === currentQuizCorrectAns) b.classList.add('correct'); }); }
+            saveProgress(); document.getElementById('btn-next-quiz').style.display = 'block';
+        }
+        document.getElementById('btn-next-quiz').onclick = () => { const data = db[currentExamType][reviewMode][currentLevel] || []; loadNextQuiz(data); }
+
+        function renderNotebook() {
+            const list = document.getElementById('notebook-list'); const empty = document.getElementById('notebook-empty'); list.innerHTML = ''; let hasItems = false;
+            const prefix = `${currentExamType}_${currentLevel}_`;
+            for (const key in userProgress) {
+                if (key.startsWith(prefix) && userProgress[key].itemData) {
+                    const stats = userProgress[key];
+                    if (stats.saved || stats.wrong > stats.correct) {
+                        hasItems = true; let statusHtml = '';
+                        if (stats.wrong > stats.correct) statusHtml = `<span class="nb-status status-bad">🔴 Hay sai (${stats.correct}/${stats.correct+stats.wrong})</span>`;
+                        else if (stats.saved) statusHtml = `<span class="nb-status status-saved">⭐ Đã lưu</span>`;
+                        const wordOrTitle = stats.itemData.word || stats.itemData.title; const meaningOrDesc = stats.itemData.meaning || stats.itemData.desc;
+                        list.innerHTML += `<div class="nb-card"><div class="nb-info"><h4 class="nb-word">${wordOrTitle}</h4><p class="nb-meaning">${meaningOrDesc}</p></div>${statusHtml}</div>`;
+                    }
+                }
+            }
+            if (hasItems) { list.classList.remove('hidden'); empty.classList.add('hidden'); } else { list.classList.add('hidden'); empty.classList.remove('hidden'); }
+        }
+
+        function renderHistory() {
+            document.getElementById('hist-lang-title').innerText = `${config[currentExamType].title} - ${currentLevel}`;
+            const vocabCount = (db[currentExamType].vocab && db[currentExamType].vocab[currentLevel]) ? db[currentExamType].vocab[currentLevel].length : 0;
+            const grammarCount = (db[currentExamType].grammar && db[currentExamType].grammar[currentLevel]) ? db[currentExamType].grammar[currentLevel].length : 0;
+            const totalItems = vocabCount + grammarCount;
+            
+            let learnedCount = 0; const prefix = `${currentExamType}_${currentLevel}_`;
+            for (const key in userProgress) { if (key.startsWith(prefix) && userProgress[key].itemData) { learnedCount++; } }
+            
+            let percent = totalItems > 0 ? Math.round((learnedCount / totalItems) * 100) : 0;
+            if(percent > 100) percent = 100;
+
+            document.getElementById('progress-stats').innerHTML = `
+                <div style="font-size: 1.1rem; color: #444;">Đã học / xem qua: <strong>${learnedCount} / ${totalItems}</strong> bài</div>
+                <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: ${percent}%;"></div></div>
+                <div style="text-align:right; font-size:0.9rem; font-weight:bold; color:var(--correct-color); margin-top:5px;">${percent}% Khám phá</div>
+            `;
+
+            const histList = document.getElementById('login-history-list');
+            const userHist = userProgress.loginHistory || [];
+            
+            if (userHist.length === 0) { histList.innerHTML = "<div style='color:#888; font-style:italic;'>Chưa có lịch sử.</div>"; } 
+            else { histList.innerHTML = userHist.map(h => `<div class="history-list-item">🟢 Đăng nhập lúc: <strong>${h}</strong></div>`).join(''); }
+        }
+    </script>
+</body>
+</html>
