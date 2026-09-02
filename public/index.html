@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trạm Học Tập Đa Ngôn Ngữ 28.0 🌍 (Full Vocab)</title>
+    <title>Trạm Học Tập Đa Ngôn Ngữ 28.0 🌍 (Full Vocab 300 HSK 1)</title>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root { --primary-color: #ff9a9e; --primary-dark: #ff758c; --bg-color: #fecfef; --card-bg: #ffffff; --text-main: #333333; --text-muted: #666666; --correct-color: #4caf50; --wrong-color: #f44336; --warning-color: #ff9800; }
@@ -68,7 +68,7 @@
         .front { background: linear-gradient(to bottom right, #ffffff, #fff5f5); }
         .back { background: linear-gradient(to bottom right, #ffffff, #f0f8ff); transform: rotateY(180deg); }
         .word { font-size: 3.5rem; font-weight: 700; color: var(--primary-dark); margin-bottom: 5px; line-height: 1.2; word-break: break-word;}
-        .pinyin { font-size: 1.5rem; color: var(--text-muted); font-weight: 600; margin-bottom: 10px; }
+        .pinyin { font-size: 1.5rem; color: var(--text-muted); font-weight: 600; margin-bottom: 5px; }
         .audio-btn { background: #f0f8ff; border: 2px solid #a1c4fd; border-radius: 50%; width: 50px; height: 50px; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s ease; margin-bottom: 15px; }
         .btn-bookmark { position: absolute; top: 15px; right: 20px; font-size: 2rem; background: none; border: none; cursor: pointer; color: #ddd; transition: 0.3s; z-index: 10; }
         .btn-bookmark.saved { color: #ffd700; text-shadow: 0 2px 5px rgba(255,215,0,0.5); }
@@ -201,16 +201,18 @@
         <div id="vocab-section" class="content-section">
             <div class="flashcard-container" id="fc-container">
                 <div class="flashcard" id="flashcard" onclick="flipCard()">
-                   <div class="card-face front">
-    <button class="btn-bookmark" id="btn-bookmark" onclick="toggleSaveWord(event)" title="Lưu từ này">★</button>
-    <div class="word" id="word-cn">...</div>
-    <div class="pinyin" id="word-pinyin">...</div>
-    <div class="word-type" id="word-type" style="font-size: 1rem; color: #888; font-style: italic; margin-bottom: 10px;">...</div>
-    <button class="audio-btn" onclick="playAudio(event)" title="Nghe phát âm">🔊</button>
-    <div class="hint" style="font-size: 0.9rem; color: #ccc;">👆 Chạm nền để lật thẻ</div>
-</div>
+                    <div class="card-face front">
+                        <button class="btn-bookmark" id="btn-bookmark" onclick="toggleSaveWord(event)" title="Lưu từ này">★</button>
+                        <div class="word" id="word-cn">...</div>
+                        <div class="pinyin" id="word-pinyin">...</div>
+                        <div class="word-type" id="word-type" style="font-size: 1rem; color: #888; font-style: italic; margin-bottom: 10px;">...</div>
+                        <button class="audio-btn" onclick="playAudio(event)" title="Nghe phát âm">🔊</button>
+                        <div class="hint" style="font-size: 0.9rem; color: #ccc;">👆 Chạm nền để lật thẻ</div>
+                    </div>
                     <div class="card-face back">
                         <div class="meaning" id="word-meaning">...</div>
+                        <div class="example-cn" id="ex-cn">...</div>
+                        <div class="example-vn" id="ex-vn">...</div>
                     </div>
                 </div>
             </div>
@@ -296,7 +298,6 @@
         let userProgress = {}; 
         let vocabIndex = 0; let reviewMode = 'vocab'; let currentQuizItemKey = ""; let currentQuizCorrectAns = "";
 
-        // --- NATIVE VOICE AI ---
         let availableVoices = [];
         function loadVoices() { availableVoices = window.speechSynthesis.getVoices(); }
         if ('speechSynthesis' in window) { loadVoices(); if (speechSynthesis.onvoiceschanged !== undefined) speechSynthesis.onvoiceschanged = loadVoices; }
@@ -327,307 +328,307 @@
             HSK: {
                 vocab: {
                     "1": [
-    {w:"爱", p:"ài", t:"động từ", m:"yêu, thích", c:"我爱我的妈妈。", v:"Tôi yêu mẹ của tôi."},
-    {w:"吧", p:"ba", t:"trợ từ", m:"nhé (đề nghị)", c:"我们走吧！", v:"Chúng ta đi thôi!"},
-    {w:"八", p:"bā", t:"số", m:"tám", c:"现在是八点。", v:"Bây giờ là 8 giờ."},
-    {w:"爸爸", p:"bàba", t:"danh từ", m:"bố, ba", c:"我的爸爸是医生。", v:"Bố tôi là bác sĩ."},
-    {w:"百", p:"bǎi", t:"số", m:"một trăm", c:"一百个学生。", v:"Một trăm học sinh."},
-    {w:"白天", p:"báitiān", t:"danh từ", m:"ban ngày", c:"我白天很忙。", v:"Ban ngày tôi rất bận."},
-    {w:"半", p:"bàn", t:"số", m:"một nửa", c:"半个月。", v:"Nửa tháng."},
-    {w:"包子", p:"bāozi", t:"danh từ", m:"bánh bao", c:"吃包子。", v:"Ăn bánh bao."},
-    {w:"杯子", p:"bēizi", t:"danh từ", m:"cái cốc", c:"一个杯子。", v:"Một cái cốc."},
-    {w:"本", p:"běn", t:"lượng từ", m:"quyển (sách)", c:"一本书。", v:"Một quyển sách."},
-    {w:"边", p:"biān", t:"danh từ", m:"bên, phía", c:"在那边。", v:"Ở bên kia."},
-    {w:"病", p:"bìng", t:"danh/động", m:"bệnh, bị bệnh", c:"他病了。", v:"Anh ấy bị bệnh rồi."},
-    {w:"不", p:"bù", t:"phó từ", m:"không", c:"我不是老师。", v:"Tôi không phải giáo viên."},
-    {w:"不客气", p:"bú kèqi", t:"động từ", m:"không có gì", c:"谢谢！- 不客气。", v:"Cảm ơn! - Không có gì."},
-    {w:"不要", p:"bú yào", t:"phó từ", m:"đừng", c:"不要说话。", v:"Đừng nói chuyện."},
-    {w:"菜", p:"cài", t:"danh từ", m:"món ăn, rau", c:"中国菜很好吃。", v:"Món Trung Quốc rất ngon."},
-    {w:"茶", p:"chá", t:"danh từ", m:"trà", c:"喝茶。", v:"Uống trà."},
-    {w:"唱", p:"chàng", t:"động từ", m:"hát", c:"她喜欢唱歌。", v:"Cô ấy thích hát."},
-    {w:"超市", p:"chāoshì", t:"danh từ", m:"siêu thị", c:"去超市买东西。", v:"Đi siêu thị mua đồ."},
-    {w:"车", p:"chē", t:"danh từ", m:"xe", c:"这是我的车。", v:"Đây là xe của tôi."},
-    {w:"吃", p:"chī", t:"động từ", m:"ăn", c:"我喜欢吃苹果。", v:"Tôi thích ăn táo."},
-    {w:"穿", p:"chuān", t:"động từ", m:"mặc", c:"穿衣服。", v:"Mặc quần áo."},
-    {w:"出租车", p:"chūzūchē", t:"danh từ", m:"taxi", c:"坐出租车。", v:"Ngồi taxi."},
-    {w:"大", p:"dà", t:"tính từ", m:"to, lớn", c:"这个苹果很大。", v:"Quả táo này rất to."},
-    {w:"打电话", p:"dǎ diànhuà", t:"động từ", m:"gọi điện thoại", c:"他在打电话。", v:"Anh ấy đang gọi điện thoại."},
-    {w:"大家", p:"dàjiā", t:"đại từ", m:"mọi người", c:"大家好！", v:"Chào mọi người!"},
-    {w:"到", p:"dào", t:"động từ", m:"đến", c:"我到了。", v:"Tôi đến rồi."},
-    {w:"大学", p:"dàxué", t:"danh từ", m:"đại học", c:"我在芹苴大学学习。", v:"Tôi học tại Đại học Cần Thơ."},
-    {w:"大学生", p:"dàxuéshēng", t:"danh từ", m:"sinh viên", c:"我是一名大学生。", v:"Tôi là một sinh viên."},
-    {w:"的", p:"de", t:"trợ từ", m:"của", c:"我的书。", v:"Sách của tôi."},
-    {w:"第", p:"dì", t:"tiền tố", m:"thứ (số thứ tự)", c:"第一名。", v:"Hạng nhất."},
-    {w:"店", p:"diàn", t:"danh từ", m:"cửa hàng", c:"商店。", v:"Cửa hàng."},
-    {w:"点", p:"diǎn", t:"lượng từ", m:"giờ", c:"现在九点。", v:"Bây giờ là 9 giờ."},
-    {w:"电话", p:"diànhuà", t:"danh từ", m:"điện thoại", c:"我的电话。", v:"Điện thoại của tôi."},
-    {w:"电脑", p:"diànnǎo", t:"danh từ", m:"máy tính", c:"我的电脑很好。", v:"Máy tính của tôi rất tốt."},
-    {w:"电视", p:"diànshì", t:"danh từ", m:"tivi", c:"看电视。", v:"Xem tivi."},
-    {w:"电影", p:"diànyǐng", t:"danh từ", m:"phim", c:"看电影。", v:"Xem phim."},
-    {w:"电影院", p:"diànyǐngyuàn", t:"danh từ", m:"rạp chiếu phim", c:"去电影院。", v:"Đi rạp chiếu phim."},
-    {w:"弟弟", p:"dìdi", t:"danh từ", m:"em trai", c:"我弟弟十岁。", v:"Em trai tôi 10 tuổi."},
-    {w:"东西", p:"dōngxi", t:"danh từ", m:"đồ vật", c:"买东西。", v:"Mua đồ."},
-    {w:"都", p:"dōu", t:"phó từ", m:"đều", c:"我们都是学生。", v:"Chúng tôi đều là học sinh."},
-    {w:"读", p:"dú", t:"động từ", m:"đọc", c:"读书。", v:"Đọc sách."},
-    {w:"对", p:"duì", t:"tính/giới", m:"đúng, đối với", c:"你说得对。", v:"Bạn nói đúng."},
-    {w:"对不起", p:"duìbuqǐ", t:"động từ", m:"xin lỗi", c:"对不起！", v:"Xin lỗi!"},
-    {w:"多", p:"duō", t:"tính từ", m:"nhiều", c:"很多人。", v:"Rất nhiều người."},
-    {w:"多少", p:"duōshao", t:"đại từ", m:"bao nhiêu", c:"多少钱？", v:"Bao nhiêu tiền?"},
-    {w:"读书", p:"dúshū", t:"động từ", m:"đọc sách, học", c:"我喜欢读书。", v:"Tôi thích đọc sách."},
-    {w:"二", p:"èr", t:"số", m:"hai", c:"第二。", v:"Thứ hai."},
-    {w:"儿子", p:"érzi", t:"danh từ", m:"con trai", c:"我的儿子。", v:"Con trai của tôi."},
-    {w:"饭", p:"fàn", t:"danh từ", m:"cơm", c:"吃饭。", v:"Ăn cơm."},
-    {w:"饭店", p:"fàndiàn", t:"danh từ", m:"nhà hàng", c:"去饭店吃饭。", v:"Đi nhà hàng ăn cơm."},
-    {w:"房间", p:"fángjiān", t:"danh từ", m:"phòng", c:"我的房间。", v:"Phòng của tôi."},
-    {w:"非常", p:"fēicháng", t:"phó từ", m:"rất", c:"非常高兴。", v:"Rất vui."},
-    {w:"飞机", p:"fēijī", t:"danh từ", m:"máy bay", c:"坐飞机。", v:"Ngồi máy bay."},
-    {w:"分", p:"fēn", t:"lượng từ", m:"phút", c:"十分钟。", v:"Mười phút."},
-    {w:"分钟", p:"fēnzhōng", t:"lượng từ", m:"phút", c:"等我五分钟。", v:"Đợi tôi 5 phút."},
-    {w:"高兴", p:"gāoxìng", t:"tính từ", m:"vui", c:"认识你很高兴。", v:"Rất vui được quen bạn."},
-    {w:"个", p:"gè", t:"lượng từ", m:"cái", c:"一个人。", v:"Một người."},
-    {w:"歌", p:"gē", t:"danh từ", m:"bài hát", c:"唱一首歌。", v:"Hát một bài hát."},
-    {w:"哥哥", p:"gēge", t:"danh từ", m:"anh trai", c:"我哥哥是医生。", v:"Anh trai tôi là bác sĩ."},
-    {w:"给", p:"gěi", t:"động từ", m:"cho", c:"给我一杯水。", v:"Cho tôi 1 cốc nước."},
-    {w:"公司", p:"gōngsī", t:"danh từ", m:"công ty", c:"我在公司工作。", v:"Tôi làm việc ở công ty."},
-    {w:"工作", p:"gōngzuò", t:"động/danh", m:"làm việc", c:"我的工作是做音乐。", v:"Công việc của tôi là làm nhạc."},
-    {w:"狗", p:"gǒu", t:"danh từ", m:"chó", c:"我有一只小狗。", v:"Tôi có 1 chú chó nhỏ."},
-    {w:"贵", p:"guì", t:"tính từ", m:"đắt", c:"这个太贵了。", v:"Cái này đắt quá."},
-    {w:"国", p:"guó", t:"danh từ", m:"quốc gia", c:"你是哪国人？", v:"Bạn là người nước nào?"},
-    {w:"还", p:"hái", t:"phó từ", m:"còn, vẫn", c:"我还要买书。", v:"Tôi còn muốn mua sách."},
-    {w:"孩子", p:"háizi", t:"danh từ", m:"đứa trẻ", c:"那个孩子很可爱。", v:"Đứa trẻ kia rất đáng yêu."},
-    {w:"汉语", p:"Hànyǔ", t:"danh từ", m:"tiếng Trung", c:"我学习汉语。", v:"Tôi học tiếng Trung."},
-    {w:"汉字", p:"Hànzì", t:"danh từ", m:"chữ Hán", c:"写汉字。", v:"Viết chữ Hán."},
-    {w:"号", p:"hào", t:"danh/lượng", m:"số", c:"今天是五号。", v:"Hôm nay là mùng 5."},
-    {w:"好", p:"hǎo", t:"tính từ", m:"tốt", c:"很好。", v:"Rất tốt."},
-    {w:"好吃", p:"hǎochī", t:"tính từ", m:"ngon", c:"这个苹果很好吃。", v:"Quả táo này rất ngon."},
-    {w:"好看", p:"hǎokàn", t:"tính từ", m:"đẹp", c:"那本书很好看。", v:"Cuốn sách kia rất hay."},
-    {w:"好听", p:"hǎotīng", t:"tính từ", m:"hay", c:"这首歌很好听。", v:"Bài hát này rất hay."},
-    {w:"好玩儿", p:"hǎowánr", t:"tính từ", m:"thú vị", c:"这里很好玩儿。", v:"Ở đây rất thú vị."},
-    {w:"和", p:"hé", t:"liên từ", m:"và", c:"我和你。", v:"Tôi và bạn."},
-    {w:"喝", p:"hē", t:"động từ", m:"uống", c:"喝水。", v:"Uống nước."},
-    {w:"很", p:"hěn", t:"phó từ", m:"rất", c:"我很忙。", v:"Tôi rất bận."},
-    {w:"后", p:"hòu", t:"danh từ", m:"sau", c:"两年后我去留学。", v:"Hai năm sau tôi đi du học."},
-    {w:"回", p:"huí", t:"động từ", m:"quay về", c:"回家。", v:"Về nhà."},
-    {w:"会", p:"huì", t:"động từ", m:"biết", c:"我会说汉语。", v:"Tôi biết nói tiếng Trung."},
-    {w:"火车", p:"huǒchē", t:"danh từ", m:"tàu hỏa", c:"坐火车。", v:"Ngồi tàu hỏa."},
-    {w:"几", p:"jǐ", t:"đại/số", m:"mấy", c:"几个人？", v:"Mấy người?"},
-    {w:"家", p:"jiā", t:"danh từ", m:"nhà", c:"我家有五口人。", v:"Nhà tôi có 5 người."},
-    {w:"见", p:"jiàn", t:"động từ", m:"gặp", c:"明天见。", v:"Ngày mai gặp."},
-    {w:"件", p:"jiàn", t:"lượng từ", m:"cái (đồ)", c:"一件衣服。", v:"Một bộ quần áo."},
-    {w:"叫", p:"jiào", t:"động từ", m:"gọi", c:"我叫大卫。", v:"Tôi tên là David."},
-    {w:"饺子", p:"jiǎozi", t:"danh từ", m:"sủi cảo", c:"吃饺子。", v:"Ăn sủi cảo."},
-    {w:"家人", p:"jiārén", t:"danh từ", m:"người nhà", c:"我的家人。", v:"Người nhà của tôi."},
-    {w:"鸡蛋", p:"jīdàn", t:"danh từ", m:"trứng gà", c:"吃鸡蛋。", v:"Ăn trứng gà."},
-    {w:"姐姐", p:"jiějie", t:"danh từ", m:"chị gái", c:"我姐姐很漂亮。", v:"Chị tôi rất xinh."},
-    {w:"今年", p:"jīnnián", t:"danh từ", m:"năm nay", c:"今年我十九岁。", v:"Năm nay tôi 19 tuổi."},
-    {w:"今天", p:"jīntiān", t:"danh từ", m:"hôm nay", c:"今天天气很好。", v:"Hôm nay thời tiết rất tốt."},
-    {w:"九", p:"jiǔ", t:"số", m:"chín", c:"九点。", v:"Chín giờ."},
-    {w:"觉得", p:"juéde", t:"động từ", m:"cảm thấy", c:"我觉得很冷。", v:"Tôi cảm thấy rất lạnh."},
-    {w:"开", p:"kāi", t:"động từ", m:"mở", c:"开门。", v:"Mở cửa."},
-    {w:"开车", p:"kāichē", t:"động từ", m:"lái xe", c:"他会开车。", v:"Anh ấy biết lái xe."},
-    {w:"看", p:"kàn", t:"động từ", m:"nhìn", c:"看书。", v:"Đọc sách."},
-    {w:"看病", p:"kànbìng", t:"động từ", m:"khám bệnh", c:"去医院看病。", v:"Đi bệnh viện khám bệnh."},
-    {w:"看见", p:"kànjiàn", t:"động từ", m:"nhìn thấy", c:"我看见他了。", v:"Tôi nhìn thấy anh ấy rồi."},
-    {w:"课", p:"kè", t:"danh từ", m:"bài học", c:"上课。", v:"Lên lớp."},
-    {w:"可以", p:"kěyǐ", t:"động từ", m:"có thể", c:"我可以坐这儿吗？", v:"Tôi có thể ngồi đây không?"},
-    {w:"口", p:"kǒu", t:"lượng từ", m:"miệng", c:"三口人。", v:"Ba người."},
-    {w:"块", p:"kuài", t:"lượng từ", m:"đồng (tiền)", c:"十块钱。", v:"Mười đồng."},
-    {w:"来", p:"lái", t:"động từ", m:"đến", c:"来我家玩。", v:"Đến nhà tôi chơi."},
-    {w:"老师", p:"lǎoshī", t:"danh từ", m:"giáo viên", c:"他是老师。", v:"Anh ấy là giáo viên."},
-    {w:"了", p:"le", t:"trợ từ", m:"rồi", c:"我吃饭了。", v:"Tôi ăn cơm rồi."},
-    {w:"冷", p:"lěng", t:"tính từ", m:"lạnh", c:"今天很冷。", v:"Hôm nay rất lạnh."},
-    {w:"里", p:"lǐ", t:"danh từ", m:"bên trong", c:"在家里。", v:"Ở trong nhà."},
-    {w:"两", p:"liǎng", t:"số", m:"hai", c:"两个人。", v:"Hai người."},
-    {w:"零", p:"líng", t:"số", m:"không", c:"零度。", v:"Không độ."},
-    {w:"六", p:"liù", t:"số", m:"sáu", c:"六点。", v:"Sáu giờ."},
-    {w:"吗", p:"ma", t:"trợ từ", m:"không (nghi vấn)", c:"你好吗？", v:"Bạn khỏe không?"},
-    {w:"卖", p:"mài", t:"động từ", m:"bán", c:"卖书。", v:"Bán sách."},
-    {w:"买", p:"mǎi", t:"động từ", m:"mua", c:"买水果。", v:"Mua trái cây."},
-    {w:"妈妈", p:"māma", t:"danh từ", m:"mẹ", c:"我爱妈妈。", v:"Tôi yêu mẹ."},
-    {w:"忙", p:"máng", t:"tính từ", m:"bận", c:"今天我很忙。", v:"Hôm nay tôi rất bận."},
-    {w:"猫", p:"māo", t:"danh từ", m:"mèo", c:"我的猫。", v:"Mèo của tôi."},
-    {w:"没关系", p:"méi guānxi", t:"động từ", m:"không sao", c:"对不起。- 没关系。", v:"Xin lỗi. - Không sao."},
-    {w:"妹妹", p:"mèimei", t:"danh từ", m:"em gái", c:"我有两个妹妹。", v:"Tôi có 2 người em gái."},
-    {w:"没事", p:"méishì", t:"động từ", m:"không có việc gì", c:"我没事。", v:"Tôi không sao."},
-    {w:"没", p:"méi", t:"phó từ", m:"không", c:"我没钱。", v:"Tôi không có tiền."},
-    {w:"们", p:"men", t:"hậu tố", m:"số nhiều", c:"朋友们。", v:"Các bạn."},
-    {w:"面包", p:"miànbāo", t:"danh từ", m:"bánh mì", c:"吃面包。", v:"Ăn bánh mì."},
-    {w:"面条儿", p:"miàntiáor", t:"danh từ", m:"mì", c:"吃面条儿。", v:"Ăn mì."},
-    {w:"米饭", p:"mǐfàn", t:"danh từ", m:"cơm", c:"吃米饭。", v:"Ăn cơm."},
-    {w:"明年", p:"míngnián", t:"danh từ", m:"năm sau", c:"明年我去中国。", v:"Năm sau tôi đi Trung Quốc."},
-    {w:"明天", p:"míngtiān", t:"danh từ", m:"ngày mai", c:"明天见。", v:"Ngày mai gặp."},
-    {w:"名字", p:"míngzi", t:"danh từ", m:"tên", c:"你叫什么名字？", v:"Bạn tên là gì?"},
-    {w:"那", p:"nà", t:"đại từ", m:"kia", c:"那是我的书。", v:"Kia là sách của tôi."},
-    {w:"哪", p:"nǎ", t:"đại từ", m:"nào", c:"你是哪国人？", v:"Bạn là người nước nào?"},
-    {w:"那边", p:"nàbiān", t:"đại từ", m:"bên kia", c:"他在那边。", v:"Anh ấy ở bên kia."},
-    {w:"那个", p:"nàge", t:"đại từ", m:"cái kia", c:"那个苹果。", v:"Quả táo kia."},
-    {w:"哪个", p:"nǎge", t:"đại từ", m:"cái nào", c:"你要哪个？", v:"Bạn muốn cái nào?"},
-    {w:"那里", p:"nàlǐ", t:"đại từ", m:"ở kia", c:"他在那里。", v:"Anh ấy ở kia."},
-    {w:"哪里", p:"nǎlǐ", t:"đại từ", m:"ở đâu", c:"你去哪里？", v:"Bạn đi đâu?"},
-    {w:"男", p:"nán", t:"tính từ", m:"nam", c:"男孩。", v:"Cậu bé."},
-    {w:"男朋友", p:"nánpéngyou", t:"danh từ", m:"bạn trai", c:"我的男朋友。", v:"Bạn trai của tôi."},
-    {w:"那儿", p:"nàr", t:"đại từ", m:"ở kia", c:"他在那儿。", v:"Anh ấy ở kia."},
-    {w:"哪儿", p:"nǎr", t:"đại từ", m:"ở đâu", c:"你去哪儿？", v:"Bạn đi đâu?"},
-    {w:"那些", p:"nàxiē", t:"đại từ", m:"những cái đó", c:"那些书。", v:"Những quyển sách đó."},
-    {w:"哪些", p:"nǎxiē", t:"đại từ", m:"những cái nào", c:"哪些是你的？", v:"Những cái nào là của bạn?"},
-    {w:"呢", p:"ne", t:"trợ từ", m:"trợ từ nghi vấn", c:"你呢？", v:"Còn bạn thì sao?"},
-    {w:"能", p:"néng", t:"động từ", m:"có thể", c:"你能来吗？", v:"Bạn có thể đến không?"},
-    {w:"你", p:"nǐ", t:"đại từ", m:"bạn", c:"你好！", v:"Xin chào!"},
-    {w:"你好", p:"nǐ hǎo", t:"cụm từ", m:"xin chào", c:"老师，你好！", v:"Xin chào thầy!"},
-    {w:"年", p:"nián", t:"danh/lượng", m:"năm", c:"二零二六年。", v:"Năm 2026."},
-    {w:"你们", p:"nǐmen", t:"đại từ", m:"các bạn", c:"你们好。", v:"Chào các bạn."},
-    {w:"您", p:"nín", t:"đại từ", m:"ngài, ông/bà", c:"您好。", v:"Chào ngài."},
-    {w:"牛奶", p:"niúnǎi", t:"danh từ", m:"sữa", c:"喝牛奶。", v:"Uống sữa."},
-    {w:"女", p:"nǚ", t:"tính từ", m:"nữ", c:"女孩。", v:"Cô bé."},
-    {w:"女儿", p:"nǚ’ér", t:"danh từ", m:"con gái", c:"我的女儿。", v:"Con gái của tôi."},
-    {w:"女朋友", p:"nǚpéngyou", t:"danh từ", m:"bạn gái", c:"他的女朋友。", v:"Bạn gái của anh ấy."},
-    {w:"女士", p:"nǚshì", t:"danh từ", m:"quý bà", c:"女士们。", v:"Thưa các quý bà."},
-    {w:"朋友", p:"péngyou", t:"danh từ", m:"bạn bè", c:"我有四个好朋友。", v:"Tôi có 4 người bạn thân."},
-    {w:"便宜", p:"piányi", t:"tính từ", m:"rẻ", c:"很便宜。", v:"Rất rẻ."},
-    {w:"漂亮", p:"piàoliang", t:"tính từ", m:"xinh đẹp", c:"她很漂亮。", v:"Cô ấy rất xinh đẹp."},
-    {w:"苹果", p:"píngguǒ", t:"danh từ", m:"táo", c:"吃苹果。", v:"Ăn táo."},
-    {w:"七", p:"qī", t:"số", m:"bảy", c:"七个。", v:"Bảy cái."},
-    {w:"前", p:"qián", t:"danh từ", m:"trước", c:"前面。", v:"Phía trước."},
-    {w:"钱", p:"qián", t:"danh từ", m:"tiền", c:"多少钱？", v:"Bao nhiêu tiền?"},
-    {w:"千", p:"qiān", t:"số", m:"nghìn", c:"三千。", v:"Ba nghìn."},
-    {w:"起床", p:"qǐchuáng", t:"động từ", m:"thức dậy", c:"七点起床。", v:"Bảy giờ thức dậy."},
-    {w:"请", p:"qǐng", t:"động từ", m:"mời, xin", c:"请坐。", v:"Mời ngồi."},
-    {w:"请问", p:"qǐngwèn", t:"động từ", m:"xin hỏi", c:"请问，你叫什么？", v:"Xin hỏi, bạn tên gì?"},
-    {w:"去", p:"qù", t:"động từ", m:"đi", c:"去学校。", v:"Đi đến trường."},
-    {w:"去年", p:"qùnián", t:"danh từ", m:"năm ngoái", c:"去年我十八岁。", v:"Năm ngoái tôi 18 tuổi."},
-    {w:"热", p:"rè", t:"tính từ", m:"nóng", c:"今天很热。", v:"Hôm nay rất nóng."},
-    {w:"人", p:"rén", t:"danh từ", m:"người", c:"我是越南人。", v:"Tôi là người Việt Nam."},
-    {w:"认识", p:"rènshi", t:"động từ", m:"quen biết", c:"认识你很高兴。", v:"Rất vui được quen bạn."},
-    {w:"日", p:"rì", t:"danh/lượng", m:"ngày", c:"十日。", v:"Ngày mùng 10."},
-    {w:"三", p:"sān", t:"số", m:"ba", c:"三本书。", v:"Ba quyển sách."},
-    {w:"上", p:"shàng", t:"danh/động", m:"trên, lên", c:"在桌子上。", v:"Ở trên bàn."},
-    {w:"上班", p:"shàngbān", t:"động từ", m:"đi làm", c:"去上班。", v:"Đi làm."},
-    {w:"商店", p:"shāngdiàn", t:"danh từ", m:"cửa hàng", c:"去商店买东西。", v:"Đi cửa hàng mua đồ."},
-    {w:"上课", p:"shàngkè", t:"động từ", m:"lên lớp, học", c:"八点上课。", v:"Tám giờ lên lớp."},
-    {w:"上午", p:"shàngwǔ", t:"danh từ", m:"buổi sáng", c:"上午好！", v:"Chào buổi sáng!"},
-    {w:"上学", p:"shàngxué", t:"động từ", m:"đi học", c:"去上学。", v:"Đi học."},
-    {w:"少", p:"shǎo", t:"tính/động", m:"ít", c:"人很少。", v:"Người rất ít."},
-    {w:"谁", p:"shéi", t:"đại từ", m:"ai", c:"你是谁？", v:"Bạn là ai?"},
-    {w:"生病", p:"shēngbìng", t:"động từ", m:"bị bệnh", c:"我生病了。", v:"Tôi bị bệnh rồi."},
-    {w:"什么", p:"shénme", t:"đại từ", m:"cái gì", c:"这是什么？", v:"Đây là cái gì?"},
-    {w:"十", p:"shí", t:"số", m:"mười", c:"十块钱。", v:"Mười đồng."},
-    {w:"事", p:"shì", t:"danh từ", m:"việc", c:"什么事？", v:"Việc gì thế?"},
-    {w:"是", p:"shì", t:"động từ", m:"là", c:"我是学生。", v:"Tôi là học sinh."},
-    {w:"时候", p:"shíhou", t:"danh từ", m:"lúc, thời điểm", c:"什么时候？", v:"Khi nào?"},
-    {w:"时间", p:"shíjiān", t:"danh từ", m:"thời gian", c:"我没有时间。", v:"Tôi không có thời gian."},
-    {w:"手机", p:"shǒujī", t:"danh từ", m:"điện thoại", c:"买手机。", v:"Mua điện thoại."},
-    {w:"书", p:"shū", t:"danh từ", m:"sách", c:"看书。", v:"Đọc sách."},
-    {w:"书店", p:"shūdiàn", t:"danh từ", m:"hiệu sách", c:"去书店。", v:"Đi hiệu sách."},
-    {w:"睡", p:"shuì", t:"động từ", m:"ngủ", c:"睡觉。", v:"Đi ngủ."},
-    {w:"水", p:"shuǐ", t:"danh từ", m:"nước", c:"喝水。", v:"Uống nước."},
-    {w:"水果", p:"shuǐguǒ", t:"danh từ", m:"trái cây", c:"吃水果。", v:"Ăn trái cây."},
-    {w:"睡觉", p:"shuìjiào", t:"động từ", m:"đi ngủ", c:"我要睡觉。", v:"Tôi muốn đi ngủ."},
-    {w:"说", p:"shuō", t:"động từ", m:"nói", c:"说汉语。", v:"Nói tiếng Trung."},
-    {w:"说话", p:"shuōhuà", t:"động từ", m:"nói chuyện", c:"不要说话。", v:"Đừng nói chuyện."},
-    {w:"四", p:"sì", t:"số", m:"bốn", c:"四个。", v:"Bốn cái."},
-    {w:"岁", p:"suì", t:"lượng từ", m:"tuổi", c:"我十九岁。", v:"Tôi mười chín tuổi."},
-    {w:"他", p:"tā", t:"đại từ", m:"anh ấy", c:"他是医生。", v:"Anh ấy là bác sĩ."},
-    {w:"它", p:"tā", t:"đại từ", m:"nó", c:"它是我的猫。", v:"Nó là mèo của tôi."},
-    {w:"她", p:"tā", t:"đại từ", m:"cô ấy", c:"她很漂亮。", v:"Cô ấy rất xinh."},
-    {w:"太", p:"tài", t:"phó từ", m:"quá, rất", c:"太好了！", v:"Tốt quá rồi!"},
-    {w:"他们", p:"tāmen", t:"đại từ", m:"họ", c:"他们是学生。", v:"Họ là học sinh."},
-    {w:"它们", p:"tāmen", t:"đại từ", m:"chúng nó", c:"它们在这里。", v:"Chúng nó ở đây."},
-    {w:"她们", p:"tāmen", t:"đại từ", m:"họ (nữ)", c:"她们是老师。", v:"Họ là giáo viên."},
-    {w:"天", p:"tiān", t:"danh/lượng", m:"trời, ngày", c:"今天。", v:"Hôm nay."},
-    {w:"天气", p:"tiānqì", t:"danh từ", m:"thời tiết", c:"今天天气很好。", v:"Hôm nay thời tiết rất tốt."},
-    {w:"听", p:"tīng", t:"động từ", m:"nghe", c:"我喜欢听音乐。", v:"Tôi thích nghe nhạc."},
-    {w:"听见", p:"tīngjiàn", t:"động từ", m:"nghe thấy", c:"我听见了。", v:"Tôi nghe thấy rồi."},
-    {w:"同学", p:"tóngxué", t:"danh từ", m:"bạn học", c:"同学们好！", v:"Chào các bạn học sinh!"},
-    {w:"外", p:"wài", t:"danh từ", m:"bên ngoài", c:"外面。", v:"Bên ngoài."},
-    {w:"外边", p:"wàibian", t:"danh từ", m:"phía ngoài", c:"他在外边。", v:"Anh ấy ở phía ngoài."},
-    {w:"玩", p:"wán", t:"động từ", m:"chơi", c:"去玩。", v:"Đi chơi."},
-    {w:"晚", p:"wǎn", t:"tính từ", m:"muộn, tối", c:"太晚了。", v:"Muộn quá rồi."},
-    {w:"晚饭", p:"wǎnfàn", t:"danh từ", m:"bữa tối", c:"吃晚饭。", v:"Ăn bữa tối."},
-    {w:"晚上", p:"wǎnshang", t:"danh từ", m:"buổi tối", c:"晚上好！", v:"Chào buổi tối!"},
-    {w:"喂", p:"wèi", t:"thán từ", m:"alo", c:"喂，你好。", v:"Alo, xin chào."},
-    {w:"问", p:"wèn", t:"động từ", m:"hỏi", c:"我想问你。", v:"Tôi muốn hỏi bạn."},
-    {w:"问题", p:"wèntí", t:"danh từ", m:"vấn đề", c:"没问题。", v:"Không vấn đề gì."},
-    {w:"我", p:"wǒ", t:"đại từ", m:"tôi", c:"我是学生。", v:"Tôi là học sinh."},
-    {w:"我们", p:"wǒmen", t:"đại từ", m:"chúng tôi", c:"我们是朋友。", v:"Chúng tôi là bạn bè."},
-    {w:"五", p:"wǔ", t:"số", m:"năm", c:"五个人。", v:"Năm người."},
-    {w:"午饭", p:"wǔfàn", t:"danh từ", m:"bữa trưa", c:"吃午饭。", v:"Ăn bữa trưa."},
-    {w:"下", p:"xià", t:"danh/động", m:"dưới, xuống", c:"在桌子下。", v:"Ở dưới bàn."},
-    {w:"下雨", p:"xià yǔ", t:"động từ", m:"mưa", c:"今天下雨。", v:"Hôm nay trời mưa."},
-    {w:"下班", p:"xiàbān", t:"động từ", m:"tan làm", c:"五点下班。", v:"Năm giờ tan làm."},
-    {w:"下课", p:"xiàkè", t:"động từ", m:"tan học", c:"下课了。", v:"Tan học rồi."},
-    {w:"想", p:"xiǎng", t:"động từ", m:"muốn, nghĩ", c:"我想吃苹果。", v:"Tôi muốn ăn táo."},
-    {w:"先生", p:"xiānsheng", t:"danh từ", m:"ông, ngài", c:"王先生。", v:"Ông Vương."},
-    {w:"现在", p:"xiànzài", t:"danh từ", m:"bây giờ", c:"现在几点？", v:"Bây giờ mấy giờ?"},
-    {w:"小", p:"xiǎo", t:"tính từ", m:"nhỏ", c:"小猫。", v:"Mèo nhỏ."},
-    {w:"小朋友", p:"xiǎopéngyǒu", t:"danh từ", m:"trẻ em", c:"小朋友好。", v:"Chào em nhỏ."},
-    {w:"小时", p:"xiǎoshí", t:"danh từ", m:"giờ", c:"一个小时。", v:"Một tiếng đồng hồ."},
-    {w:"小学", p:"xiǎoxué", t:"danh từ", m:"tiểu học", c:"去小学。", v:"Đi trường tiểu học."},
-    {w:"小学生", p:"xiǎoxuéshēng", t:"danh từ", m:"học sinh tiểu học", c:"他是小学生。", v:"Em ấy là học sinh tiểu học."},
-    {w:"下午", p:"xiàwǔ", t:"danh từ", m:"buổi chiều", c:"下午好。", v:"Chào buổi chiều."},
-    {w:"写", p:"xiě", t:"động từ", m:"viết", c:"写汉字。", v:"Viết chữ Hán."},
-    {w:"些", p:"xiē", t:"lượng từ", m:"một ít", c:"一些人。", v:"Một vài người."},
-    {w:"谢谢", p:"xièxie", t:"động từ", m:"cảm ơn", c:"谢谢你。", v:"Cảm ơn bạn."},
-    {w:"喜欢", p:"xǐhuan", t:"động từ", m:"thích", c:"我喜欢汉语。", v:"Tôi thích tiếng Trung."},
-    {w:"新", p:"xīn", t:"tính từ", m:"mới", c:"新年好！", v:"Chúc mừng năm mới!"},
-    {w:"星期", p:"xīngqī", t:"danh từ", m:"tuần", c:"一个星期。", v:"Một tuần."},
-    {w:"星期日", p:"xīngqīrì", t:"danh từ", m:"chủ nhật", c:"今天是星期日。", v:"Hôm nay là Chủ Nhật."},
-    {w:"星期天", p:"xīngqītiān", t:"danh từ", m:"chủ nhật", c:"星期天去玩。", v:"Chủ Nhật đi chơi."},
-    {w:"休息", p:"xiūxi", t:"động từ", m:"nghỉ ngơi", c:"你需要休息。", v:"Bạn cần nghỉ ngơi."},
-    {w:"学", p:"xué", t:"động từ", m:"học", c:"学做饭。", v:"Học nấu ăn."},
-    {w:"雪", p:"xuě", t:"danh từ", m:"tuyết", c:"下雪了。", v:"Tuyết rơi rồi."},
-    {w:"学生", p:"xuéshēng", t:"danh từ", m:"học sinh", c:"我是学生。", v:"Tôi là học sinh."},
-    {w:"学习", p:"xuéxí", t:"động từ", m:"học tập", c:"学习汉语。", v:"Học tập tiếng Trung."},
-    {w:"学校", p:"xuéxiào", t:"danh từ", m:"trường học", c:"去学校。", v:"Đi đến trường."},
-    {w:"要", p:"yào", t:"động từ", m:"muốn, cần", c:"我要买书。", v:"Tôi muốn mua sách."},
-    {w:"也", p:"yě", t:"phó từ", m:"cũng", c:"我也是。", v:"Tôi cũng vậy."},
-    {w:"一", p:"yī", t:"số", m:"một", c:"一个。", v:"Một cái."},
-    {w:"一半", p:"yíbàn", t:"số", m:"một nửa", c:"给我一半。", v:"Cho tôi một nửa."},
-    {w:"一点儿", p:"yìdiǎnr", t:"số lượng", m:"một chút", c:"我会一点儿汉语。", v:"Tôi biết một chút tiếng Trung."},
-    {w:"衣服", p:"yīfu", t:"danh từ", m:"quần áo", c:"买衣服。", v:"Mua quần áo."},
-    {w:"医生", p:"yīshēng", t:"danh từ", m:"bác sĩ", c:"他是医生。", v:"Anh ấy là bác sĩ."},
-    {w:"一下", p:"yíxià", t:"số lượng", m:"một chút", c:"等一下。", v:"Đợi một chút."},
-    {w:"一些", p:"yīxiē", t:"số lượng", m:"một vài", c:"一些水果。", v:"Một vài trái cây."},
-    {w:"医院", p:"yīyuàn", t:"danh từ", m:"bệnh viện", c:"去医院。", v:"Đi bệnh viện."},
-    {w:"椅子", p:"yǐzi", t:"danh từ", m:"cái ghế", c:"坐椅子。", v:"Ngồi ghế."},
-    {w:"有", p:"yǒu", t:"động từ", m:"có", c:"我有钱。", v:"Tôi có tiền."},
-    {w:"有的", p:"yǒude", t:"đại từ", m:"một số", c:"有的人喜欢猫。", v:"Một số người thích mèo."},
-    {w:"有些", p:"yǒuxiē", t:"đại từ", m:"một vài", c:"有些问题。", v:"Một vài vấn đề."},
-    {w:"有（一）点儿", p:"yǒu (yì)diǎnr", t:"phó từ", m:"hơi, có chút", c:"有点儿冷。", v:"Hơi lạnh một chút."},
-    {w:"雨", p:"yǔ", t:"danh từ", m:"mưa", c:"大雨。", v:"Mưa lớn."},
-    {w:"元", p:"yuán", t:"lượng từ", m:"đồng", c:"十元。", v:"Mười đồng."},
-    {w:"月", p:"yuè", t:"danh từ", m:"tháng", c:"五月。", v:"Tháng năm."},
-    {w:"再", p:"zài", t:"phó từ", m:"lại, thêm", c:"再说一次。", v:"Nói lại lần nữa."},
-    {w:"在", p:"zài", t:"động từ", m:"ở, đang", c:"他在家。", v:"Anh ấy ở nhà."},
-    {w:"再见", p:"zàijiàn", t:"động từ", m:"tạm biệt", c:"老师再见。", v:"Tạm biệt thầy."},
-    {w:"早", p:"zǎo", t:"tính từ", m:"sớm", c:"很早。", v:"Rất sớm."},
-    {w:"早饭", p:"zǎofàn", t:"danh từ", m:"bữa sáng", c:"吃早饭。", v:"Ăn bữa sáng."},
-    {w:"早上", p:"zǎoshang", t:"danh từ", m:"buổi sáng", c:"早上好！", v:"Chào buổi sáng!"},
-    {w:"怎么", p:"zěnme", t:"đại từ", m:"thế nào", c:"怎么去？", v:"Đi như thế nào?"},
-    {w:"怎么样", p:"zěnmeyàng", t:"đại từ", m:"thế nào", c:"天气怎么样？", v:"Thời tiết như thế nào?"},
-    {w:"找", p:"zhǎo", t:"động từ", m:"tìm", c:"找东西。", v:"Tìm đồ vật."},
-    {w:"这", p:"zhè", t:"đại từ", m:"này", c:"这是书。", v:"Đây là sách."},
-    {w:"这边", p:"zhèbiān", t:"đại từ", m:"bên này", c:"来这边。", v:"Đến bên này."},
-    {w:"这个", p:"zhège", t:"đại từ", m:"cái này", c:"这个多少钱？", v:"Cái này bao nhiêu tiền?"},
-    {w:"这里", p:"zhèlǐ", t:"đại từ", m:"ở đây", c:"这里很漂亮。", v:"Ở đây rất đẹp."},
-    {w:"真", p:"zhēn", t:"phó từ", m:"thật, rất", c:"真好！", v:"Thật tốt!"},
-    {w:"正在", p:"zhèngzài", t:"phó từ", m:"đang", c:"正在吃饭。", v:"Đang ăn cơm."},
-    {w:"这儿", p:"zhèr", t:"đại từ", m:"chỗ này", c:"坐这儿。", v:"Ngồi chỗ này."},
-    {w:"这些", p:"zhèxiē", t:"đại từ", m:"những cái này", c:"这些书。", v:"Những quyển sách này."},
-    {w:"只", p:"zhǐ", t:"lượng từ", m:"con", c:"一只猫。", v:"Một con mèo."},
-    {w:"知道", p:"zhīdào", t:"động từ", m:"biết", c:"我不知道。", v:"Tôi không biết."},
-    {w:"中国", p:"Zhōngguó", t:"danh từ", m:"Trung Quốc", c:"去中国。", v:"Đi Trung Quốc."},
-    {w:"中文", p:"Zhōngwén", t:"danh từ", m:"tiếng Trung", c:"说中文。", v:"Nói tiếng Trung."},
-    {w:"中午", p:"zhōngwǔ", t:"danh từ", m:"buổi trưa", c:"中午好。", v:"Chào buổi trưa."},
-    {w:"中学", p:"zhōngxué", t:"danh từ", m:"trung học", c:"去中学。", v:"Đi trường trung học."},
-    {w:"中学生", p:"zhōngxuéshēng", t:"danh từ", m:"học sinh trung học", c:"他是中学生。", v:"Cậu ấy là học sinh trung học."},
-    {w:"住", p:"zhù", t:"động từ", m:"ở, cư trú", c:"你住在哪里？", v:"Bạn sống ở đâu?"},
-    {w:"桌子", p:"zhuōzi", t:"danh từ", m:"cái bàn", c:"一张桌子。", v:"Một cái bàn."},
-    {w:"字", p:"zì", t:"danh từ", m:"chữ, ký tự", c:"汉字。", v:"Chữ Hán."},
-    {w:"坐", p:"zuò", t:"động từ", m:"ngồi", c:"请坐。", v:"Mời ngồi."},
-    {w:"做", p:"zuò", t:"động từ", m:"làm", c:"我做自由职业。", v:"Tôi làm nghề tự do."},
-    {w:"做饭", p:"zuò fàn", t:"động từ", m:"nấu ăn", c:"学做饭。", v:"Học nấu ăn."},
-    {w:"昨天", p:"zuótiān", t:"danh từ", m:"hôm qua", c:"昨天我很忙。", v:"Hôm qua tôi rất bận."}
-]
+                        {w:"爱", p:"ài", t:"động từ", m:"yêu, thích"},
+                        {w:"吧", p:"ba", t:"trợ từ", m:"nhé, nhé nhé (đề nghị)"},
+                        {w:"八", p:"bā", t:"số", m:"tám"},
+                        {w:"爸爸", p:"bàba", t:"danh từ", m:"bố, ba"},
+                        {w:"百", p:"bǎi", t:"số", m:"một trăm"},
+                        {w:"白天", p:"báitiān", t:"danh từ", m:"ban ngày"},
+                        {w:"半", p:"bàn", t:"số", m:"một nửa"},
+                        {w:"包子", p:"bāozi", t:"danh từ", m:"bánh bao"},
+                        {w:"杯子", p:"bēizi", t:"danh từ", m:"cái cốc"},
+                        {w:"本", p:"běn", t:"lượng từ", m:"quyển (sách)"},
+                        {w:"边", p:"biān", t:"danh từ", m:"bên, phía"},
+                        {w:"病", p:"bìng", t:"danh/động", m:"bệnh, bị bệnh"},
+                        {w:"不", p:"bù", t:"phó từ", m:"không"},
+                        {w:"不客气", p:"bú kèqi", t:"động từ", m:"không có gì"},
+                        {w:"不要", p:"bú yào", t:"phó từ", m:"đừng"},
+                        {w:"菜", p:"cài", t:"danh từ", m:"món ăn, rau"},
+                        {w:"茶", p:"chá", t:"danh từ", m:"trà"},
+                        {w:"唱", p:"chàng", t:"động từ", m:"hát"},
+                        {w:"超市", p:"chāoshì", t:"danh từ", m:"siêu thị"},
+                        {w:"车", p:"chē", t:"danh từ", m:"xe"},
+                        {w:"吃", p:"chī", t:"động từ", m:"ăn"},
+                        {w:"穿", p:"chuān", t:"động từ", m:"mặc"},
+                        {w:"出租车", p:"chūzūchē", t:"danh từ", m:"taxi"},
+                        {w:"大", p:"dà", t:"tính từ", m:"to, lớn"},
+                        {w:"打电话", p:"dǎ diànhuà", t:"động từ", m:"gọi điện thoại"},
+                        {w:"大家", p:"dàjiā", t:"đại từ", m:"mọi người"},
+                        {w:"到", p:"dào", t:"động từ", m:"đến"},
+                        {w:"大学", p:"dàxué", t:"danh từ", m:"đại học"},
+                        {w:"大学生", p:"dàxuéshēng", t:"danh từ", m:"sinh viên"},
+                        {w:"的", p:"de", t:"trợ từ", m:"của"},
+                        {w:"第", p:"dì", t:"tiền tố", m:"thứ (số thứ tự)"},
+                        {w:"店", p:"diàn", t:"danh từ", m:"cửa hàng"},
+                        {w:"点", p:"diǎn", t:"lượng từ", m:"giờ"},
+                        {w:"电话", p:"diànhuà", t:"danh từ", m:"điện thoại"},
+                        {w:"电脑", p:"diànnǎo", t:"danh từ", m:"máy tính"},
+                        {w:"电视", p:"diànshì", t:"danh từ", m:"tivi"},
+                        {w:"电影", p:"diànyǐng", t:"danh từ", m:"phim"},
+                        {w:"电影院", p:"diànyǐngyuàn", t:"danh từ", m:"rạp chiếu phim"},
+                        {w:"弟弟", p:"dìdi", t:"danh từ", m:"em trai"},
+                        {w:"东西", p:"dōngxi", t:"danh từ", m:"đồ vật"},
+                        {w:"都", p:"dōu", t:"phó từ", m:"đều"},
+                        {w:"读", p:"dú", t:"động từ", m:"đọc"},
+                        {w:"对", p:"duì", t:"tính/giới", m:"đúng, đối với"},
+                        {w:"对不起", p:"duìbuqǐ", t:"động từ", m:"xin lỗi"},
+                        {w:"多", p:"duō", t:"tính từ", m:"nhiều"},
+                        {w:"多少", p:"duōshao", t:"đại từ", m:"bao nhiêu"},
+                        {w:"读书", p:"dúshū", t:"động từ", m:"đọc sách, học"},
+                        {w:"二", p:"èr", t:"số", m:"hai"},
+                        {w:"儿子", p:"érzi", t:"danh từ", m:"con trai"},
+                        {w:"饭", p:"fàn", t:"danh từ", m:"cơm"},
+                        {w:"饭店", p:"fàndiàn", t:"danh từ", m:"nhà hàng"},
+                        {w:"房间", p:"fángjiān", t:"danh từ", m:"phòng"},
+                        {w:"非常", p:"fēicháng", t:"phó từ", m:"rất"},
+                        {w:"飞机", p:"fēijī", t:"danh từ", m:"máy bay"},
+                        {w:"分", p:"fēn", t:"lượng từ", m:"phút"},
+                        {w:"分钟", p:"fēnzhōng", t:"lượng từ", m:"phút"},
+                        {w:"高兴", p:"gāoxìng", t:"tính từ", m:"vui"},
+                        {w:"个", p:"gè", t:"lượng từ", m:"cái"},
+                        {w:"歌", p:"gē", t:"danh từ", m:"bài hát"},
+                        {w:"哥哥", p:"gēge", t:"danh từ", m:"anh trai"},
+                        {w:"给", p:"gěi", t:"động từ", m:"cho"},
+                        {w:"公司", p:"gōngsī", t:"danh từ", m:"công ty"},
+                        {w:"工作", p:"gōngzuò", t:"động/danh", m:"làm việc"},
+                        {w:"狗", p:"gǒu", t:"danh từ", m:"chó"},
+                        {w:"贵", p:"guì", t:"tính từ", m:"đắt"},
+                        {w:"国", p:"guó", t:"danh từ", m:"quốc gia"},
+                        {w:"还", p:"hái", t:"phó từ", m:"còn, vẫn"},
+                        {w:"孩子", p:"háizi", t:"danh từ", m:"đứa trẻ"},
+                        {w:"汉语", p:"Hànyǔ", t:"danh từ", m:"tiếng Trung"},
+                        {w:"汉字", p:"Hànzì", t:"danh từ", m:"chữ Hán"},
+                        {w:"号", p:"hào", t:"danh/lượng", m:"số"},
+                        {w:"好", p:"hǎo", t:"tính từ", m:"tốt"},
+                        {w:"好吃", p:"hǎochī", t:"tính từ", m:"ngon"},
+                        {w:"好看", p:"hǎokàn", t:"tính từ", m:"đẹp"},
+                        {w:"好听", p:"hǎotīng", t:"tính từ", m:"hay"},
+                        {w:"好玩儿", p:"hǎowánr", t:"tính từ", m:"thú vị"},
+                        {w:"和", p:"hé", t:"liên từ", m:"và"},
+                        {w:"喝", p:"hē", t:"động từ", m:"uống"},
+                        {w:"很", p:"hěn", t:"phó từ", m:"rất"},
+                        {w:"后", p:"hòu", t:"danh từ", m:"sau"},
+                        {w:"回", p:"huí", t:"động từ", m:"quay về"},
+                        {w:"会", p:"huì", t:"động từ", m:"biết"},
+                        {w:"火车", p:"huǒchē", t:"danh từ", m:"tàu hỏa"},
+                        {w:"几", p:"jǐ", t:"đại/số", m:"mấy"},
+                        {w:"家", p:"jiā", t:"danh từ", m:"nhà"},
+                        {w:"见", p:"jiàn", t:"động từ", m:"gặp"},
+                        {w:"件", p:"jiàn", t:"lượng từ", m:"cái (đồ)"},
+                        {w:"叫", p:"jiào", t:"động từ", m:"gọi"},
+                        {w:"饺子", p:"jiǎozi", t:"danh từ", m:"sủi cảo"},
+                        {w:"家人", p:"jiārén", t:"danh từ", m:"người nhà"},
+                        {w:"鸡蛋", p:"jīdàn", t:"danh từ", m:"trứng gà"},
+                        {w:"姐姐", p:"jiějie", t:"danh từ", m:"chị gái"},
+                        {w:"今年", p:"jīnnián", t:"danh từ", m:"năm nay"},
+                        {w:"今天", p:"jīntiān", t:"danh từ", m:"hôm nay"},
+                        {w:"九", p:"jiǔ", t:"số", m:"chín"},
+                        {w:"觉得", p:"juéde", t:"động từ", m:"cảm thấy"},
+                        {w:"开", p:"kāi", t:"động từ", m:"mở"},
+                        {w:"开车", p:"kāichē", t:"động từ", m:"lái xe"},
+                        {w:"看", p:"kàn", t:"động từ", m:"nhìn"},
+                        {w:"看病", p:"kànbìng", t:"động từ", m:"khám bệnh"},
+                        {w:"看见", p:"kànjiàn", t:"động từ", m:"nhìn thấy"},
+                        {w:"课", p:"kè", t:"danh từ", m:"bài học"},
+                        {w:"可以", p:"kěyǐ", t:"động từ", m:"có thể"},
+                        {w:"口", p:"kǒu", t:"lượng từ", m:"miệng"},
+                        {w:"块", p:"kuài", t:"lượng từ", m:"đồng (tiền)"},
+                        {w:"来", p:"lái", t:"động từ", m:"đến"},
+                        {w:"老师", p:"lǎoshī", t:"danh từ", m:"giáo viên"},
+                        {w:"了", p:"le", t:"trợ từ", m:"rồi"},
+                        {w:"冷", p:"lěng", t:"tính từ", m:"lạnh"},
+                        {w:"里", p:"lǐ", t:"danh từ", m:"bên trong"},
+                        {w:"两", p:"liǎng", t:"số", m:"hai"},
+                        {w:"零", p:"líng", t:"số", m:"không"},
+                        {w:"六", p:"liù", t:"số", m:"sáu"},
+                        {w:"吗", p:"ma", t:"trợ từ", m:"không (nghi vấn)"},
+                        {w:"卖", p:"mài", t:"động từ", m:"bán"},
+                        {w:"买", p:"mǎi", t:"động từ", m:"mua"},
+                        {w:"妈妈", p:"māma", t:"danh từ", m:"mẹ"},
+                        {w:"忙", p:"máng", t:"tính từ", m:"bận"},
+                        {w:"猫", p:"māo", t:"danh từ", m:"mèo"},
+                        {w:"没关系", p:"méi guānxi", t:"động từ", m:"không sao"},
+                        {w:"妹妹", p:"mèimei", t:"danh từ", m:"em gái"},
+                        {w:"没事", p:"méishì", t:"động từ", m:"không có việc gì"},
+                        {w:"没", p:"méi", t:"phó từ", m:"không"},
+                        {w:"们", p:"men", t:"hậu tố", m:"số nhiều"},
+                        {w:"面包", p:"miànbāo", t:"danh từ", m:"bánh mì"},
+                        {w:"面条儿", p:"miàntiáor", t:"danh từ", m:"mì"},
+                        {w:"米饭", p:"mǐfàn", t:"danh từ", m:"cơm"},
+                        {w:"明年", p:"míngnián", t:"danh từ", m:"năm sau"},
+                        {w:"明天", p:"míngtiān", t:"danh từ", m:"ngày mai"},
+                        {w:"名字", p:"míngzi", t:"danh từ", m:"tên"},
+                        {w:"那", p:"nà", t:"đại từ", m:"kia"},
+                        {w:"哪", p:"nǎ", t:"đại từ", m:"nào"},
+                        {w:"那边", p:"nàbiān", t:"đại từ", m:"bên kia"},
+                        {w:"那个", p:"nàge", t:"đại từ", m:"cái kia"},
+                        {w:"哪个", p:"nǎge", t:"đại từ", m:"cái nào"},
+                        {w:"那里", p:"nàlǐ", t:"đại từ", m:"ở kia"},
+                        {w:"哪里", p:"nǎlǐ", t:"đại từ", m:"ở đâu"},
+                        {w:"男", p:"nán", t:"tính từ", m:"nam"},
+                        {w:"男朋友", p:"nánpéngyou", t:"danh từ", m:"bạn trai"},
+                        {w:"那儿", p:"nàr", t:"đại từ", m:"ở kia"},
+                        {w:"哪儿", p:"nǎr", t:"Đại từ", m:"ở đâu"},
+                        {w:"那些", p:"nàxiē", t:"Đại từ", m:"những cái đó"},
+                        {w:"哪些", p:"nǎxiē", t:"Đại từ", m:"những cái nào"},
+                        {w:"呢", p:"ne", t:"Trợ từ", m:"trợ từ nghi vấn / nhấn mạnh"},
+                        {w:"能", p:"néng", t:"Động từ khuyết thiếu", m:"có thể"},
+                        {w:"你", p:"nǐ", t:"Đại từ", m:"bạn"},
+                        {w:"你好", p:"nǐ hǎo", t:"Cụm từ", m:"xin chào"},
+                        {w:"年", p:"nián", t:"Danh từ / Lượng từ", m:"năm"},
+                        {w:"你们", p:"nǐmen", t:"Đại từ", m:"các bạn"},
+                        {w:"您", p:"nín", t:"Đại từ", m:"ngài, ông/bà (kính ngữ)"},
+                        {w:"牛奶", p:"niúnǎi", t:"Danh từ", m:"sữa"},
+                        {w:"女", p:"nǚ", t:"Tính từ", m:"nữ"},
+                        {w:"女儿", p:"nǚ’ér", t:"Danh từ", m:"con gái"},
+                        {w:"女朋友", p:"nǚpéngyou", t:"Danh từ", m:"bạn gái"},
+                        {w:"女士", p:"nǚshì", t:"Danh từ", m:"quý bà, phụ nữ"},
+                        {w:"朋友", p:"péngyou", t:"Danh từ", m:"bạn bè"},
+                        {w:"便宜", p:"piányi", t:"Tính từ", m:"rẻ"},
+                        {w:"漂亮", p:"piàoliang", t:"Tính từ", m:"xinh đẹp"},
+                        {w:"苹果", p:"píngguǒ", t:"Danh từ", m:"táo"},
+                        {w:"七", p:"qī", t:"Số từ", m:"bảy"},
+                        {w:"前", p:"qián", t:"Danh từ", m:"trước"},
+                        {w:"钱", p:"qián", t:"Danh từ", m:"tiền"},
+                        {w:"千", p:"qiān", t:"Số từ", m:"nghìn"},
+                        {w:"起床", p:"qǐchuáng", t:"Động từ", m:"thức dậy"},
+                        {w:"请", p:"qǐng", t:"Động từ", m:"mời, xin"},
+                        {w:"请问", p:"qǐngwèn", t:"Động từ", m:"xin hỏi"},
+                        {w:"去", p:"qù", t:"Động từ", m:"đi"},
+                        {w:"去年", p:"qùnián", t:"Danh từ", m:"năm ngoái"},
+                        {w:"热", p:"rè", t:"Tính từ", m:"nóng"},
+                        {w:"人", p:"rén", t:"Danh từ", m:"người"},
+                        {w:"认识", p:"rènshi", t:"Động từ", m:"quen biết"},
+                        {w:"日", p:"rì", t:"Danh từ / Lượng từ", m:"ngày"},
+                        {w:"三", p:"sān", t:"Số từ", m:"ba"},
+                        {w:"上", p:"shàng", t:"Danh từ / Động từ", m:"trên, lên"},
+                        {w:"上班", p:"shàngbān", t:"Động từ", m:"đi làm"},
+                        {w:"商店", p:"shāngdiàn", t:"Danh từ", m:"cửa hàng"},
+                        {w:"上课", p:"shàngkè", t:"Động từ", m:"lên lớp, học"},
+                        {w:"上午", p:"shàngwǔ", t:"Danh từ", m:"buổi sáng"},
+                        {w:"上学", p:"shàngxué", t:"Động từ", m:"đi học"},
+                        {w:"少", p:"shǎo", t:"Tính từ / Động từ", m:"ít"},
+                        {w:"谁", p:"shéi / shuí", t:"Đại từ", m:"ai"},
+                        {w:"生病", p:"shēngbìng", t:"Động từ", m:"bị bệnh"},
+                        {w:"什么", p:"shénme", t:"Đại từ", m:"cái gì"},
+                        {w:"十", p:"shí", t:"Số từ", m:"mười"},
+                        {w:"事", p:"shì", t:"Danh từ", m:"việc"},
+                        {w:"是", p:"shì", t:"Động từ", m:"là"},
+                        {w:"时候", p:"shíhou", t:"Danh từ", m:"lúc, thời điểm"},
+                        {w:"时间", p:"shíjiān", t:"Danh từ", m:"thời gian"},
+                        {w:"手机", p:"shǒujī", t:"Danh từ", m:"điện thoại di động"},
+                        {w:"书", p:"shū", t:"Danh từ", m:"sách"},
+                        {w:"书店", p:"shūdiàn", t:"Danh từ", m:"hiệu sách"},
+                        {w:"睡", p:"shuì", t:"Động từ", m:"ngủ"},
+                        {w:"水", p:"shuǐ", t:"Danh từ", m:"nước"},
+                        {w:"水果", p:"shuǐguǒ", t:"Danh từ", m:"trái cây"},
+                        {w:"睡觉", p:"shuìjiào", t:"Động từ", m:"đi ngủ"},
+                        {w:"说", p:"shuō", t:"Động từ", m:"nói"},
+                        {w:"说话", p:"shuōhuà", t:"Động từ", m:"nói chuyện"},
+                        {w:"四", p:"sì", t:"Số từ", m:"bốn"},
+                        {w:"岁", p:"suì", t:"Lượng từ", m:"tuổi"},
+                        {w:"他", p:"tā", t:"Đại từ", m:"anh ấy"},
+                        {w:"它", p:"tā", t:"Đại từ", m:"nó (đồ vật / con vật)"},
+                        {w:"她", p:"tā", t:"Đại từ", m:"cô ấy"},
+                        {w:"太", p:"tài", t:"Phó từ", m:"quá, rất"},
+                        {w:"他们", p:"tāmen", t:"Đại từ", m:"họ"},
+                        {w:"它们", p:"tāmen", t:"Đại từ", m:"chúng nó (đồ vật / con vật)"},
+                        {w:"她们", p:"tāmen", t:"Đại từ", m:"họ (nữ)"},
+                        {w:"天", p:"tiān", t:"Danh từ / Lượng từ", m:"trời, ngày"},
+                        {w:"天气", p:"tiānqì", t:"Danh từ", m:"thời tiết"},
+                        {w:"听", p:"tīng", t:"Động từ", m:"nghe"},
+                        {w:"听见", p:"tīngjiàn", t:"Động từ", m:"nghe thấy"},
+                        {w:"同学", p:"tóngxué", t:"Danh từ", m:"bạn học"},
+                        {w:"外", p:"wài", t:"Danh từ", m:"bên ngoài"},
+                        {w:"外边", p:"wàibian", t:"Danh từ", m:"phía ngoài"},
+                        {w:"玩", p:"wán", t:"Động từ", m:"chơi"},
+                        {w:"晚", p:"wǎn", t:"Tính từ", m:"muộn, tối"},
+                        {w:"晚饭", p:"wǎnfàn", t:"Danh từ", m:"bữa tối"},
+                        {w:"晚上", p:"wǎnshang", t:"Danh từ", m:"buổi tối"},
+                        {w:"喂", p:"wèi", t:"Thán từ", m:"alo (khi nghe điện thoại)"},
+                        {w:"问", p:"wèn", t:"Động từ", m:"hỏi"},
+                        {w:"问题", p:"wèntí", t:"Danh từ", m:"vấn đề, câu hỏi"},
+                        {w:"我", p:"wǒ", t:"Đại từ", m:"tôi"},
+                        {w:"我们", p:"wǒmen", t:"Đại từ", m:"chúng tôi"},
+                        {w:"五", p:"wǔ", t:"Số từ", m:"số năm"},
+                        {w:"午饭", p:"wǔfàn", t:"Danh từ", m:"bữa trưa"},
+                        {w:"下", p:"xià", t:"Danh từ / Động từ / Lượng từ", m:"dưới, xuống"},
+                        {w:"下雨", p:"xià yǔ", t:"Động từ", m:"mưa"},
+                        {w:"下班", p:"xiàbān", t:"Động từ", m:"tan làm"},
+                        {w:"下课", p:"xiàkè", t:"Động từ", m:"tan học"},
+                        {w:"想", p:"xiǎng", t:"Động từ", m:"muốn, nghĩ"},
+                        {w:"先生", p:"xiānsheng", t:"Danh từ", m:"ông, ngài"},
+                        {w:"现在", p:"xiànzài", t:"Danh từ", m:"bây giờ"},
+                        {w:"小", p:"xiǎo", t:"Tính từ", m:"nhỏ"},
+                        {w:"小朋友", p:"xiǎopéngyǒu", t:"Danh từ", m:"trẻ em"},
+                        {w:"小时", p:"xiǎoshí", t:"Danh từ", m:"giờ"},
+                        {w:"小学", p:"xiǎoxué", t:"Danh từ", m:"tiểu học"},
+                        {w:"小学生", p:"xiǎoxuéshēng", t:"Danh từ", m:"học sinh tiểu học"},
+                        {w:"下午", p:"xiàwǔ", t:"Danh từ", m:"buổi chiều"},
+                        {w:"写", p:"xiě", t:"Động từ", m:"viết"},
+                        {w:"些", p:"xiē", t:"Lượng từ", m:"một ít"},
+                        {w:"谢谢", p:"xièxie", t:"Động từ", m:"cảm ơn"},
+                        {w:"喜欢", p:"xǐhuan", t:"Động từ", m:"thích"},
+                        {w:"新", p:"xīn", t:"Tính từ", m:"mới"},
+                        {w:"星期", p:"xīngqī", t:"Danh từ", m:"tuần"},
+                        {w:"星期日", p:"xīngqīrì", t:"Danh từ", m:"chủ nhật"},
+                        {w:"星期天", p:"xīngqītiān", t:"Danh từ", m:"chủ nhật"},
+                        {w:"休息", p:"xiūxi", t:"Động từ", m:"nghỉ ngơi"},
+                        {w:"学", p:"xué", t:"Động từ", m:"học"},
+                        {w:"雪", p:"xuě", t:"Danh từ", m:"tuyết"},
+                        {w:"学生", p:"xuéshēng", t:"Danh từ", m:"học sinh"},
+                        {w:"学习", p:"xuéxí", t:"Động từ", m:"học tập"},
+                        {w:"学校", p:"xuéxiào", t:"Danh từ", m:"trường học"},
+                        {w:"要", p:"yào", t:"Động từ", m:"muốn, cần"},
+                        {w:"也", p:"yě", t:"Phó từ", m:"cũng"},
+                        {w:"一", p:"yī", t:"Số từ", m:"số một"},
+                        {w:"一半", p:"yíbàn", t:"Số từ", m:"một nửa"},
+                        {w:"一点儿", p:"yìdiǎnr", t:"Số lượng", m:"một chút"},
+                        {w:"衣服", p:"yīfu", t:"Danh từ", m:"quần áo"},
+                        {w:"医生", p:"yīshēng", t:"Danh từ", m:"bác sĩ"},
+                        {w:"一下", p:"yíxià", t:"Số lượng / Phó từ", m:"một chút, một lát"},
+                        {w:"一些", p:"yīxiē", t:"Số lượng", m:"một vài"},
+                        {w:"医院", p:"yīyuàn", t:"Danh từ", m:"bệnh viện"},
+                        {w:"椅子", p:"yǐzi", t:"Danh từ", m:"cái ghế"},
+                        {w:"有", p:"yǒu", t:"Động từ", m:"có"},
+                        {w:"有的", p:"yǒude", t:"Đại từ", m:"một số"},
+                        {w:"有些", p:"yǒuxiē", t:"Đại từ / Phó từ", m:"một vài"},
+                        {w:"有（一）点儿", p:"yǒu (yì)diǎnr", t:"Phó từ", m:"hơi, có chút"},
+                        {w:"雨", p:"yǔ", t:"Danh từ", m:"mưa"},
+                        {w:"元", p:"yuán", t:"Lượng từ", m:"đồng (đơn vị tiền tệ)"},
+                        {w:"月", p:"yuè", t:"Danh từ", m:"tháng"},
+                        {w:"再", p:"zài", t:"Phó từ", m:"lại, thêm"},
+                        {w:"在", p:"zài", t:"Động từ / Giới từ / Phó từ", m:"ở, đang"},
+                        {w:"再见", p:"zàijiàn", t:"Động từ", m:"tạm biệt"},
+                        {w:"早", p:"zǎo", t:"Tính từ", m:"sớm"},
+                        {w:"早饭", p:"zǎofàn", t:"Danh từ", m:"bữa sáng"},
+                        {w:"早上", p:"zǎoshang", t:"Danh từ", m:"buổi sáng"},
+                        {w:"怎么", p:"zěnme", t:"Đại từ", m:"thế nào"},
+                        {w:"怎么样", p:"zěnmeyàng", t:"Đại từ", m:"thế nào, ra sao"},
+                        {w:"找", p:"zhǎo", t:"Động từ", m:"tìm"},
+                        {w:"这", p:"zhè", t:"Đại từ", m:"này"},
+                        {w:"这边", p:"zhèbiān", t:"Đại từ", m:"bên này"},
+                        {w:"这个", p:"zhège", t:"Đại từ", m:"cái này"},
+                        {w:"这里", p:"zhèlǐ", t:"Đại từ", m:"ở đây"},
+                        {w:"真", p:"zhēn", t:"Phó từ / Tính từ", m:"thật, rất"},
+                        {w:"正在", p:"zhèngzài", t:"Phó từ", m:"đang"},
+                        {w:"这儿", p:"zhèr", t:"Đại từ", m:"chỗ này, ở đây"},
+                        {w:"这些", p:"zhèxiē", t:"Đại từ", m:"những cái này"},
+                        {w:"只", p:"zhǐ", t:"Lượng từ", m:"con (dùng cho động vật)"},
+                        {w:"知道", p:"zhīdào", t:"Động từ", m:"biết"},
+                        {w:"中国", p:"Zhōngguó", t:"Danh từ", m:"Trung Quốc"},
+                        {w:"中文", p:"Zhōngwén", t:"Danh từ", m:"tiếng Trung"},
+                        {w:"中午", p:"zhōngwǔ", t:"Danh từ", m:"buổi trưa"},
+                        {w:"中学", p:"zhōngxué", t:"Danh từ", m:"trường trung học"},
+                        {w:"中学生", p:"zhōngxuéshēng", t:"Danh từ", m:"học sinh trung học"},
+                        {w:"住", p:"zhù", t:"Động từ", m:"ở, cư trú"},
+                        {w:"桌子", p:"zhuōzi", t:"Danh từ", m:"cái bàn"},
+                        {w:"字", p:"zì", t:"Danh từ", m:"chữ, ký tự"},
+                        {w:"坐", p:"zuò", t:"Động từ", m:"ngồi"},
+                        {w:"做", p:"zuò", t:"Động từ", m:"làm"},
+                        {w:"做饭", p:"zuò fàn", t:"Động từ", m:"nấu ăn"},
+                        {w:"昨天", p:"zuótiān", t:"Danh từ", m:"hôm qua"}
+                    ]
                 },
                 grammar: { "1": [ { title: "Câu chữ 很 (hěn)", formula: "S + 很 + Tính từ", desc: "Dùng để miêu tả tính chất." } ] }, exam: { "1": [{ title: "Đề mô phỏng HSK 1 - Số 01", time: "40 phút", qCount: 40 }] }
             },
@@ -637,7 +638,6 @@
             JLPT: { vocab: { "N5": [ { word: "食べる", pinyin: "たべる", meaning: "ăn", exCn: "私はりんごを食べる。", exVn: "Tôi ăn táo." } ] }, grammar: {}, exam: {} }
         };
 
-        // --- GIAO TIẾP VỚI MÁY CHỦ (API) ---
         async function fetchAPI(endpoint, payload, method = 'POST') {
             try {
                 const res = await fetch(endpoint, { method: method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
@@ -652,7 +652,6 @@
             
             if (!user || !pass) { msgBox.innerHTML = "<span style='color: var(--wrong-color);'>Vui lòng nhập đầy đủ thông tin!</span>"; return; }
 
-            // Xử lý Quên mật khẩu
             if (currentAuthMode === 'forgot') {
                 const res = await fetchAPI('/api/reset-password', { username: user, newPassword: pass });
                 if (res.error && res.error !== "Lỗi kết nối máy chủ!") {
@@ -664,7 +663,6 @@
                 return;
             }
 
-            // Xử lý Đăng nhập / Đăng ký
             const res = await fetchAPI('/api/auth', { username: user, password: pass, type: currentAuthMode });
             if(res.error && res.error !== "Lỗi kết nối máy chủ!") {
                 msgBox.innerHTML = `<span style='color: var(--wrong-color);'>${res.error}</span>`;
@@ -684,15 +682,11 @@
             }
         }
 
-        // Xử lý Xóa Tài Khoản
         async function deleteAccount() {
             if(!confirm(`⚠️ NGUY HIỂM: Bạn có chắc chắn muốn xóa vĩnh viễn tài khoản "${currentUser}" và toàn bộ dữ liệu học tập không? Hành động này không thể hoàn tác!`)) return;
-            
             const res = await fetchAPI('/api/account', { username: currentUser }, 'DELETE');
-            
-            if(res.success || res.error === "Lỗi kết nối máy chủ!") { // Chấp nhận lỗi offline để xoá local
-                alert("Tài khoản của bạn đã được xóa khỏi hệ thống.");
-                logout();
+            if(res.success || res.error === "Lỗi kết nối máy chủ!") {
+                alert("Tài khoản của bạn đã được xóa khỏi hệ thống."); logout();
             } else { alert("Có lỗi xảy ra: " + res.error); }
         }
 
@@ -806,7 +800,9 @@
             else if (currentTab === 'notebook') renderNotebook(); else if (currentTab === 'history') renderHistory();
         }
 
-        function getItemKey(item, mode) { return `${currentExamType}_${currentLevel}_${mode}_${item.word || item.title}`; }
+        // Tích hợp logic tìm key mới (w) và key cũ (word)
+        function getItemKey(item, mode) { return `${currentExamType}_${currentLevel}_${mode}_${item.w || item.word || item.title}`; }
+        
         function toggleSaveWord(event) {
             event.stopPropagation(); const data = db[currentExamType].vocab[currentLevel][vocabIndex]; const key = getItemKey(data, 'vocab');
             if(!userProgress[key]) userProgress[key] = { correct: 0, wrong: 0, saved: false, itemData: data };
@@ -821,29 +817,24 @@
             if(data.length > 0 && isLoggedIn) { const key = getItemKey(data[0], 'vocab'); if(!userProgress[key]) { userProgress[key] = { correct: 0, wrong: 0, saved: false, itemData: data[0] }; saveProgress(); } }
         }
 
+        // Cập nhật load Flashcard đọc cả key mới và cũ
         function loadFlashcard(index, dataArray) {
-    const data = dataArray[index];
-    document.getElementById('word-cn').textContent = data.w;
-    document.getElementById('word-pinyin').textContent = data.p;
-    document.getElementById('word-type').textContent = `[${data.t}]`;
-    document.getElementById('word-meaning').textContent = data.m;
-    document.getElementById('ex-cn').textContent = data.c || '';
-    document.getElementById('ex-vn').textContent = data.v || '';
-    document.getElementById('progress').textContent = `${index + 1} / ${dataArray.length}`;
-    
-    updateSaveBtnState(getItemKey(data, 'vocab')); 
-    if (document.getElementById('flashcard').classList.contains('flipped')) {
-        document.getElementById('flashcard').classList.remove('flipped');
-    }
-    
-    if(isLoggedIn) { 
-        const key = getItemKey(data, 'vocab'); 
-        if(!userProgress[key]) { 
-            userProgress[key] = { correct: 0, wrong: 0, saved: false, itemData: data }; 
-            saveProgress(); 
-        } 
-    }
-}
+            const data = dataArray[index];
+            document.getElementById('word-cn').textContent = data.w || data.word; 
+            document.getElementById('word-pinyin').textContent = data.p || data.pinyin;
+            
+            const typeElem = document.getElementById('word-type');
+            if(data.t) { typeElem.textContent = `[${data.t}]`; typeElem.style.display = 'block'; } 
+            else { typeElem.style.display = 'none'; }
+            
+            document.getElementById('word-meaning').textContent = data.m || data.meaning;
+            document.getElementById('ex-cn').textContent = data.c || data.exCn || ''; 
+            document.getElementById('ex-vn').textContent = data.v || data.exVn || ''; 
+            document.getElementById('progress').textContent = `${index + 1} / ${dataArray.length}`;
+            
+            updateSaveBtnState(getItemKey(data, 'vocab')); if (document.getElementById('flashcard').classList.contains('flipped')) document.getElementById('flashcard').classList.remove('flipped');
+            if(isLoggedIn) { const key = getItemKey(data, 'vocab'); if(!userProgress[key]) { userProgress[key] = { correct: 0, wrong: 0, saved: false, itemData: data }; saveProgress(); } }
+        }
 
         function flipCard() { document.getElementById('flashcard').classList.toggle('flipped'); }
         function nextCard() { const data = db[currentExamType].vocab[currentLevel]; if (vocabIndex < data.length - 1) { vocabIndex++; loadFlashcard(vocabIndex, data); } }
@@ -873,18 +864,31 @@
             const data = db[currentExamType][mode][currentLevel] || []; const board = document.getElementById('quiz-board'); const empty = document.getElementById('review-empty');
             if (data.length < 2) { board.classList.add('hidden'); empty.classList.remove('hidden'); } else { board.classList.remove('hidden'); empty.classList.add('hidden'); loadNextQuiz(data); }
         }
+        
+        // Cập nhật sinh câu trắc nghiệm đọc được cả 2 định dạng
         function loadNextQuiz(data) {
             document.getElementById('btn-next-quiz').style.display = 'none'; let weightedArray = [];
             data.forEach((item, index) => { const key = getItemKey(item, reviewMode); const stats = userProgress[key] || { correct: 0, wrong: 0 }; let weight = 10 + (stats.wrong * 5) - (stats.correct * 2); if (weight < 1) weight = 1; for(let i=0; i<weight; i++) { weightedArray.push(index); } });
             const correctIndex = weightedArray[Math.floor(Math.random() * weightedArray.length)]; const currentItem = data[correctIndex]; currentQuizItemKey = getItemKey(currentItem, reviewMode);
             let options = [currentItem]; let available = data.filter((_, i) => i !== correctIndex); available.sort(() => 0.5 - Math.random()); options = options.concat(available.slice(0, 3)); options.sort(() => 0.5 - Math.random());
             const qBox = document.getElementById('quiz-question'); const optBox = document.getElementById('quiz-options'); optBox.innerHTML = '';
-            if (reviewMode === 'vocab') { currentQuizCorrectAns = currentItem.meaning; qBox.innerHTML = `Nghĩa của từ <span class="q-word-hl">${currentItem.word}</span> <br><span style="font-size:1rem;color:#888">${currentItem.pinyin}</span><br> là gì?`; options.forEach(opt => { optBox.innerHTML += `<button class="opt-btn" onclick="checkAnswer(this, '${opt.meaning.replace(/'/g, "\\'")}')">${opt.meaning}</button>`; }); } 
-            else { currentQuizCorrectAns = currentItem.desc; qBox.innerHTML = `Cấu trúc: <span style="color:var(--primary-dark)">${currentItem.formula}</span><br>có cách dùng như thế nào?`; options.forEach(opt => { optBox.innerHTML += `<button class="opt-btn" onclick="checkAnswer(this, '${opt.desc.replace(/'/g, "\\'")}')">${opt.desc}</button>`; }); }
+            
+            if (reviewMode === 'vocab') { 
+                currentQuizCorrectAns = currentItem.m || currentItem.meaning; 
+                qBox.innerHTML = `Nghĩa của từ <span class="q-word-hl">${currentItem.w || currentItem.word}</span> <br><span style="font-size:1rem;color:#888">${currentItem.p || currentItem.pinyin}</span><br> là gì?`; 
+                options.forEach(opt => { 
+                    const ansMeaning = opt.m || opt.meaning;
+                    optBox.innerHTML += `<button class="opt-btn" onclick="checkAnswer(this, '${ansMeaning.replace(/'/g, "\\'")}')">${ansMeaning}</button>`; 
+                }); 
+            } else { 
+                currentQuizCorrectAns = currentItem.desc; 
+                qBox.innerHTML = `Cấu trúc: <span style="color:var(--primary-dark)">${currentItem.formula}</span><br>có cách dùng như thế nào?`; 
+                options.forEach(opt => { optBox.innerHTML += `<button class="opt-btn" onclick="checkAnswer(this, '${opt.desc.replace(/'/g, "\\'")}')">${opt.desc}</button>`; }); 
+            }
         }
         function checkAnswer(btn, selectedAns) {
             const allBtns = document.querySelectorAll('.opt-btn'); allBtns.forEach(b => b.disabled = true);
-            if(!userProgress[currentQuizItemKey]) { const itemData = db[currentExamType][reviewMode][currentLevel].find(i => (i.word || i.title) === currentQuizItemKey.split('_').pop()); userProgress[currentQuizItemKey] = { correct: 0, wrong: 0, saved: false, itemData: itemData }; }
+            if(!userProgress[currentQuizItemKey]) { const itemData = db[currentExamType][reviewMode][currentLevel].find(i => (i.w || i.word || i.title) === currentQuizItemKey.split('_').pop()); userProgress[currentQuizItemKey] = { correct: 0, wrong: 0, saved: false, itemData: itemData }; }
             if (selectedAns === currentQuizCorrectAns) { btn.classList.add('correct'); userProgress[currentQuizItemKey].correct++; } else { btn.classList.add('wrong'); userProgress[currentQuizItemKey].wrong++; allBtns.forEach(b => { if (b.innerText === currentQuizCorrectAns) b.classList.add('correct'); }); }
             saveProgress(); document.getElementById('btn-next-quiz').style.display = 'block';
         }
@@ -898,7 +902,8 @@
                     if (stats.saved || stats.wrong > stats.correct) {
                         hasItems = true; let statusHtml = '';
                         if (stats.wrong > stats.correct) statusHtml = `<span class="nb-status status-bad">🔴 Hay quên (${stats.correct}/${stats.correct+stats.wrong})</span>`; else if (stats.saved) statusHtml = `<span class="nb-status status-saved">⭐ Đã lưu</span>`; else statusHtml = `<span class="nb-status status-good">🟢 Tốt</span>`;
-                        const wordOrTitle = stats.itemData.word || stats.itemData.title; const meaningOrDesc = stats.itemData.meaning || stats.itemData.desc;
+                        const wordOrTitle = stats.itemData.w || stats.itemData.word || stats.itemData.title; 
+                        const meaningOrDesc = stats.itemData.m || stats.itemData.meaning || stats.itemData.desc;
                         list.innerHTML += `<div class="nb-card"><div class="nb-info"><h4 class="nb-word">${wordOrTitle}</h4><p class="nb-meaning">${meaningOrDesc}</p></div>${statusHtml}</div>`;
                     }
                 }
