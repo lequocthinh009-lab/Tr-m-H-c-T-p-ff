@@ -96,3 +96,86 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`✅ Server đang chạy tại port ${PORT}`);
 });
+const redis = require('redis');
+
+// Khởi tạo kết nối Redis (Render tự cấp URL qua biến môi trường)
+const redisClient = redis.createClient({
+    url: process.env.REDIS_URL
+});
+
+redisClient.on('error', (err) => console.log('❌ Lỗi kết nối Redis:', err));
+redisClient.on('connect', () => console.log('✅ Đã kết nối Redis thành công!'));
+
+// Hàm khởi động Redis
+async function initRedis() {
+    await redisClient.connect();
+}
+initRedis();
+// Ghi dữ liệu vào Redis (Ví dụ: Lưu trạng thái đăng nhập 1 tiếng)
+await redisClient.setEx('session_user123', 3600, 'logged_in');
+
+// Đọc dữ liệu từ Redis
+const sessionStatus = await redisClient.get('session_user123');
+// API Lấy danh sách từ vựng theo Cấp độ (Ví dụ: HSK_1, TOEIC_500)
+app.get('/api/vocab/:course/:level', async (req, res) => {
+    const { course, level } = req.params;
+    
+    // Tạo chìa khóa (Key) duy nhất cho mỗi bài học để lưu vào Redis
+    const cacheKey = `vocab_cache_${course}_${level}`;
+
+    try {
+        // BƯỚC 1: Tìm trong Redis trước
+        const cachedData = await redisClient.get(cacheKey);
+        
+        if (cachedData) {
+            console.log(`⚡ Lấy từ vựng ${course} ${level} từ Redis Cache (Siêu tốc)`);
+            // Dữ liệu trong Redis lưu dưới dạng chuỗi (String), cần parse lại thành JSON
+            return res.json({ source: 'redis', data: JSON.parse(cachedData) });
+        }
+
+        // BƯỚC 2: Nếu Redis không có (hoặc đã hết hạn), tìm trong PostgreSQL
+        console.log(`🐢 Lấy từ vựng ${course} ${level} từ PostgreSQL (Lần tải đầu tiên)`);
+        
+        // Giả sử bạn có bảng 'vocabulary' trong PostgreSQL
+        const dbQuery = await pool.query(
+            'SELECT word, pinyin, meaning, ex_cn, ex_vn FROM vocabulary WHERE course = $1 AND level = $2',
+            [course, level]
+        );
+        const vocabData = dbQuery.rows;
+
+        if (vocabData.length > 0) {
+            // BƯỚC 3: Lưu bản sao vào Redis để dùng cho các lần sau
+            // Lệnh setEx(key, số_giây_tồn_tại, giá_trị). Ở đây lưu 1 tiếng (3600 giây).
+            await redisClient.setEx(cacheKey, 3600, JSON.stringify(vocabData));
+            
+            return res.json({ source: 'postgresql', data: vocabData });
+        } else {
+            return res.status(404).json({ error: "Chưa có dữ liệu từ vựng cho cấp độ này!" });
+        }
+
+    } catch (error) {
+        console.error("Lỗi khi lấy từ vựng:", error);
+        res.status(500).json({ error: "Lỗi máy chủ!" });
+    }
+});
+// API Thêm từ vựng mới (Dành cho Admin)
+app.post('/api/vocab/add', async (req, res) => {
+    const { course, level, word, pinyin, meaning } = req.body;
+
+    try {
+        // 1. Lưu từ mới vào PostgreSQL
+        await pool.query(
+            'INSERT INTO vocabulary (course, level, word, pinyin, meaning) VALUES ($1, $2, $3, $4, $5)',
+            [course, level, word, pinyin, meaning]
+        );
+
+        // 2. XÓA CACHE CŨ TRONG REDIS
+        const cacheKey = `vocab_cache_${course}_${level}`;
+        await redisClient.del(cacheKey); 
+        console.log(`🗑️ Đã xóa cache cũ của ${course} ${level}`);
+
+        res.json({ success: true, message: "Đã thêm từ vựng và làm mới Cache!" });
+    } catch (error) {
+        res.status(500).json({ error: "Lỗi thêm từ vựng" });
+    }
+});
