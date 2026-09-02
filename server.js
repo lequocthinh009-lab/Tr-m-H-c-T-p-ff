@@ -59,45 +59,35 @@ initRedis();
 // 3. CÁC API XỬ LÝ DỮ LIỆU
 // ==========================================
 
-// API Đăng ký & Đăng nhập (Tích hợp Redis Cache)
+// API Đăng ký & Đăng nhập
 app.post('/api/auth', async (req, res) => {
     const { username, password, type } = req.body;
-    const cacheKey = `user_progress_${username}`; // Tạo chìa khóa tìm trong Redis
+    const cacheKey = `user_progress_${username}`;
     
     try {
         if (type === 'register') {
             const userCheck = await pool.query('SELECT username FROM users WHERE username = $1', [username]);
             if (userCheck.rows.length > 0) return res.status(400).json({ error: "Tài khoản này đã tồn tại!" });
             
-            // Lưu vào PostgreSQL
             await pool.query('INSERT INTO users (username, password) VALUES ($1, $2)', [username, password]);
             await pool.query('INSERT INTO progress (username, progress_data) VALUES ($1, $2)', [username, JSON.stringify({})]);
             
-            // Lưu ngay một bản sao trống vào Redis để lần sau load siêu tốc
             await redisClient.setEx(cacheKey, 3600, JSON.stringify({}));
-            
             return res.json({ message: "Đăng ký thành công!", progress: {} });
             
         } else if (type === 'login') {
             const userQuery = await pool.query('SELECT password FROM users WHERE username = $1', [username]);
             
             if (userQuery.rows.length > 0 && userQuery.rows[0].password === password) {
-                
-                // THUẬT TOÁN CACHE: Tìm tiến độ học trong Redis trước
                 const cachedProgress = await redisClient.get(cacheKey);
                 if (cachedProgress) {
-                    console.log(`⚡ Lấy tiến độ của ${username} từ REDIS (Siêu nhanh)`);
                     return res.json({ message: "Đăng nhập thành công!", progress: JSON.parse(cachedProgress) });
                 }
 
-                // Nếu Redis không có (hết hạn cache), lặn xuống PostgreSQL tìm
-                console.log(`🐢 Lấy tiến độ của ${username} từ POSTGRESQL (Tải lần đầu)`);
                 const progQuery = await pool.query('SELECT progress_data FROM progress WHERE username = $1', [username]);
                 const progress = progQuery.rows.length > 0 ? progQuery.rows[0].progress_data : {};
                 
-                // Trả cho người dùng xong thì chép một bản lên Redis để lưu 1 tiếng (3600 giây)
                 await redisClient.setEx(cacheKey, 3600, JSON.stringify(progress));
-                
                 return res.json({ message: "Đăng nhập thành công!", progress: progress });
             }
             return res.status(400).json({ error: "Sai tài khoản hoặc mật khẩu!" });
@@ -108,13 +98,46 @@ app.post('/api/auth', async (req, res) => {
     }
 });
 
-// API Lưu Tiến độ học tập (Cập nhật cả PostgreSQL và Redis)
+// API Đặt lại mật khẩu (Quên mật khẩu)
+app.post('/api/reset-password', async (req, res) => {
+    const { username, newPassword } = req.body;
+    try {
+        const userCheck = await pool.query('SELECT username FROM users WHERE username = $1', [username]);
+        if (userCheck.rows.length === 0) {
+            return res.status(404).json({ error: "Tài khoản không tồn tại!" });
+        }
+        await pool.query('UPDATE users SET password = $1 WHERE username = $2', [newPassword, username]);
+        res.json({ message: "Khôi phục thành công! Hãy đăng nhập lại." });
+    } catch (error) {
+        res.status(500).json({ error: "Lỗi máy chủ!" });
+    }
+});
+
+// API Xóa tài khoản vĩnh viễn
+app.delete('/api/account', async (req, res) => {
+    const { username } = req.body;
+    try {
+        // 1. Xóa trong PostgreSQL (Xóa bảng progress trước để tránh lỗi khóa ngoại)
+        await pool.query('DELETE FROM progress WHERE username = $1', [username]);
+        await pool.query('DELETE FROM users WHERE username = $1', [username]);
+        
+        // 2. Xóa Cache trong Redis
+        const cacheKey = `user_progress_${username}`;
+        await redisClient.del(cacheKey);
+        
+        res.json({ success: true, message: "Tài khoản đã được xóa vĩnh viễn!" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Lỗi khi xóa tài khoản!" });
+    }
+});
+
+// API Lưu Tiến độ học tập
 app.post('/api/progress', async (req, res) => {
     const { username, progress } = req.body;
     const cacheKey = `user_progress_${username}`;
     
     try {
-        // 1. Lưu vĩnh viễn vào PostgreSQL
         await pool.query(`
             INSERT INTO progress (username, progress_data) 
             VALUES ($1, $2) 
@@ -122,12 +145,9 @@ app.post('/api/progress', async (req, res) => {
             DO UPDATE SET progress_data = EXCLUDED.progress_data;
         `, [username, JSON.stringify(progress)]);
         
-        // 2. Cập nhật ngay bản sao trong Redis để không bị chênh lệch dữ liệu (Cache Invalidation)
         await redisClient.setEx(cacheKey, 3600, JSON.stringify(progress));
-        
         res.json({ success: true });
     } catch (error) {
-        console.error(error);
         res.status(500).json({ error: "Lỗi khi lưu tiến độ!" });
     }
 });

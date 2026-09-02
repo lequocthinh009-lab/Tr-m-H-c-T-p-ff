@@ -3,89 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trạm Học Tập Đa Ngôn Ngữ 26.0 🌍 (Native AI Voice)</title>
+    <title>Trạm Học Tập Đa Ngôn Ngữ 27.0 🌍 (Bảo mật)</title>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root { --primary-color: #ff9a9e; --primary-dark: #ff758c; --bg-color: #fecfef; --card-bg: #ffffff; --text-main: #333333; --text-muted: #666666; --correct-color: #4caf50; --wrong-color: #f44336; --warning-color: #ff9800; }
         body { font-family: 'Quicksand', sans-serif; background: linear-gradient(135deg, var(--bg-color) 0%, #a1c4fd 100%); min-height: 100vh; margin: 0; display: flex; flex-direction: column; align-items: center; color: var(--text-main); overflow-x: hidden; }
         
-        /* --- TOP NAVBAR & HAMBURGER --- */
         .top-nav { width: 100%; background: rgba(255, 255, 255, 0.95); box-shadow: 0 4px 15px rgba(0,0,0,0.05); padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); box-sizing: border-box; }
         .hamburger { font-size: 1.8rem; background: none; border: none; color: var(--primary-dark); cursor: pointer; transition: transform 0.2s; }
         .hamburger:hover { transform: scale(1.1); }
         .auth-buttons { display: flex; align-items: center; gap: 10px; }
         .auth-buttons button { background: #fff; border: 2px solid var(--primary-color); padding: 8px 15px; border-radius: 20px; font-family: inherit; font-weight: 700; color: var(--primary-dark); cursor: pointer; transition: 0.3s; }
         .auth-buttons button.btn-login { background: var(--primary-color); color: #fff; }
+        .auth-buttons button.btn-danger { background: #fff; color: var(--wrong-color); border-color: var(--wrong-color); }
+        .auth-buttons button.btn-danger:hover { background: var(--wrong-color); color: #fff; }
         .auth-buttons button:hover { opacity: 0.8; transform: translateY(-2px); }
         #welcome-text { font-weight: bold; color: var(--primary-dark); margin-right: 10px; font-size: 1rem;}
 
-        /* --- NÚT THÔNG BÁO --- */
         .noti-btn { position: relative; background: none !important; border: none !important; font-size: 1.5rem !important; padding: 0 !important; margin-right: 10px; cursor: pointer; transition: transform 0.2s; }
         .noti-btn:hover { transform: scale(1.1); }
         .noti-badge { position: absolute; top: -5px; right: -5px; background: red; color: white; font-size: 0.7rem; font-weight: bold; border-radius: 50%; padding: 2px 6px; display: none; } 
 
-        /* --- MENU DỌC (SIDEBAR) --- */
         .side-menu { position: fixed; top: 0; left: -280px; width: 250px; height: 100vh; background: #ffffff; box-shadow: 4px 0 15px rgba(0,0,0,0.1); z-index: 200; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); display: flex; flex-direction: column; padding: 20px; box-sizing: border-box; }
         .side-menu.active { left: 0; }
         .side-menu h2 { color: var(--primary-dark); margin-top: 0; border-bottom: 2px dashed #eee; padding-bottom: 15px; }
         .exam-tab-btn { background: transparent; border: none; padding: 12px 15px; font-size: 1.1rem; font-family: inherit; font-weight: 700; color: var(--text-muted); border-radius: 15px; cursor: pointer; transition: all 0.3s ease; text-align: left; margin-bottom: 10px; }
-        .exam-tab-btn:hover { background: #f0f8ff; color: #4facfe; }
         .exam-tab-btn.active { background: #4facfe; color: #ffffff; box-shadow: 0 4px 10px rgba(79, 172, 254, 0.3); }
 
         .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 150; display: none; opacity: 0; transition: opacity 0.3s; }
         .overlay.active { display: block; opacity: 1; }
 
-        /* --- MODAL CHUNG --- */
         .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 300; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s; }
         .modal.active { display: flex; opacity: 1; }
         .modal-content { background: #fff; width: 90%; max-width: 400px; padding: 30px; border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); text-align: center; position: relative; transform: translateY(-20px); transition: 0.3s; max-height: 80vh; overflow-y: auto;}
         .modal.active .modal-content { transform: translateY(0); }
         .close-modal { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; color: #aaa; cursor: pointer; transition: 0.2s; }
-        .close-modal:hover { color: var(--primary-dark); }
         .modal-title { color: var(--primary-dark); font-size: 1.8rem; margin-bottom: 20px; margin-top: 0;}
         
         .auth-input { width: 100%; padding: 12px 15px; margin-bottom: 15px; border: 2px solid #eee; border-radius: 15px; font-family: inherit; font-size: 1rem; box-sizing: border-box; transition: 0.3s; }
         .auth-input:focus { border-color: var(--primary-color); outline: none; }
         .btn-submit { width: 100%; background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%); border: none; padding: 12px; border-radius: 15px; color: #fff; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: 0.3s; font-family: inherit; margin-top: 10px; }
-        .btn-submit:hover { opacity: 0.9; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255,117,140,0.4); }
         .auth-switch { margin-top: 20px; color: #666; font-size: 0.95rem; cursor: pointer; }
         .auth-switch span { color: var(--primary-dark); font-weight: bold; }
         .auth-switch span:hover { text-decoration: underline; }
         #authMessage { margin-top: 15px; font-size: 0.95rem; font-weight: bold; min-height: 20px; }
 
-        /* --- HEADER & TABS --- */
         .main-content { flex: 1; width: 100%; display: flex; flex-direction: column; align-items: center; padding-bottom: 40px; }
         .header { text-align: center; margin-bottom: 15px; margin-top: 20px; width: 100%; display: flex; flex-direction: column; align-items: center; padding: 0 15px; box-sizing: border-box;}
         .header h1 { color: #ffffff; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); font-size: 2.2rem; margin: 0 0 15px 0; }
         .country-img { width: 100%; max-width: 650px; height: 250px; object-fit: cover; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); transition: opacity 0.4s ease, transform 0.4s ease; border: 4px solid rgba(255, 255, 255, 0.6); }
         .quote-section { width: 100%; max-width: 650px; text-align: center; margin-top: 15px; font-style: italic; color: #444; font-weight: 600; background: rgba(255,255,255,0.4); padding: 10px 20px; border-radius: 15px; box-sizing: border-box; backdrop-filter: blur(5px); }
 
-        .main-tabs { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; background: rgba(255,255,255,0.3); padding: 10px; border-radius: 30px; margin-bottom: 25px; margin-top: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); max-width: 95%; }
+        .main-tabs { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; background: rgba(255,255,255,0.3); padding: 10px; border-radius: 30px; margin-bottom: 25px; margin-top: 20px; max-width: 95%; }
         .tab-btn { background: transparent; border: none; padding: 10px 15px; font-size: 1rem; font-family: inherit; font-weight: 700; color: var(--text-muted); border-radius: 20px; cursor: pointer; transition: all 0.3s ease; }
         .tab-btn.active { background-color: #ffffff; color: var(--primary-dark); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
 
         .level-selector { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; max-width: 700px; margin-bottom: 30px; padding: 0 10px; }
-        .level-btn { background-color: rgba(255, 255, 255, 0.6); border: 2px solid #ffffff; padding: 8px 16px; border-radius: 20px; font-family: inherit; font-weight: 700; color: var(--text-muted); cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .level-btn:hover { background-color: #ffffff; color: var(--primary-dark); transform: translateY(-2px); }
+        .level-btn { background-color: rgba(255, 255, 255, 0.6); border: 2px solid #ffffff; padding: 8px 16px; border-radius: 20px; font-family: inherit; font-weight: 700; color: var(--text-muted); cursor: pointer; transition: all 0.3s ease; }
         .level-btn.active { background-color: var(--primary-dark); color: #ffffff; border-color: var(--primary-dark); box-shadow: 0 6px 12px rgba(255, 117, 140, 0.3); }
 
         .content-section { display: none; flex-direction: column; align-items: center; width: 100%; max-width: 600px; padding: 0 10px; box-sizing: border-box;}
         .content-section.active { display: flex; }
 
-        /* --- GIỚI THIỆU & LỊCH SỬ CSS --- */
         .intro-card { background: #fff; width: 100%; border-radius: 25px; padding: 30px; box-sizing: border-box; box-shadow: 0 10px 30px rgba(0,0,0,0.08); text-align: left; }
         .intro-card h2 { color: var(--primary-dark); margin-top: 0; text-align: center; font-size: 1.8rem; }
-        .intro-card p { font-size: 1.1rem; line-height: 1.6; color: #555; text-align: center;}
         .feature-list { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
-        .feature-item { background: #f0f8ff; padding: 15px; border-radius: 15px; border-left: 5px solid #4facfe; font-size: 1.05rem; color: #333; box-shadow: 0 4px 6px rgba(0,0,0,0.02);}
-        .feature-item strong { color: var(--primary-dark); }
+        .feature-item { background: #f0f8ff; padding: 15px; border-radius: 15px; border-left: 5px solid #4facfe; font-size: 1.05rem; color: #333; }
         .intro-warning { background: #fff8e1; color: var(--warning-color); padding: 10px; border-radius: 10px; text-align: center; font-weight: bold; margin-top: 15px; border: 1px dashed var(--warning-color); }
 
         .progress-bar-bg { width: 100%; background: #ddd; border-radius: 10px; height: 18px; margin-top: 10px; overflow: hidden; }
         .progress-bar-fill { background: var(--correct-color); height: 100%; border-radius: 10px; transition: width 0.5s ease; }
         .history-list-item { background: #f9f9f9; padding: 10px 15px; border-radius: 10px; margin-bottom: 8px; border-left: 4px solid var(--primary-color); font-size: 0.95rem; }
 
-        /* --- FLASHCARD --- */
         .flashcard-container { perspective: 1000px; width: 350px; height: 450px; margin-bottom: 20px; max-width: 100%; }
         .flashcard { width: 100%; height: 100%; position: relative; transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); transform-style: preserve-3d; cursor: pointer; box-shadow: 0 15px 35px rgba(0,0,0,0.1); border-radius: 25px; }
         .flashcard.flipped { transform: rotateY(180deg); }
@@ -95,47 +84,39 @@
         
         .word { font-size: 3.5rem; font-weight: 700; color: var(--primary-dark); margin-bottom: 5px; line-height: 1.2; word-break: break-word;}
         .pinyin { font-size: 1.5rem; color: var(--text-muted); font-weight: 600; margin-bottom: 10px; }
-        .audio-btn { background: #f0f8ff; border: 2px solid #a1c4fd; border-radius: 50%; width: 50px; height: 50px; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s ease; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        .audio-btn:hover { background: #a1c4fd; transform: scale(1.1); }
-        
+        .audio-btn { background: #f0f8ff; border: 2px solid #a1c4fd; border-radius: 50%; width: 50px; height: 50px; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s ease; margin-bottom: 15px; }
         .btn-bookmark { position: absolute; top: 15px; right: 20px; font-size: 2rem; background: none; border: none; cursor: pointer; color: #ddd; transition: 0.3s; z-index: 10; }
-        .btn-bookmark:hover { transform: scale(1.1); }
         .btn-bookmark.saved { color: #ffd700; text-shadow: 0 2px 5px rgba(255,215,0,0.5); }
-
         .meaning { font-size: 1.8rem; font-weight: 700; color: #4facfe; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px dashed #eee; width: 100%; }
         .example-cn { font-size: 1.2rem; margin-bottom: 10px; color: var(--text-main); }
         .example-vn { font-size: 1rem; color: var(--text-muted); font-style: italic; }
 
         .controls { display: flex; align-items: center; gap: 20px; background: rgba(255, 255, 255, 0.4); padding: 10px 25px; border-radius: 50px; backdrop-filter: blur(5px); }
-        button.nav-btn { background-color: #ffffff; border: none; padding: 10px 20px; font-size: 1rem; font-weight: 600; color: var(--primary-dark); border-radius: 25px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: all 0.2s ease; font-family: inherit; }
-        button.nav-btn:hover { background-color: var(--primary-dark); color: #fff; transform: translateY(-2px); }
+        button.nav-btn { background-color: #ffffff; border: none; padding: 10px 20px; font-size: 1rem; font-weight: 600; color: var(--primary-dark); border-radius: 25px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
 
-        /* --- NGỮ PHÁP, ĐỀ THI, TRẮC NGHIỆM, SỔ TAY --- */
         .grammar-list, .notebook-list { width: 100%; display: flex; flex-direction: column; gap: 15px; }
         .grammar-card { background: #fff; border-radius: 20px; padding: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.05); text-align: left; border-left: 5px solid #4facfe; position: relative;}
         .g-title { font-size: 1.3rem; color: var(--primary-dark); font-weight: 700; margin: 0 0 10px 0; padding-right: 30px;}
         .g-formula { background: #f0f8ff; padding: 10px; border-radius: 10px; font-family: monospace; font-size: 1.1rem; color: #333; margin-bottom: 10px; font-weight: bold; text-align: center;}
         
         .exam-list { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .exam-card { background: #fff; border-radius: 20px; padding: 20px; text-align: center; box-shadow: 0 8px 20px rgba(0,0,0,0.05); transition: transform 0.2s; border: 2px solid transparent; }
+        .exam-card { background: #fff; border-radius: 20px; padding: 20px; text-align: center; box-shadow: 0 8px 20px rgba(0,0,0,0.05); border: 2px solid transparent; }
         .e-title { font-size: 1.2rem; font-weight: 700; margin: 0 0 10px 0; }
         .e-btn { background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%); border: none; padding: 10px 20px; border-radius: 15px; font-weight: 700; color: #1a5f7a; cursor: pointer; width: 100%; font-family: inherit; }
 
         .review-mode-selector { display: flex; gap: 10px; margin-bottom: 20px; width: 100%; justify-content: center; flex-wrap: wrap;}
-        .btn-mode { background: #fff; border: 2px solid var(--primary-color); padding: 10px 20px; border-radius: 25px; font-size: 1rem; font-weight: bold; color: var(--primary-dark); cursor: pointer; transition: 0.3s; font-family: inherit;}
-        .btn-mode:hover, .btn-mode.active { background: var(--primary-color); color: #fff; }
+        .btn-mode { background: #fff; border: 2px solid var(--primary-color); padding: 10px 20px; border-radius: 25px; font-size: 1rem; font-weight: bold; color: var(--primary-dark); cursor: pointer; font-family: inherit;}
+        .btn-mode.active { background: var(--primary-color); color: #fff; }
         
         .quiz-container { background: #fff; width: 100%; border-radius: 25px; padding: 25px; box-sizing: border-box; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; }
         .q-text { font-size: 1.3rem; font-weight: bold; color: #333; margin-bottom: 20px; }
         .q-word-hl { font-size: 2rem; color: var(--primary-dark); display: block; margin: 10px 0; }
         
         .options-grid { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
-        .opt-btn { background: #f8f9fa; border: 2px solid #eee; padding: 12px; border-radius: 15px; font-size: 1rem; font-family: inherit; cursor: pointer; transition: 0.2s; text-align: left; font-weight: 600; color: #444; }
-        .opt-btn:hover { border-color: var(--primary-color); background: #fff5f5; }
+        .opt-btn { background: #f8f9fa; border: 2px solid #eee; padding: 12px; border-radius: 15px; font-size: 1rem; font-family: inherit; cursor: pointer; text-align: left; font-weight: 600; color: #444; }
         .opt-btn.correct { background: var(--correct-color); color: #fff; border-color: var(--correct-color); }
         .opt-btn.wrong { background: var(--wrong-color); color: #fff; border-color: var(--wrong-color); }
-        .opt-btn:disabled { cursor: not-allowed; }
-        .btn-next-q { background: var(--primary-dark); color: #fff; border: none; padding: 12px 30px; font-size: 1.1rem; font-weight: bold; border-radius: 25px; cursor: pointer; font-family: inherit; display: none; margin: 0 auto; box-shadow: 0 4px 10px rgba(255,117,140,0.3);}
+        .btn-next-q { background: var(--primary-dark); color: #fff; border: none; padding: 12px 30px; font-size: 1.1rem; font-weight: bold; border-radius: 25px; cursor: pointer; font-family: inherit; display: none; margin: 0 auto; }
         
         .empty-state { text-align: center; padding: 40px 20px; background: rgba(255,255,255,0.5); border-radius: 20px; width: 100%; font-size: 1.2rem; font-weight: 600; color: #666; }
         .hidden { display: none !important; }
@@ -149,25 +130,12 @@
         .status-good { background: #e8f5e9; color: var(--correct-color); }
         .status-saved { background: #fff8e1; color: var(--warning-color); }
 
-        /* --- FOOTER --- */
-        .footer { width: 100%; background: rgba(255, 255, 255, 0.7); padding: 20px; text-align: center; box-shadow: 0 -4px 15px rgba(0,0,0,0.02); font-size: 0.95rem; color: var(--text-muted); box-sizing: border-box; backdrop-filter: blur(10px); margin-top: auto; }
-        .footer p { margin: 8px 0; }
-        .footer a { color: var(--primary-dark); text-decoration: none; font-weight: bold; transition: 0.2s; }
-        .footer a:hover { text-decoration: underline; color: #4facfe; }
-
-        @media (max-width: 600px) { 
-            .exam-list { grid-template-columns: 1fr; } 
-            .word {font-size: 2.8rem;} 
-            .auth-buttons button {padding: 6px 10px; font-size: 0.9rem;} 
-            .country-img {height: 150px;} 
-            .tab-btn {padding: 8px 10px; font-size: 0.9rem;}
-            #welcome-text { display: none; } 
-        }
+        .footer { width: 100%; background: rgba(255, 255, 255, 0.7); padding: 20px; text-align: center; font-size: 0.95rem; color: var(--text-muted); box-sizing: border-box; backdrop-filter: blur(10px); margin-top: auto; }
+        .footer a { color: var(--primary-dark); text-decoration: none; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <!-- THANH NAVBAR -->
     <nav class="top-nav">
         <button class="hamburger" onclick="toggleMenu()">☰ Menu</button>
         <div class="auth-buttons">
@@ -178,12 +146,13 @@
             </div>
             <div id="user-nav" style="display: none; align-items: center;">
                 <span id="welcome-text"></span>
-                <button class="btn-login" onclick="logout()" style="background: var(--wrong-color); border-color: var(--wrong-color);">Đăng xuất</button>
+                <button class="btn-login" onclick="logout()" style="background: var(--warning-color); border-color: var(--warning-color);">Đăng xuất</button>
+                <!-- NÚT XÓA TÀI KHOẢN -->
+                <button class="btn-danger" onclick="deleteAccount()" title="Xóa tài khoản vĩnh viễn">Xóa TK</button>
             </div>
         </div>
     </nav>
 
-    <!-- MENU DỌC -->
     <div class="side-menu" id="sideMenu">
         <h2>Chọn Ngôn Ngữ</h2>
         <button class="exam-tab-btn" onclick="changeExamType('HSK')">🇨🇳 Tiếng Trung HSK</button>
@@ -194,7 +163,6 @@
     </div>
     <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
 
-    <!-- MODAL THÔNG BÁO -->
     <div class="modal" id="notiModal">
         <div class="modal-content" style="text-align: left;">
             <span class="close-modal" onclick="closeNotiModal()">✖</span>
@@ -203,27 +171,31 @@
         </div>
     </div>
 
-    <!-- MODAL ĐĂNG NHẬP / ĐĂNG KÝ -->
+    <!-- MODAL ĐĂNG NHẬP / ĐĂNG KÝ / QUÊN MẬT KHẨU -->
     <div class="modal" id="authModal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal()">✖</span>
             <h2 class="modal-title" id="modalTitle">Đăng nhập</h2>
+            
             <input type="text" id="authUsername" placeholder="Email / Tên tài khoản" class="auth-input">
             <input type="password" id="authPassword" placeholder="Mật khẩu" class="auth-input">
 
             <button class="btn-submit" id="btnSubmitAuth" onclick="handleAuth()">Vào học ngay</button>
             <div id="authMessage"></div> 
-            <p class="auth-switch" onclick="switchAuthMode()">
-                <span id="authSwitchText">Chưa có tài khoản? Đăng ký ngay</span>
+            
+            <p class="auth-switch">
+                <span id="authSwitchText" onclick="switchAuthMode('register')">Chưa có tài khoản? Đăng ký ngay</span>
+            </p>
+            <p class="auth-switch" style="margin-top: 5px;">
+                <span id="authForgotText" onclick="switchAuthMode('forgot')" style="color: #888; font-weight: normal; font-size: 0.9rem;">Quên mật khẩu?</span>
             </p>
         </div>
     </div>
 
-    <!-- MAIN CONTENT -->
     <div class="main-content">
         <div class="header">
             <h1 id="main-title">🐼 Trạm Tiếng Trung HSK 🐼</h1>
-            <img id="country-img" class="country-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvpt88mlCcbizuDj8HmSA99ajRs8UFf0i4bwp-bXQ1xA&s=10" alt="Minh họa quốc gia">
+            <img id="country-img" class="country-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvpt88mlCcbizuDj8HmSA99ajRs8UFf0i4bwp-bXQ1xA&s=10">
         </div>
 
         <div class="main-tabs">
@@ -243,10 +215,10 @@
                 <h2>Chào mừng đến với Trạm Học Tập 🚀</h2>
                 <div class="intro-warning" id="intro-warning">🔒 Bạn cần Đăng nhập / Đăng ký để mở khóa toàn bộ tính năng bài học!</div>
                 <div class="feature-list">
-                    <div class="feature-item"><strong>🎙️ Native Voice AI (Mới):</strong> Tự động ép trình duyệt phát âm chuẩn giọng bản xứ cho Trung, Nhật, Hàn, Anh.</div>
-                    <div class="feature-item"><strong>📇 Flashcard:</strong> Ghi nhớ từ vựng qua thẻ lật trực quan.</div>
+                    <div class="feature-item"><strong>🎙️ Native Voice AI:</strong> Tự động ép trình duyệt phát âm chuẩn giọng bản xứ.</div>
+                    <div class="feature-item"><strong>🔒 Bảo mật (Mới):</strong> Đã bổ sung tính năng Khôi phục mật khẩu và Xóa tài khoản.</div>
                     <div class="feature-item"><strong>🎮 Ôn Tập:</strong> Thuật toán <em>Spaced Repetition</em> ưu tiên từ hay làm sai.</div>
-                    <div class="feature-item"><strong>⏱ Lịch Sử & Tiến Độ:</strong> Theo dõi hành trình học tập, tự động lưu tiến độ vào Cơ sở dữ liệu đám mây.</div>
+                    <div class="feature-item"><strong>⏱ Lịch Sử & Tiến Độ:</strong> Tự động lưu tiến độ vào Cơ sở dữ liệu đám mây.</div>
                 </div>
             </div>
         </div>
@@ -291,8 +263,6 @@
                 <button class="btn-mode active" id="btn-rev-vocab" onclick="startReview('vocab')">🎯 Ôn Từ Vựng</button>
                 <button class="btn-mode" id="btn-rev-grammar" onclick="startReview('grammar')">🧩 Ôn Ngữ Pháp</button>
             </div>
-            <div style="margin-bottom:10px; font-size:0.9rem; color:#888;">💡 Hệ thống ưu tiên lặp lại các từ bạn hay làm sai!</div>
-            
             <div class="quiz-container hidden" id="quiz-board">
                 <div class="q-text" id="quiz-question">Câu hỏi</div>
                 <div class="options-grid" id="quiz-options"></div>
@@ -302,9 +272,8 @@
         </div>
 
         <div id="notebook-section" class="content-section">
-            <div style="margin-bottom: 20px; text-align: center; color: var(--primary-dark); font-weight: bold;">Danh sách từ vựng/ngữ pháp đã lưu hoặc thường xuyên quên:</div>
             <div class="notebook-list" id="notebook-list"></div>
-            <div id="notebook-empty" class="empty-state hidden">📭 Sổ tay của bạn đang trống.<br>Hãy nhấn dấu ★ ở thẻ từ vựng hoặc làm trắc nghiệm để hệ thống ghi nhận nhé!</div>
+            <div id="notebook-empty" class="empty-state hidden">📭 Sổ tay trống. Hãy nhấn dấu ★ ở thẻ từ vựng nhé!</div>
         </div>
 
         <div id="history-section" class="content-section">
@@ -319,26 +288,21 @@
         </div>
     </div>
 
-    <!-- FOOTER -->
     <footer class="footer">
         <p>👨‍💻 <strong>Người làm / Phát triển bởi:</strong> Lê Quốc Thịnh</p>
-        <p>✉️ <strong>Email:</strong> <a href="mailto:lequocthinh009@gmail.com">lequocthinh009@gmail.com</a> | 📞 <strong>SĐT:</strong> <a href="tel:+84123456789">+84123456789</a></p>
     </footer>
 
     <script>
-        // --- DỮ LIỆU THÔNG BÁO ---
         const notificationsData = [
-            { date: "Hôm nay", title: "🗣️ Bản cập nhật 26.0: Native Voice AI", desc: "Đã thiết lập thuật toán quét và ép trình duyệt phát âm cực chuẩn giọng bản xứ cho Tiếng Trung, Nhật, Hàn, Anh." },
-            { date: "Hôm qua", title: "🔒 Web Động Hoàn Chỉnh", desc: "Kết nối thành công máy chủ Database PostgreSQL. Dữ liệu được bảo vệ an toàn 100%." }
+            { date: "Hôm nay", title: "🔒 Cập nhật Phiên bản 27.0: Khôi phục & Xóa tài khoản", desc: "Đã bổ sung tính năng Quên mật khẩu và tính năng Xóa tài khoản vĩnh viễn giúp bạn chủ động quản lý dữ liệu cá nhân." },
+            { date: "Hôm qua", title: "🗣️ Bản cập nhật 26.0: Native Voice AI", desc: "Thuật toán quét và ép trình duyệt phát âm chuẩn giọng bản xứ." }
         ];
 
         function checkNotifications() {
             const readCount = parseInt(localStorage.getItem('app_noti_read_count') || '0');
             const badge = document.getElementById('noti-badge');
-            if (readCount < notificationsData.length) {
-                badge.style.display = 'block';
-                badge.innerText = notificationsData.length - readCount;
-            } else { badge.style.display = 'none'; }
+            if (readCount < notificationsData.length) { badge.style.display = 'block'; badge.innerText = notificationsData.length - readCount; } 
+            else { badge.style.display = 'none'; }
         }
 
         function openNotiModal() {
@@ -346,74 +310,38 @@
             localStorage.setItem('app_noti_read_count', notificationsData.length.toString());
             document.getElementById('noti-badge').style.display = 'none';
             let html = '';
-            notificationsData.forEach(n => {
-                html += `<div style="border-bottom:1px solid #eee; padding:15px 0;">
-                    <div style="font-size:0.85rem; color:#888; margin-bottom:5px;">🕒 ${n.date}</div>
-                    <div style="font-weight:bold; color:var(--primary-dark); font-size:1.1rem; margin-bottom:5px;">${n.title}</div>
-                    <div style="font-size:0.95rem; color:#444; line-height:1.4;">${n.desc}</div>
-                </div>`;
-            });
+            notificationsData.forEach(n => { html += `<div style="border-bottom:1px solid #eee; padding:15px 0;"><div style="font-size:0.85rem; color:#888; margin-bottom:5px;">🕒 ${n.date}</div><div style="font-weight:bold; color:var(--primary-dark); font-size:1.1rem; margin-bottom:5px;">${n.title}</div><div style="font-size:0.95rem; color:#444; line-height:1.4;">${n.desc}</div></div>`; });
             document.getElementById('noti-list').innerHTML = html;
         }
         function closeNotiModal() { document.getElementById('notiModal').classList.remove('active'); }
 
-        // --- KHÔI PHỤC TRẠNG THÁI WEB ---
         let isLoggedIn = localStorage.getItem('app_is_logged_in') === 'true';
         let currentUser = localStorage.getItem('app_username') || '';
         let currentExamType = localStorage.getItem('app_last_exam') || 'HSK';
         let currentLevel = localStorage.getItem('app_last_level') || "1";
         let currentTab = isLoggedIn ? (localStorage.getItem('app_last_tab') || 'vocab') : 'intro';
-        let userProgress = {}; // Lấy từ API
-        let vocabIndex = 0;
-        let reviewMode = 'vocab';
-        let currentQuizItemKey = "";
-        let currentQuizCorrectAns = "";
+        let userProgress = {}; 
+        let vocabIndex = 0; let reviewMode = 'vocab'; let currentQuizItemKey = ""; let currentQuizCorrectAns = "";
 
-        // --- CHỨC NĂNG VOICE AI (ĐÃ NÂNG CẤP CHUẨN XÁC) ---
+        // --- NATIVE VOICE AI ---
         let availableVoices = [];
-        
-        // Cố gắng tải danh sách giọng đọc từ trình duyệt (hoạt động ngầm)
         function loadVoices() { availableVoices = window.speechSynthesis.getVoices(); }
-        if ('speechSynthesis' in window) {
-            loadVoices();
-            if (speechSynthesis.onvoiceschanged !== undefined) {
-                speechSynthesis.onvoiceschanged = loadVoices;
-            }
-        }
+        if ('speechSynthesis' in window) { loadVoices(); if (speechSynthesis.onvoiceschanged !== undefined) speechSynthesis.onvoiceschanged = loadVoices; }
 
         function playAudio(event) {
-            event.stopPropagation();
-            const wordText = document.getElementById('word-cn').textContent;
+            event.stopPropagation(); const wordText = document.getElementById('word-cn').textContent;
             if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel(); // Dừng câu đang đọc (nếu có)
-                const utterance = new SpeechSynthesisUtterance(wordText);
-                
-                // Cấu hình ngôn ngữ chuẩn
-                const targetLang = config[currentExamType].lang; 
-                utterance.lang = targetLang;
-                utterance.rate = 0.85; // Tốc độ đọc
-
-                // Thuật toán: ÉP trình duyệt chọn đúng Native Voice AI thay vì giọng mặc định
+                window.speechSynthesis.cancel(); const utterance = new SpeechSynthesisUtterance(wordText);
+                const targetLang = config[currentExamType].lang; utterance.lang = targetLang; utterance.rate = 0.85; 
                 if (availableVoices.length > 0) {
-                    // 1. Tìm giọng khớp chính xác (VD: zh-CN)
-                    // 2. Nếu không có, tìm giọng khớp mã ngôn ngữ (VD: zh)
                     const exactVoice = availableVoices.find(v => v.lang === targetLang || v.lang.replace('_', '-') === targetLang);
                     const partialVoice = availableVoices.find(v => v.lang.startsWith(targetLang.split('-')[0]));
-                    
-                    if (exactVoice) {
-                        utterance.voice = exactVoice;
-                    } else if (partialVoice) {
-                        utterance.voice = partialVoice;
-                    }
+                    if (exactVoice) utterance.voice = exactVoice; else if (partialVoice) utterance.voice = partialVoice;
                 }
-
                 window.speechSynthesis.speak(utterance);
-            } else { 
-                alert("Trình duyệt không hỗ trợ phát âm."); 
-            }
+            } else { alert("Trình duyệt không hỗ trợ phát âm."); }
         }
 
-        // --- CẤU HÌNH NGÔN NGỮ (KÈM MÃ NGÔN NGỮ CHUẨN BẢN XỨ) ---
         const config = {
             HSK: { title: "Tiếng Trung HSK", levels: ["1", "2"], lang: "zh-CN", icon: "🐼", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvpt88mlCcbizuDj8HmSA99ajRs8UFf0i4bwp-bXQ1xA&s=10" }, 
             TOEIC: { title: "Tiếng Anh TOEIC", levels: ["Mục tiêu 500+"], lang: "en-US", icon: "🗽", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqJKOtXNAXSo5WoYQjzlCyWs9OGvWDF3rM3SP7tuf2hw&s=10" }, 
@@ -428,30 +356,21 @@
                     "1": [
                         { word: "爱", pinyin: "ài", meaning: "yêu, thích", exCn: "我爱我的妈妈。", exVn: "Tôi yêu mẹ của tôi." },
                         { word: "爱好", pinyin: "àihào", meaning: "sở thích", exCn: "我的爱好是听音乐。", exVn: "Sở thích của tôi là nghe nhạc." },
-                        { word: "八", pinyin: "bā", meaning: "số 8", exCn: "现在是八点。", exVn: "Bây giờ là 8 giờ." },
-                        { word: "爸爸", pinyin: "bàba", meaning: "bố, ba, cha", exCn: "我的爸爸。", exVn: "Bố của tôi." },
-                        { word: "吧", pinyin: "ba", meaning: "nào, nhé, chứ, đi", exCn: "我们走吧！", exVn: "Chúng ta đi thôi!" },
-                        { word: "白", pinyin: "bái", meaning: "trắng", exCn: "她今天穿白裙子。", exVn: "Hôm nay cô ấy mặc váy trắng" },
-                        { word: "白天", pinyin: "báitiān", meaning: "ban ngày", exCn: "我白天没有时间，晚上再去吧。", exVn: "Ban ngày tôi không có thời gian nên buổi tối mới đi được." },
-                        { word: "百", pinyin: "bǎi", meaning: "một trăm", exCn: "我们班有一百个学生。", exVn: "Lớp chúng tôi có 100 học sinh." },
-                        { word: "班", pinyin: "bān", meaning: "lớp", exCn: "你是哪个班的学生？", exVn: "Bạn là học sinh của lớp kia à?" },
-                        { word: "半", pinyin: "bàn", meaning: "một nửa", exCn: "我只喝了半瓶水。", exVn: "Tôi chỉ uống một nửa bình nước." }
+                        { word: "八", pinyin: "bā", meaning: "số 8", exCn: "现在是八点。", exVn: "Bây giờ là 8 giờ." }
                     ]
                 },
                 grammar: { "1": [ { title: "Câu chữ 很 (hěn)", formula: "S + 很 + Tính từ", desc: "Dùng để miêu tả tính chất." } ] }, exam: { "1": [{ title: "Đề mô phỏng HSK 1 - Số 01", time: "40 phút", qCount: 40 }] }
             },
-            TOEIC: { vocab: { "Mục tiêu 500+": [ { word: "Accommodate", pinyin: "/əˈkɑː.mə.deɪt/", meaning: "cung cấp chỗ ở, đáp ứng", exCn: "The hotel can accommodate up to 500 guests.", exVn: "Khách sạn có thể cung cấp chỗ ở cho tối đa 500 khách." } ] }, grammar: {}, exam: {} },
-            IELTS: { vocab: { "Band 5.0": [ { word: "Crucial", pinyin: "/ˈkruː.ʃəl/", meaning: "quan trọng, cốt yếu", exCn: "Water is crucial for survival.", exVn: "Nước là yếu tố cốt yếu để sinh tồn." } ] }, grammar: {}, exam: {} },
-            TOPIK: { vocab: { "Cấp 1": [ { word: "가다", pinyin: "gada", meaning: "đi", exCn: "학교에 가요.", exVn: "Tôi đi đến trường." } ] }, grammar: {}, exam: {} },
-            JLPT: { vocab: { "N5": [ { word: "食べる", pinyin: "たべる (taberu)", meaning: "ăn", exCn: "私はりんごを食べる。", exVn: "Tôi ăn táo." } ] }, grammar: {}, exam: {} }
+            TOEIC: { vocab: { "Mục tiêu 500+": [ { word: "Accommodate", pinyin: "/əˈkɑː.mə.deɪt/", meaning: "cung cấp chỗ ở", exCn: "The hotel can accommodate up to 500 guests.", exVn: "Khách sạn đáp ứng 500 khách." } ] }, grammar: {}, exam: {} },
+            IELTS: { vocab: { "Band 5.0": [ { word: "Crucial", pinyin: "/ˈkruː.ʃəl/", meaning: "quan trọng", exCn: "Water is crucial.", exVn: "Nước cốt yếu." } ] }, grammar: {}, exam: {} },
+            TOPIK: { vocab: { "Cấp 1": [ { word: "가다", pinyin: "gada", meaning: "đi", exCn: "학교에 가요.", exVn: "Tôi đi học." } ] }, grammar: {}, exam: {} },
+            JLPT: { vocab: { "N5": [ { word: "食べる", pinyin: "たべる", meaning: "ăn", exCn: "私はりんごを食べる。", exVn: "Tôi ăn táo." } ] }, grammar: {}, exam: {} }
         };
 
-        // Gọi API Backend cho PostgreSQL (Hoặc nếu test Offline thì lưu tạm ở máy)
-        async function fetchAPI(endpoint, payload) {
+        // --- GIAO TIẾP VỚI MÁY CHỦ (API) ---
+        async function fetchAPI(endpoint, payload, method = 'POST') {
             try {
-                const res = await fetch(endpoint, {
-                    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload)
-                });
+                const res = await fetch(endpoint, { method: method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
                 return await res.json();
             } catch(e) { return { error: "Lỗi kết nối máy chủ!" }; }
         }
@@ -463,110 +382,122 @@
             
             if (!user || !pass) { msgBox.innerHTML = "<span style='color: var(--wrong-color);'>Vui lòng nhập đầy đủ thông tin!</span>"; return; }
 
+            // Xử lý Quên mật khẩu
+            if (currentAuthMode === 'forgot') {
+                const res = await fetchAPI('/api/reset-password', { username: user, newPassword: pass });
+                if (res.error && res.error !== "Lỗi kết nối máy chủ!") {
+                    msgBox.innerHTML = `<span style='color: var(--wrong-color);'>${res.error}</span>`;
+                } else {
+                    msgBox.innerHTML = `<span style='color: var(--correct-color);'>${res.message}</span>`;
+                    setTimeout(() => switchAuthMode('login'), 2000);
+                }
+                return;
+            }
+
+            // Xử lý Đăng nhập / Đăng ký
             const res = await fetchAPI('/api/auth', { username: user, password: pass, type: currentAuthMode });
-            
             if(res.error && res.error !== "Lỗi kết nối máy chủ!") {
                 msgBox.innerHTML = `<span style='color: var(--wrong-color);'>${res.error}</span>`;
             } else {
-                isLoggedIn = true;
-                currentUser = user;
+                isLoggedIn = true; currentUser = user;
                 userProgress = res.progress || JSON.parse(localStorage.getItem('languageAppProgress')) || {}; 
                 
-                localStorage.setItem('app_is_logged_in', 'true');
-                localStorage.setItem('app_username', user);
-                recordLoginTime();
+                localStorage.setItem('app_is_logged_in', 'true'); localStorage.setItem('app_username', user); recordLoginTime();
                 
                 msgBox.innerHTML = "<span style='color: var(--correct-color);'>Thành công! Đang vào học...</span>";
                 
                 setTimeout(() => {
-                    closeModal();
-                    updateAuthUI();
+                    closeModal(); updateAuthUI();
                     document.getElementById('authUsername').value = ""; document.getElementById('authPassword').value = ""; msgBox.innerHTML = "";
                     if (currentTab === 'intro') switchTab('vocab');
                 }, 800);
             }
         }
 
+        // Xử lý Xóa Tài Khoản
+        async function deleteAccount() {
+            if(!confirm(`⚠️ NGUY HIỂM: Bạn có chắc chắn muốn xóa vĩnh viễn tài khoản "${currentUser}" và toàn bộ dữ liệu học tập không? Hành động này không thể hoàn tác!`)) return;
+            
+            const res = await fetchAPI('/api/account', { username: currentUser }, 'DELETE');
+            
+            if(res.success || res.error === "Lỗi kết nối máy chủ!") { // Chấp nhận lỗi offline để xoá local
+                alert("Tài khoản của bạn đã được xóa khỏi hệ thống.");
+                logout();
+            } else { alert("Có lỗi xảy ra: " + res.error); }
+        }
+
         function saveProgress() {
             if(!isLoggedIn) return;
-            // Lưu phòng hờ offline
             localStorage.setItem('languageAppProgress', JSON.stringify(userProgress));
-            // Cập nhật lên PostgreSQL
             fetchAPI('/api/progress', { username: currentUser, progress: userProgress });
         }
 
-        // --- KHỞI CHẠY VÀ CẬP NHẬT UI ---
         window.onload = () => { 
             updateAuthUI();
             if(isLoggedIn) {
-                // Fetch progress từ server khi F5
-                fetchAPI('/api/auth', { username: currentUser, password: "...", type: "login" })
-                .then(res => { if(res.progress) userProgress = res.progress; renderContent(); });
+                fetchAPI('/api/auth', { username: currentUser, password: "...", type: "login" }).then(res => { if(res.progress) userProgress = res.progress; renderContent(); });
                 recordLoginTime();
             }
             checkNotifications();
             
-            document.querySelectorAll('.exam-tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.getAttribute('onclick').includes(`'${currentExamType}'`)) btn.classList.add('active');
-            });
+            document.querySelectorAll('.exam-tab-btn').forEach(btn => { btn.classList.remove('active'); if (btn.getAttribute('onclick').includes(`'${currentExamType}'`)) btn.classList.add('active'); });
             document.getElementById('main-title').innerText = `${config[currentExamType].icon} Trạm ${config[currentExamType].title} ${config[currentExamType].icon}`;
             document.getElementById('country-img').src = config[currentExamType].img;
             
             if (!config[currentExamType].levels.includes(currentLevel)) currentLevel = config[currentExamType].levels[0];
-
             buildLevelButtons(); 
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            const activeTabBtn = document.querySelector(`.tab-btn[onclick="switchTab('${currentTab}')"]`);
-            if(activeTabBtn) activeTabBtn.classList.add('active');
+            const activeTabBtn = document.querySelector(`.tab-btn[onclick="switchTab('${currentTab}')"]`); if(activeTabBtn) activeTabBtn.classList.add('active');
             
             document.querySelectorAll('.content-section').forEach(sec => sec.classList.remove('active'));
-            const activeSection = document.getElementById(`${currentTab}-section`);
-            if(activeSection) activeSection.classList.add('active');
-
+            const activeSection = document.getElementById(`${currentTab}-section`); if(activeSection) activeSection.classList.add('active');
             renderContent(); 
         };
 
-        // (Các logic vẽ giao diện Flashcard, Ôn tập, Lịch sử tương tự bản 25.0)
         function updateAuthUI() {
             if (isLoggedIn) {
-                document.getElementById('guest-nav').style.display = 'none';
-                document.getElementById('user-nav').style.display = 'flex';
-                document.getElementById('welcome-text').innerText = `👋 Chào, ${currentUser}`;
-                document.getElementById('intro-warning').style.display = 'none'; 
+                document.getElementById('guest-nav').style.display = 'none'; document.getElementById('user-nav').style.display = 'flex';
+                document.getElementById('welcome-text').innerText = `👋 Chào, ${currentUser}`; document.getElementById('intro-warning').style.display = 'none'; 
             } else {
-                document.getElementById('guest-nav').style.display = 'block';
-                document.getElementById('user-nav').style.display = 'none';
-                document.getElementById('intro-warning').style.display = 'block';
+                document.getElementById('guest-nav').style.display = 'block'; document.getElementById('user-nav').style.display = 'none'; document.getElementById('intro-warning').style.display = 'block';
             }
         }
 
         function recordLoginTime() {
-            if(!isLoggedIn) return;
-            let userHist = JSON.parse(localStorage.getItem('app_history_' + currentUser)) || [];
-            const now = new Date().toLocaleString('vi-VN');
-            if(userHist.length > 0 && userHist[0].includes(now.substring(0, 15))) return; 
-            userHist.unshift(now);
-            if(userHist.length > 10) userHist.pop(); 
+            if(!isLoggedIn) return; let userHist = JSON.parse(localStorage.getItem('app_history_' + currentUser)) || []; const now = new Date().toLocaleString('vi-VN');
+            if(userHist.length > 0 && userHist[0].includes(now.substring(0, 15))) return; userHist.unshift(now); if(userHist.length > 10) userHist.pop(); 
             localStorage.setItem('app_history_' + currentUser, JSON.stringify(userHist));
         }
 
         function logout() {
             isLoggedIn = false; currentUser = ''; userProgress = {};
             localStorage.setItem('app_is_logged_in', 'false'); localStorage.removeItem('app_username'); localStorage.removeItem('app_last_tab');
-            updateAuthUI(); switchTab('intro'); alert("Đã đăng xuất khỏi hệ thống.");
+            updateAuthUI(); switchTab('intro');
         }
 
         function toggleMenu() { document.getElementById('sideMenu').classList.toggle('active'); document.getElementById('overlay').classList.toggle('active'); }
+        
         let currentAuthMode = 'login';
         function openModal(mode) { currentAuthMode = mode; updateModalUI_form(); document.getElementById('authModal').classList.add('active'); document.getElementById('authMessage').innerHTML = ""; }
         function closeModal() { document.getElementById('authModal').classList.remove('active'); }
-        function switchAuthMode() { currentAuthMode = currentAuthMode === 'login' ? 'register' : 'login'; updateModalUI_form(); document.getElementById('authMessage').innerHTML = ""; }
+        function switchAuthMode(mode) { currentAuthMode = mode; updateModalUI_form(); document.getElementById('authMessage').innerHTML = ""; document.getElementById('authPassword').value = ""; }
+        
         function updateModalUI_form() {
-            const title = document.getElementById('modalTitle'); const switchText = document.getElementById('authSwitchText'); const btn = document.getElementById('btnSubmitAuth');
-            if (currentAuthMode === 'login') { title.innerText = "Đăng nhập"; btn.innerText = "Vào học ngay"; switchText.innerText = "Chưa có tài khoản? Đăng ký ngay"; } 
-            else { title.innerText = "Đăng ký"; btn.innerText = "Tạo tài khoản"; switchText.innerText = "Đã có tài khoản? Đăng nhập"; }
+            const title = document.getElementById('modalTitle'); const btn = document.getElementById('btnSubmitAuth');
+            const switchText = document.getElementById('authSwitchText'); const forgotText = document.getElementById('authForgotText'); const passInput = document.getElementById('authPassword');
+
+            if (currentAuthMode === 'login') { 
+                title.innerText = "Đăng nhập"; btn.innerText = "Vào học ngay"; passInput.placeholder = "Mật khẩu";
+                switchText.innerText = "Chưa có tài khoản? Đăng ký ngay"; switchText.onclick = () => switchAuthMode('register'); forgotText.style.display = "block";
+            } else if (currentAuthMode === 'register') { 
+                title.innerText = "Đăng ký"; btn.innerText = "Tạo tài khoản"; passInput.placeholder = "Mật khẩu";
+                switchText.innerText = "Đã có tài khoản? Đăng nhập"; switchText.onclick = () => switchAuthMode('login'); forgotText.style.display = "none";
+            } else if (currentAuthMode === 'forgot') {
+                title.innerText = "Khôi phục mật khẩu"; btn.innerText = "Đổi mật khẩu mới"; passInput.placeholder = "Nhập mật khẩu mới của bạn";
+                switchText.innerText = "Quay lại màn hình Đăng nhập"; switchText.onclick = () => switchAuthMode('login'); forgotText.style.display = "none";
+            }
         }
+
         window.onclick = function(event) { if (event.target === document.getElementById('authModal')) closeModal(); if (event.target === document.getElementById('notiModal')) closeNotiModal(); }
 
         function changeExamType(examType) {
@@ -581,15 +512,13 @@
         function buildLevelButtons() {
             const container = document.getElementById('level-buttons'); container.innerHTML = '';
             config[currentExamType].levels.forEach(levelName => {
-                const btn = document.createElement('button');
-                btn.className = `level-btn ${levelName === currentLevel ? 'active' : ''}`; btn.innerText = levelName;
+                const btn = document.createElement('button'); btn.className = `level-btn ${levelName === currentLevel ? 'active' : ''}`; btn.innerText = levelName;
                 btn.onclick = () => {
                     if (!isLoggedIn) { openModal('login'); return; }
                     document.querySelectorAll('.level-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active');
                     currentLevel = levelName; localStorage.setItem('app_last_level', currentLevel); 
                     if(currentTab === 'intro') { switchTab('vocab'); } else { renderContent(); }
-                };
-                container.appendChild(btn);
+                }; container.appendChild(btn);
             });
         }
 
@@ -611,13 +540,9 @@
         function toggleSaveWord(event) {
             event.stopPropagation(); const data = db[currentExamType].vocab[currentLevel][vocabIndex]; const key = getItemKey(data, 'vocab');
             if(!userProgress[key]) userProgress[key] = { correct: 0, wrong: 0, saved: false, itemData: data };
-            userProgress[key].saved = !userProgress[key].saved; userProgress[key].itemData = data; 
-            saveProgress(); updateSaveBtnState(key);
+            userProgress[key].saved = !userProgress[key].saved; userProgress[key].itemData = data; saveProgress(); updateSaveBtnState(key);
         }
-        function updateSaveBtnState(key) {
-            const btn = document.getElementById('btn-bookmark');
-            if(userProgress[key] && userProgress[key].saved) btn.classList.add('saved'); else btn.classList.remove('saved');
-        }
+        function updateSaveBtnState(key) { const btn = document.getElementById('btn-bookmark'); if(userProgress[key] && userProgress[key].saved) btn.classList.add('saved'); else btn.classList.remove('saved'); }
 
         function renderVocab() {
             const data = db[currentExamType].vocab[currentLevel] || [];
@@ -641,10 +566,7 @@
         function renderGrammar() {
             const data = db[currentExamType].grammar[currentLevel] || []; const list = document.getElementById('grammar-list'); list.innerHTML = '';
             if (data.length === 0) { list.classList.add('hidden'); document.getElementById('grammar-empty').classList.remove('hidden'); } 
-            else {
-                list.classList.remove('hidden'); document.getElementById('grammar-empty').classList.add('hidden');
-                data.forEach((item, idx) => { list.innerHTML += `<div class="grammar-card"><button class="btn-bookmark ${isItemSaved(item, 'grammar') ? 'saved' : ''}" style="top:15px; color:#ccc;" onclick="toggleSaveGrammar(this, ${idx})">★</button><h3 class="g-title">📌 ${item.title}</h3><div class="g-formula">${item.formula}</div><div class="g-desc">${item.desc}</div></div>`; });
-            }
+            else { list.classList.remove('hidden'); document.getElementById('grammar-empty').classList.add('hidden'); data.forEach((item, idx) => { list.innerHTML += `<div class="grammar-card"><button class="btn-bookmark ${isItemSaved(item, 'grammar') ? 'saved' : ''}" style="top:15px; color:#ccc;" onclick="toggleSaveGrammar(this, ${idx})">★</button><h3 class="g-title">📌 ${item.title}</h3><div class="g-formula">${item.formula}</div><div class="g-desc">${item.desc}</div></div>`; }); }
         }
         function isItemSaved(item, mode) { return userProgress[getItemKey(item, mode)]?.saved; }
         function toggleSaveGrammar(btn, index) {
