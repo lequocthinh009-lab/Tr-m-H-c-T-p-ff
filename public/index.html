@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trạm Học Tập Đa Ngôn Ngữ 27.0 🌍 (Bảo mật)</title>
+    <title>Trạm Học Tập Đa Ngôn Ngữ 28.0 🌍 (Full Vocab)</title>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root { --primary-color: #ff9a9e; --primary-dark: #ff758c; --bg-color: #fecfef; --card-bg: #ffffff; --text-main: #333333; --text-muted: #666666; --correct-color: #4caf50; --wrong-color: #f44336; --warning-color: #ff9800; }
         body { font-family: 'Quicksand', sans-serif; background: linear-gradient(135deg, var(--bg-color) 0%, #a1c4fd 100%); min-height: 100vh; margin: 0; display: flex; flex-direction: column; align-items: center; color: var(--text-main); overflow-x: hidden; }
-        
         .top-nav { width: 100%; background: rgba(255, 255, 255, 0.95); box-shadow: 0 4px 15px rgba(0,0,0,0.05); padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); box-sizing: border-box; }
         .hamburger { font-size: 1.8rem; background: none; border: none; color: var(--primary-dark); cursor: pointer; transition: transform 0.2s; }
         .hamburger:hover { transform: scale(1.1); }
@@ -19,27 +18,22 @@
         .auth-buttons button.btn-danger:hover { background: var(--wrong-color); color: #fff; }
         .auth-buttons button:hover { opacity: 0.8; transform: translateY(-2px); }
         #welcome-text { font-weight: bold; color: var(--primary-dark); margin-right: 10px; font-size: 1rem;}
-
         .noti-btn { position: relative; background: none !important; border: none !important; font-size: 1.5rem !important; padding: 0 !important; margin-right: 10px; cursor: pointer; transition: transform 0.2s; }
         .noti-btn:hover { transform: scale(1.1); }
         .noti-badge { position: absolute; top: -5px; right: -5px; background: red; color: white; font-size: 0.7rem; font-weight: bold; border-radius: 50%; padding: 2px 6px; display: none; } 
-
         .side-menu { position: fixed; top: 0; left: -280px; width: 250px; height: 100vh; background: #ffffff; box-shadow: 4px 0 15px rgba(0,0,0,0.1); z-index: 200; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); display: flex; flex-direction: column; padding: 20px; box-sizing: border-box; }
         .side-menu.active { left: 0; }
         .side-menu h2 { color: var(--primary-dark); margin-top: 0; border-bottom: 2px dashed #eee; padding-bottom: 15px; }
         .exam-tab-btn { background: transparent; border: none; padding: 12px 15px; font-size: 1.1rem; font-family: inherit; font-weight: 700; color: var(--text-muted); border-radius: 15px; cursor: pointer; transition: all 0.3s ease; text-align: left; margin-bottom: 10px; }
         .exam-tab-btn.active { background: #4facfe; color: #ffffff; box-shadow: 0 4px 10px rgba(79, 172, 254, 0.3); }
-
         .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 150; display: none; opacity: 0; transition: opacity 0.3s; }
         .overlay.active { display: block; opacity: 1; }
-
         .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 300; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s; }
         .modal.active { display: flex; opacity: 1; }
         .modal-content { background: #fff; width: 90%; max-width: 400px; padding: 30px; border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); text-align: center; position: relative; transform: translateY(-20px); transition: 0.3s; max-height: 80vh; overflow-y: auto;}
         .modal.active .modal-content { transform: translateY(0); }
         .close-modal { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; color: #aaa; cursor: pointer; transition: 0.2s; }
         .modal-title { color: var(--primary-dark); font-size: 1.8rem; margin-bottom: 20px; margin-top: 0;}
-        
         .auth-input { width: 100%; padding: 12px 15px; margin-bottom: 15px; border: 2px solid #eee; border-radius: 15px; font-family: inherit; font-size: 1rem; box-sizing: border-box; transition: 0.3s; }
         .auth-input:focus { border-color: var(--primary-color); outline: none; }
         .btn-submit { width: 100%; background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%); border: none; padding: 12px; border-radius: 15px; color: #fff; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: 0.3s; font-family: inherit; margin-top: 10px; }
@@ -47,41 +41,32 @@
         .auth-switch span { color: var(--primary-dark); font-weight: bold; }
         .auth-switch span:hover { text-decoration: underline; }
         #authMessage { margin-top: 15px; font-size: 0.95rem; font-weight: bold; min-height: 20px; }
-
         .main-content { flex: 1; width: 100%; display: flex; flex-direction: column; align-items: center; padding-bottom: 40px; }
         .header { text-align: center; margin-bottom: 15px; margin-top: 20px; width: 100%; display: flex; flex-direction: column; align-items: center; padding: 0 15px; box-sizing: border-box;}
         .header h1 { color: #ffffff; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); font-size: 2.2rem; margin: 0 0 15px 0; }
         .country-img { width: 100%; max-width: 650px; height: 250px; object-fit: cover; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); transition: opacity 0.4s ease, transform 0.4s ease; border: 4px solid rgba(255, 255, 255, 0.6); }
-        .quote-section { width: 100%; max-width: 650px; text-align: center; margin-top: 15px; font-style: italic; color: #444; font-weight: 600; background: rgba(255,255,255,0.4); padding: 10px 20px; border-radius: 15px; box-sizing: border-box; backdrop-filter: blur(5px); }
-
         .main-tabs { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; background: rgba(255,255,255,0.3); padding: 10px; border-radius: 30px; margin-bottom: 25px; margin-top: 20px; max-width: 95%; }
         .tab-btn { background: transparent; border: none; padding: 10px 15px; font-size: 1rem; font-family: inherit; font-weight: 700; color: var(--text-muted); border-radius: 20px; cursor: pointer; transition: all 0.3s ease; }
         .tab-btn.active { background-color: #ffffff; color: var(--primary-dark); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-
         .level-selector { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; max-width: 700px; margin-bottom: 30px; padding: 0 10px; }
         .level-btn { background-color: rgba(255, 255, 255, 0.6); border: 2px solid #ffffff; padding: 8px 16px; border-radius: 20px; font-family: inherit; font-weight: 700; color: var(--text-muted); cursor: pointer; transition: all 0.3s ease; }
         .level-btn.active { background-color: var(--primary-dark); color: #ffffff; border-color: var(--primary-dark); box-shadow: 0 6px 12px rgba(255, 117, 140, 0.3); }
-
         .content-section { display: none; flex-direction: column; align-items: center; width: 100%; max-width: 600px; padding: 0 10px; box-sizing: border-box;}
         .content-section.active { display: flex; }
-
         .intro-card { background: #fff; width: 100%; border-radius: 25px; padding: 30px; box-sizing: border-box; box-shadow: 0 10px 30px rgba(0,0,0,0.08); text-align: left; }
         .intro-card h2 { color: var(--primary-dark); margin-top: 0; text-align: center; font-size: 1.8rem; }
         .feature-list { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
         .feature-item { background: #f0f8ff; padding: 15px; border-radius: 15px; border-left: 5px solid #4facfe; font-size: 1.05rem; color: #333; }
         .intro-warning { background: #fff8e1; color: var(--warning-color); padding: 10px; border-radius: 10px; text-align: center; font-weight: bold; margin-top: 15px; border: 1px dashed var(--warning-color); }
-
         .progress-bar-bg { width: 100%; background: #ddd; border-radius: 10px; height: 18px; margin-top: 10px; overflow: hidden; }
         .progress-bar-fill { background: var(--correct-color); height: 100%; border-radius: 10px; transition: width 0.5s ease; }
         .history-list-item { background: #f9f9f9; padding: 10px 15px; border-radius: 10px; margin-bottom: 8px; border-left: 4px solid var(--primary-color); font-size: 0.95rem; }
-
         .flashcard-container { perspective: 1000px; width: 350px; height: 450px; margin-bottom: 20px; max-width: 100%; }
         .flashcard { width: 100%; height: 100%; position: relative; transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); transform-style: preserve-3d; cursor: pointer; box-shadow: 0 15px 35px rgba(0,0,0,0.1); border-radius: 25px; }
         .flashcard.flipped { transform: rotateY(180deg); }
         .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 25px; background-color: var(--card-bg); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; text-align: center; border: 4px solid #fff; }
         .front { background: linear-gradient(to bottom right, #ffffff, #fff5f5); }
         .back { background: linear-gradient(to bottom right, #ffffff, #f0f8ff); transform: rotateY(180deg); }
-        
         .word { font-size: 3.5rem; font-weight: 700; color: var(--primary-dark); margin-bottom: 5px; line-height: 1.2; word-break: break-word;}
         .pinyin { font-size: 1.5rem; color: var(--text-muted); font-weight: 600; margin-bottom: 10px; }
         .audio-btn { background: #f0f8ff; border: 2px solid #a1c4fd; border-radius: 50%; width: 50px; height: 50px; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s ease; margin-bottom: 15px; }
@@ -90,37 +75,29 @@
         .meaning { font-size: 1.8rem; font-weight: 700; color: #4facfe; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px dashed #eee; width: 100%; }
         .example-cn { font-size: 1.2rem; margin-bottom: 10px; color: var(--text-main); }
         .example-vn { font-size: 1rem; color: var(--text-muted); font-style: italic; }
-
         .controls { display: flex; align-items: center; gap: 20px; background: rgba(255, 255, 255, 0.4); padding: 10px 25px; border-radius: 50px; backdrop-filter: blur(5px); }
         button.nav-btn { background-color: #ffffff; border: none; padding: 10px 20px; font-size: 1rem; font-weight: 600; color: var(--primary-dark); border-radius: 25px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-
         .grammar-list, .notebook-list { width: 100%; display: flex; flex-direction: column; gap: 15px; }
         .grammar-card { background: #fff; border-radius: 20px; padding: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.05); text-align: left; border-left: 5px solid #4facfe; position: relative;}
         .g-title { font-size: 1.3rem; color: var(--primary-dark); font-weight: 700; margin: 0 0 10px 0; padding-right: 30px;}
         .g-formula { background: #f0f8ff; padding: 10px; border-radius: 10px; font-family: monospace; font-size: 1.1rem; color: #333; margin-bottom: 10px; font-weight: bold; text-align: center;}
-        
         .exam-list { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .exam-card { background: #fff; border-radius: 20px; padding: 20px; text-align: center; box-shadow: 0 8px 20px rgba(0,0,0,0.05); border: 2px solid transparent; }
         .e-title { font-size: 1.2rem; font-weight: 700; margin: 0 0 10px 0; }
         .e-btn { background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%); border: none; padding: 10px 20px; border-radius: 15px; font-weight: 700; color: #1a5f7a; cursor: pointer; width: 100%; font-family: inherit; }
-
         .review-mode-selector { display: flex; gap: 10px; margin-bottom: 20px; width: 100%; justify-content: center; flex-wrap: wrap;}
         .btn-mode { background: #fff; border: 2px solid var(--primary-color); padding: 10px 20px; border-radius: 25px; font-size: 1rem; font-weight: bold; color: var(--primary-dark); cursor: pointer; font-family: inherit;}
         .btn-mode.active { background: var(--primary-color); color: #fff; }
-        
         .quiz-container { background: #fff; width: 100%; border-radius: 25px; padding: 25px; box-sizing: border-box; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; }
         .q-text { font-size: 1.3rem; font-weight: bold; color: #333; margin-bottom: 20px; }
         .q-word-hl { font-size: 2rem; color: var(--primary-dark); display: block; margin: 10px 0; }
-        
         .options-grid { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
         .opt-btn { background: #f8f9fa; border: 2px solid #eee; padding: 12px; border-radius: 15px; font-size: 1rem; font-family: inherit; cursor: pointer; text-align: left; font-weight: 600; color: #444; }
         .opt-btn.correct { background: var(--correct-color); color: #fff; border-color: var(--correct-color); }
         .opt-btn.wrong { background: var(--wrong-color); color: #fff; border-color: var(--wrong-color); }
         .btn-next-q { background: var(--primary-dark); color: #fff; border: none; padding: 12px 30px; font-size: 1.1rem; font-weight: bold; border-radius: 25px; cursor: pointer; font-family: inherit; display: none; margin: 0 auto; }
-        
         .empty-state { text-align: center; padding: 40px 20px; background: rgba(255,255,255,0.5); border-radius: 20px; width: 100%; font-size: 1.2rem; font-weight: 600; color: #666; }
         .hidden { display: none !important; }
-
         .nb-card { background: #fff; border-radius: 15px; padding: 15px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
         .nb-info { flex: 1; text-align: left; }
         .nb-word { font-size: 1.4rem; font-weight: bold; color: var(--primary-dark); margin: 0 0 5px 0;}
@@ -129,7 +106,6 @@
         .status-bad { background: #ffebee; color: var(--wrong-color); }
         .status-good { background: #e8f5e9; color: var(--correct-color); }
         .status-saved { background: #fff8e1; color: var(--warning-color); }
-
         .footer { width: 100%; background: rgba(255, 255, 255, 0.7); padding: 20px; text-align: center; font-size: 0.95rem; color: var(--text-muted); box-sizing: border-box; backdrop-filter: blur(10px); margin-top: auto; }
         .footer a { color: var(--primary-dark); text-decoration: none; font-weight: bold; }
     </style>
@@ -147,7 +123,6 @@
             <div id="user-nav" style="display: none; align-items: center;">
                 <span id="welcome-text"></span>
                 <button class="btn-login" onclick="logout()" style="background: var(--warning-color); border-color: var(--warning-color);">Đăng xuất</button>
-                <!-- NÚT XÓA TÀI KHOẢN -->
                 <button class="btn-danger" onclick="deleteAccount()" title="Xóa tài khoản vĩnh viễn">Xóa TK</button>
             </div>
         </div>
@@ -215,10 +190,10 @@
                 <h2>Chào mừng đến với Trạm Học Tập 🚀</h2>
                 <div class="intro-warning" id="intro-warning">🔒 Bạn cần Đăng nhập / Đăng ký để mở khóa toàn bộ tính năng bài học!</div>
                 <div class="feature-list">
+                    <div class="feature-item"><strong>📚 Big Data:</strong> Cập nhật hệ thống trọn bộ 300 từ vựng HSK 1.</div>
                     <div class="feature-item"><strong>🎙️ Native Voice AI:</strong> Tự động ép trình duyệt phát âm chuẩn giọng bản xứ.</div>
-                    <div class="feature-item"><strong>🔒 Bảo mật (Mới):</strong> Đã bổ sung tính năng Khôi phục mật khẩu và Xóa tài khoản.</div>
+                    <div class="feature-item"><strong>🔒 Bảo mật:</strong> Tính năng Khôi phục mật khẩu và Xóa tài khoản.</div>
                     <div class="feature-item"><strong>🎮 Ôn Tập:</strong> Thuật toán <em>Spaced Repetition</em> ưu tiên từ hay làm sai.</div>
-                    <div class="feature-item"><strong>⏱ Lịch Sử & Tiến Độ:</strong> Tự động lưu tiến độ vào Cơ sở dữ liệu đám mây.</div>
                 </div>
             </div>
         </div>
@@ -235,8 +210,6 @@
                     </div>
                     <div class="card-face back">
                         <div class="meaning" id="word-meaning">...</div>
-                        <div class="example-cn" id="ex-cn">...</div>
-                        <div class="example-vn" id="ex-vn">...</div>
                     </div>
                 </div>
             </div>
@@ -294,8 +267,7 @@
 
     <script>
         const notificationsData = [
-            { date: "Hôm nay", title: "🔒 Cập nhật Phiên bản 27.0: Khôi phục & Xóa tài khoản", desc: "Đã bổ sung tính năng Quên mật khẩu và tính năng Xóa tài khoản vĩnh viễn giúp bạn chủ động quản lý dữ liệu cá nhân." },
-            { date: "Hôm qua", title: "🗣️ Bản cập nhật 26.0: Native Voice AI", desc: "Thuật toán quét và ép trình duyệt phát âm chuẩn giọng bản xứ." }
+            { date: "Hôm nay", title: "🚀 Update: 300 từ vựng", desc: "Toàn bộ 300 từ vựng HSK 1 đã được nạp thành công vào hệ thống học tập." }
         ];
 
         function checkNotifications() {
@@ -354,9 +326,306 @@
             HSK: {
                 vocab: {
                     "1": [
-                        { word: "爱", pinyin: "ài", meaning: "yêu, thích", exCn: "我爱我的妈妈。", exVn: "Tôi yêu mẹ của tôi." },
-                        { word: "爱好", pinyin: "àihào", meaning: "sở thích", exCn: "我的爱好是听音乐。", exVn: "Sở thích của tôi là nghe nhạc." },
-                        { word: "八", pinyin: "bā", meaning: "số 8", exCn: "现在是八点。", exVn: "Bây giờ là 8 giờ." }
+                        {"word":"爱","pinyin":"ài","meaning":"yêu, thích"},
+                        {"word":"吧","pinyin":"ba","meaning":"nhé, nhé nhé (đề nghị)"},
+                        {"word":"八","pinyin":"bā","meaning":"tám"},
+                        {"word":"爸爸","pinyin":"bàba","meaning":"bố, ba"},
+                        {"word":"百","pinyin":"bǎi","meaning":"một trăm"},
+                        {"word":"白天","pinyin":"báitiān","meaning":"ban ngày"},
+                        {"word":"半","pinyin":"bàn","meaning":"một nửa"},
+                        {"word":"包子","pinyin":"bāozi","meaning":"bánh bao"},
+                        {"word":"杯子","pinyin":"bēizi","meaning":"cái cốc"},
+                        {"word":"本","pinyin":"běn","meaning":"quyển (sách)"},
+                        {"word":"边","pinyin":"biān","meaning":"bên, phía"},
+                        {"word":"病","pinyin":"bìng","meaning":"bệnh, bị bệnh"},
+                        {"word":"不","pinyin":"bù","meaning":"không"},
+                        {"word":"不客气","pinyin":"bú kèqi","meaning":"không có gì"},
+                        {"word":"不要","pinyin":"bú yào","meaning":"đừng"},
+                        {"word":"菜","pinyin":"cài","meaning":"món ăn, rau"},
+                        {"word":"茶","pinyin":"chá","meaning":"trà"},
+                        {"word":"唱","pinyin":"chàng","meaning":"hát"},
+                        {"word":"超市","pinyin":"chāoshì","meaning":"siêu thị"},
+                        {"word":"车","pinyin":"chē","meaning":"xe"},
+                        {"word":"吃","pinyin":"chī","meaning":"ăn"},
+                        {"word":"穿","pinyin":"chuān","meaning":"mặc"},
+                        {"word":"出租车","pinyin":"chūzūchē","meaning":"taxi"},
+                        {"word":"大","pinyin":"dà","meaning":"to, lớn"},
+                        {"word":"打电话","pinyin":"dǎ diànhuà","meaning":"gọi điện thoại"},
+                        {"word":"大家","pinyin":"dàjiā","meaning":"mọi người"},
+                        {"word":"到","pinyin":"dào","meaning":"đến"},
+                        {"word":"大学","pinyin":"dàxué","meaning":"đại học"},
+                        {"word":"大学生","pinyin":"dàxuéshēng","meaning":"sinh viên"},
+                        {"word":"的","pinyin":"de","meaning":"của"},
+                        {"word":"第","pinyin":"dì","meaning":"thứ (số thứ tự)"},
+                        {"word":"店","pinyin":"diàn","meaning":"cửa hàng"},
+                        {"word":"点","pinyin":"diǎn","meaning":"giờ"},
+                        {"word":"电话","pinyin":"diànhuà","meaning":"điện thoại"},
+                        {"word":"电脑","pinyin":"diànnǎo","meaning":"máy tính"},
+                        {"word":"电视","pinyin":"diànshì","meaning":"tivi"},
+                        {"word":"电影","pinyin":"diànyǐng","meaning":"phim"},
+                        {"word":"电影院","pinyin":"diànyǐngyuàn","meaning":"rạp chiếu phim"},
+                        {"word":"弟弟","pinyin":"dìdi","meaning":"em trai"},
+                        {"word":"东西","pinyin":"dōngxi","meaning":"đồ vật"},
+                        {"word":"都","pinyin":"dōu","meaning":"đều"},
+                        {"word":"读","pinyin":"dú","meaning":"đọc"},
+                        {"word":"对","pinyin":"duì","meaning":"đúng, đối với"},
+                        {"word":"对不起","pinyin":"duìbuqǐ","meaning":"xin lỗi"},
+                        {"word":"多","pinyin":"duō","meaning":"nhiều"},
+                        {"word":"多少","pinyin":"duōshao","meaning":"bao nhiêu"},
+                        {"word":"读书","pinyin":"dúshū","meaning":"đọc sách, học"},
+                        {"word":"二","pinyin":"èr","meaning":"hai"},
+                        {"word":"儿子","pinyin":"érzi","meaning":"con trai"},
+                        {"word":"饭","pinyin":"fàn","meaning":"cơm"},
+                        {"word":"饭店","pinyin":"fàndiàn","meaning":"nhà hàng"},
+                        {"word":"房间","pinyin":"fángjiān","meaning":"phòng"},
+                        {"word":"非常","pinyin":"fēicháng","meaning":"rất"},
+                        {"word":"飞机","pinyin":"fēijī","meaning":"máy bay"},
+                        {"word":"分","pinyin":"fēn","meaning":"phút"},
+                        {"word":"分钟","pinyin":"fēnzhōng","meaning":"phút"},
+                        {"word":"高兴","pinyin":"gāoxìng","meaning":"vui"},
+                        {"word":"个","pinyin":"gè","meaning":"cái"},
+                        {"word":"歌","pinyin":"gē","meaning":"bài hát"},
+                        {"word":"哥哥","pinyin":"gēge","meaning":"anh trai"},
+                        {"word":"给","pinyin":"gěi","meaning":"cho"},
+                        {"word":"公司","pinyin":"gōngsī","meaning":"công ty"},
+                        {"word":"工作","pinyin":"gōngzuò","meaning":"làm việc"},
+                        {"word":"狗","pinyin":"gǒu","meaning":"chó"},
+                        {"word":"贵","pinyin":"guì","meaning":"đắt"},
+                        {"word":"国","pinyin":"guó","meaning":"quốc gia"},
+                        {"word":"还","pinyin":"hái","meaning":"còn, vẫn"},
+                        {"word":"孩子","pinyin":"háizi","meaning":"đứa trẻ"},
+                        {"word":"汉语","pinyin":"Hànyǔ","meaning":"tiếng Trung"},
+                        {"word":"汉字","pinyin":"Hànzì","meaning":"chữ Hán"},
+                        {"word":"号","pinyin":"hào","meaning":"số"},
+                        {"word":"好","pinyin":"hǎo","meaning":"tốt"},
+                        {"word":"好吃","pinyin":"hǎochī","meaning":"ngon"},
+                        {"word":"好看","pinyin":"hǎokàn","meaning":"đẹp"},
+                        {"word":"好听","pinyin":"hǎotīng","meaning":"hay"},
+                        {"word":"好玩儿","pinyin":"hǎowánr","meaning":"thú vị"},
+                        {"word":"和","pinyin":"hé","meaning":"và"},
+                        {"word":"喝","pinyin":"hē","meaning":"uống"},
+                        {"word":"很","pinyin":"hěn","meaning":"rất"},
+                        {"word":"后","pinyin":"hòu","meaning":"sau"},
+                        {"word":"回","pinyin":"huí","meaning":"quay về"},
+                        {"word":"会","pinyin":"huì","meaning":"biết"},
+                        {"word":"火车","pinyin":"huǒchē","meaning":"tàu hỏa"},
+                        {"word":"几","pinyin":"jǐ","meaning":"mấy"},
+                        {"word":"家","pinyin":"jiā","meaning":"nhà"},
+                        {"word":"见","pinyin":"jiàn","meaning":"gặp"},
+                        {"word":"件","pinyin":"jiàn","meaning":"cái (đồ)"},
+                        {"word":"叫","pinyin":"jiào","meaning":"gọi"},
+                        {"word":"饺子","pinyin":"jiǎozi","meaning":"sủi cảo"},
+                        {"word":"家人","pinyin":"jiārén","meaning":"người nhà"},
+                        {"word":"鸡蛋","pinyin":"jīdàn","meaning":"trứng gà"},
+                        {"word":"姐姐","pinyin":"jiějie","meaning":"chị gái"},
+                        {"word":"今年","pinyin":"jīnnián","meaning":"năm nay"},
+                        {"word":"今天","pinyin":"jīntiān","meaning":"hôm nay"},
+                        {"word":"九","pinyin":"jiǔ","meaning":"chín"},
+                        {"word":"觉得","pinyin":"juéde","meaning":"cảm thấy"},
+                        {"word":"开","pinyin":"kāi","meaning":"mở"},
+                        {"word":"开车","pinyin":"kāichē","meaning":"lái xe"},
+                        {"word":"看","pinyin":"kàn","meaning":"nhìn"},
+                        {"word":"看病","pinyin":"kànbìng","meaning":"khám bệnh"},
+                        {"word":"看见","pinyin":"kànjiàn","meaning":"nhìn thấy"},
+                        {"word":"课","pinyin":"kè","meaning":"bài học"},
+                        {"word":"可以","pinyin":"kěyǐ","meaning":"có thể"},
+                        {"word":"口","pinyin":"kǒu","meaning":"miệng"},
+                        {"word":"块","pinyin":"kuài","meaning":"đồng (tiền)"},
+                        {"word":"来","pinyin":"lái","meaning":"đến"},
+                        {"word":"老师","pinyin":"lǎoshī","meaning":"giáo viên"},
+                        {"word":"了","pinyin":"le","meaning":"rồi"},
+                        {"word":"冷","pinyin":"lěng","meaning":"lạnh"},
+                        {"word":"里","pinyin":"lǐ","meaning":"bên trong"},
+                        {"word":"两","pinyin":"liǎng","meaning":"hai"},
+                        {"word":"零","pinyin":"líng","meaning":"không"},
+                        {"word":"六","pinyin":"liù","meaning":"sáu"},
+                        {"word":"吗","pinyin":"ma","meaning":"không (nghi vấn)"},
+                        {"word":"卖","pinyin":"mài","meaning":"bán"},
+                        {"word":"买","pinyin":"mǎi","meaning":"mua"},
+                        {"word":"妈妈","pinyin":"māma","meaning":"mẹ"},
+                        {"word":"忙","pinyin":"máng","meaning":"bận"},
+                        {"word":"猫","pinyin":"māo","meaning":"mèo"},
+                        {"word":"没关系","pinyin":"méi guānxi","meaning":"không sao"},
+                        {"word":"妹妹","pinyin":"mèimei","meaning":"em gái"},
+                        {"word":"没事","pinyin":"méishì","meaning":"không có việc gì"},
+                        {"word":"没","pinyin":"méi","meaning":"không"},
+                        {"word":"们","pinyin":"men","meaning":"số nhiều"},
+                        {"word":"面包","pinyin":"miànbāo","meaning":"bánh mì"},
+                        {"word":"面条儿","pinyin":"miàntiáor","meaning":"mì"},
+                        {"word":"米饭","pinyin":"mǐfàn","meaning":"cơm"},
+                        {"word":"明年","pinyin":"míngnián","meaning":"năm sau"},
+                        {"word":"明天","pinyin":"míngtiān","meaning":"ngày mai"},
+                        {"word":"名字","pinyin":"míngzi","meaning":"tên"},
+                        {"word":"那","pinyin":"nà","meaning":"kia"},
+                        {"word":"哪","pinyin":"nǎ","meaning":"nào"},
+                        {"word":"那边","pinyin":"nàbiān","meaning":"bên kia"},
+                        {"word":"那个","pinyin":"nàge","meaning":"cái kia"},
+                        {"word":"哪个","pinyin":"nǎge","meaning":"cái nào"},
+                        {"word":"那里","pinyin":"nàlǐ","meaning":"ở kia"},
+                        {"word":"哪里","pinyin":"nǎlǐ","meaning":"ở đâu"},
+                        {"word":"男","pinyin":"nán","meaning":"nam"},
+                        {"word":"男朋友","pinyin":"nánpéngyou","meaning":"bạn trai"},
+                        {"word":"那儿","pinyin":"nàr","meaning":"ở kia"},
+                        {"word":"哪儿","pinyin":"nǎr","meaning":"ở đâu"},
+                        {"word":"那些","pinyin":"nàxiē","meaning":"những cái đó"},
+                        {"word":"哪些","pinyin":"nǎxiē","meaning":"những cái nào"},
+                        {"word":"呢","pinyin":"ne","meaning":"trợ từ nghi vấn / nhấn mạnh"},
+                        {"word":"能","pinyin":"néng","meaning":"có thể"},
+                        {"word":"你","pinyin":"nǐ","meaning":"bạn"},
+                        {"word":"你好","pinyin":"nǐ hǎo","meaning":"xin chào"},
+                        {"word":"年","pinyin":"nián","meaning":"năm"},
+                        {"word":"你们","pinyin":"nǐmen","meaning":"các bạn"},
+                        {"word":"您","pinyin":"nín","meaning":"ngài, ông/bà (kính ngữ)"},
+                        {"word":"牛奶","pinyin":"niúnǎi","meaning":"sữa"},
+                        {"word":"女","pinyin":"nǚ","meaning":"nữ"},
+                        {"word":"女儿","pinyin":"nǚ’ér","meaning":"con gái"},
+                        {"word":"女朋友","pinyin":"nǚpéngyou","meaning":"bạn gái"},
+                        {"word":"女士","pinyin":"nǚshì","meaning":"quý bà, phụ nữ"},
+                        {"word":"朋友","pinyin":"péngyou","meaning":"bạn bè"},
+                        {"word":"便宜","pinyin":"piányi","meaning":"rẻ"},
+                        {"word":"漂亮","pinyin":"piàoliang","meaning":"xinh đẹp"},
+                        {"word":"苹果","pinyin":"píngguǒ","meaning":"táo"},
+                        {"word":"七","pinyin":"qī","meaning":"bảy"},
+                        {"word":"前","pinyin":"qián","meaning":"trước"},
+                        {"word":"钱","pinyin":"qián","meaning":"tiền"},
+                        {"word":"千","pinyin":"qiān","meaning":"nghìn"},
+                        {"word":"起床","pinyin":"qǐchuáng","meaning":"thức dậy"},
+                        {"word":"请","pinyin":"qǐng","meaning":"mời, xin"},
+                        {"word":"请问","pinyin":"qǐngwèn","meaning":"xin hỏi"},
+                        {"word":"去","pinyin":"qù","meaning":"đi"},
+                        {"word":"去年","pinyin":"qùnián","meaning":"năm ngoái"},
+                        {"word":"热","pinyin":"rè","meaning":"nóng"},
+                        {"word":"人","pinyin":"rén","meaning":"người"},
+                        {"word":"认识","pinyin":"rènshi","meaning":"quen biết"},
+                        {"word":"日","pinyin":"rì","meaning":"ngày"},
+                        {"word":"三","pinyin":"sān","meaning":"ba"},
+                        {"word":"上","pinyin":"shàng","meaning":"trên, lên"},
+                        {"word":"上班","pinyin":"shàngbān","meaning":"đi làm"},
+                        {"word":"商店","pinyin":"shāngdiàn","meaning":"cửa hàng"},
+                        {"word":"上课","pinyin":"shàngkè","meaning":"lên lớp, học"},
+                        {"word":"上午","pinyin":"shàngwǔ","meaning":"buổi sáng"},
+                        {"word":"上学","pinyin":"shàngxué","meaning":"đi học"},
+                        {"word":"少","pinyin":"shǎo","meaning":"ít"},
+                        {"word":"谁","pinyin":"shéi / shuí","meaning":"ai"},
+                        {"word":"生病","pinyin":"shēngbìng","meaning":"bị bệnh"},
+                        {"word":"什么","pinyin":"shénme","meaning":"cái gì"},
+                        {"word":"十","pinyin":"shí","meaning":"mười"},
+                        {"word":"事","pinyin":"shì","meaning":"việc"},
+                        {"word":"是","pinyin":"shì","meaning":"là"},
+                        {"word":"时候","pinyin":"shíhou","meaning":"lúc, thời điểm"},
+                        {"word":"时间","pinyin":"shíjiān","meaning":"thời gian"},
+                        {"word":"手机","pinyin":"shǒujī","meaning":"điện thoại di động"},
+                        {"word":"书","pinyin":"shū","meaning":"sách"},
+                        {"word":"书店","pinyin":"shūdiàn","meaning":"hiệu sách"},
+                        {"word":"睡","pinyin":"shuì","meaning":"ngủ"},
+                        {"word":"水","pinyin":"shuǐ","meaning":"nước"},
+                        {"word":"水果","pinyin":"shuǐguǒ","meaning":"trái cây"},
+                        {"word":"睡觉","pinyin":"shuìjiào","meaning":"đi ngủ"},
+                        {"word":"说","pinyin":"shuō","meaning":"nói"},
+                        {"word":"说话","pinyin":"shuōhuà","meaning":"nói chuyện"},
+                        {"word":"四","pinyin":"sì","meaning":"bốn"},
+                        {"word":"岁","pinyin":"suì","meaning":"tuổi"},
+                        {"word":"他","pinyin":"tā","meaning":"anh ấy"},
+                        {"word":"它","pinyin":"tā","meaning":"nó (đồ vật / con vật)"},
+                        {"word":"她","pinyin":"tā","meaning":"cô ấy"},
+                        {"word":"太","pinyin":"tài","meaning":"quá, rất"},
+                        {"word":"他们","pinyin":"tāmen","meaning":"họ"},
+                        {"word":"它们","pinyin":"tāmen","meaning":"chúng nó (đồ vật / con vật)"},
+                        {"word":"她们","pinyin":"tāmen","meaning":"họ (nữ)"},
+                        {"word":"天","pinyin":"tiān","meaning":"trời, ngày"},
+                        {"word":"天气","pinyin":"tiānqì","meaning":"thời tiết"},
+                        {"word":"听","pinyin":"tīng","meaning":"nghe"},
+                        {"word":"听见","pinyin":"tīngjiàn","meaning":"nghe thấy"},
+                        {"word":"同学","pinyin":"tóngxué","meaning":"bạn học"},
+                        {"word":"外","pinyin":"wài","meaning":"bên ngoài"},
+                        {"word":"外边","pinyin":"wàibian","meaning":"phía ngoài"},
+                        {"word":"玩","pinyin":"wán","meaning":"chơi"},
+                        {"word":"晚","pinyin":"wǎn","meaning":"muộn, tối"},
+                        {"word":"晚饭","pinyin":"wǎnfàn","meaning":"bữa tối"},
+                        {"word":"晚上","pinyin":"wǎnshang","meaning":"buổi tối"},
+                        {"word":"喂","pinyin":"wèi","meaning":"alo (khi nghe điện thoại)"},
+                        {"word":"问","pinyin":"wèn","meaning":"hỏi"},
+                        {"word":"问题","pinyin":"wèntí","meaning":"vấn đề, câu hỏi"},
+                        {"word":"我","pinyin":"wǒ","meaning":"tôi"},
+                        {"word":"我们","pinyin":"wǒmen","meaning":"chúng tôi"},
+                        {"word":"五","pinyin":"wǔ","meaning":"số năm"},
+                        {"word":"午饭","pinyin":"wǔfàn","meaning":"bữa trưa"},
+                        {"word":"下","pinyin":"xià","meaning":"dưới, xuống"},
+                        {"word":"下雨","pinyin":"xià yǔ","meaning":"mưa"},
+                        {"word":"下班","pinyin":"xiàbān","meaning":"tan làm"},
+                        {"word":"下课","pinyin":"xiàkè","meaning":"tan học"},
+                        {"word":"想","pinyin":"xiǎng","meaning":"muốn, nghĩ"},
+                        {"word":"先生","pinyin":"xiānsheng","meaning":"ông, ngài"},
+                        {"word":"现在","pinyin":"xiànzài","meaning":"bây giờ"},
+                        {"word":"小","pinyin":"xiǎo","meaning":"nhỏ"},
+                        {"word":"小朋友","pinyin":"xiǎopéngyǒu","meaning":"trẻ em"},
+                        {"word":"小时","pinyin":"xiǎoshí","meaning":"giờ"},
+                        {"word":"小学","pinyin":"xiǎoxué","meaning":"tiểu học"},
+                        {"word":"小学生","pinyin":"xiǎoxuéshēng","meaning":"học sinh tiểu học"},
+                        {"word":"下午","pinyin":"xiàwǔ","meaning":"buổi chiều"},
+                        {"word":"写","pinyin":"xiě","meaning":"viết"},
+                        {"word":"些","pinyin":"xiē","meaning":"một ít"},
+                        {"word":"谢谢","pinyin":"xièxie","meaning":"cảm ơn"},
+                        {"word":"喜欢","pinyin":"xǐhuan","meaning":"thích"},
+                        {"word":"新","pinyin":"xīn","meaning":"mới"},
+                        {"word":"星期","pinyin":"xīngqī","meaning":"tuần"},
+                        {"word":"星期日","pinyin":"xīngqīrì","meaning":"chủ nhật"},
+                        {"word":"星期天","pinyin":"xīngqītiān","meaning":"chủ nhật"},
+                        {"word":"休息","pinyin":"xiūxi","meaning":"nghỉ ngơi"},
+                        {"word":"学","pinyin":"xué","meaning":"học"},
+                        {"word":"雪","pinyin":"xuě","meaning":"tuyết"},
+                        {"word":"学生","pinyin":"xuéshēng","meaning":"học sinh"},
+                        {"word":"学习","pinyin":"xuéxí","meaning":"học tập"},
+                        {"word":"学校","pinyin":"xuéxiào","meaning":"trường học"},
+                        {"word":"要","pinyin":"yào","meaning":"muốn, cần"},
+                        {"word":"也","pinyin":"yě","meaning":"cũng"},
+                        {"word":"一","pinyin":"yī","meaning":"số một"},
+                        {"word":"一半","pinyin":"yíbàn","meaning":"một nửa"},
+                        {"word":"一点儿","pinyin":"yìdiǎnr","meaning":"một chút"},
+                        {"word":"衣服","pinyin":"yīfu","meaning":"quần áo"},
+                        {"word":"医生","pinyin":"yīshēng","meaning":"bác sĩ"},
+                        {"word":"一下","pinyin":"yíxià","meaning":"một chút, một lát"},
+                        {"word":"一些","pinyin":"yīxiē","meaning":"một vài"},
+                        {"word":"医院","pinyin":"yīyuàn","meaning":"bệnh viện"},
+                        {"word":"椅子","pinyin":"yǐzi","meaning":"cái ghế"},
+                        {"word":"有","pinyin":"yǒu","meaning":"có"},
+                        {"word":"有的","pinyin":"yǒude","meaning":"một số"},
+                        {"word":"有些","pinyin":"yǒuxiē","meaning":"một vài"},
+                        {"word":"有（一）点儿","pinyin":"yǒu (yì)diǎnr","meaning":"hơi, có chút"},
+                        {"word":"雨","pinyin":"yǔ","meaning":"mưa"},
+                        {"word":"元","pinyin":"yuán","meaning":"đồng (đơn vị tiền tệ)"},
+                        {"word":"月","pinyin":"yuè","meaning":"tháng"},
+                        {"word":"再","pinyin":"zài","meaning":"lại, thêm"},
+                        {"word":"在","pinyin":"zài","meaning":"ở, đang"},
+                        {"word":"再见","pinyin":"zàijiàn","meaning":"tạm biệt"},
+                        {"word":"早","pinyin":"zǎo","meaning":"sớm"},
+                        {"word":"早饭","pinyin":"zǎofàn","meaning":"bữa sáng"},
+                        {"word":"早上","pinyin":"zǎoshang","meaning":"buổi sáng"},
+                        {"word":"怎么","pinyin":"zěnme","meaning":"thế nào"},
+                        {"word":"怎么样","pinyin":"zěnmeyàng","meaning":"thế nào, ra sao"},
+                        {"word":"找","pinyin":"zhǎo","meaning":"tìm"},
+                        {"word":"这","pinyin":"zhè","meaning":"này"},
+                        {"word":"这边","pinyin":"zhèbiān","meaning":"bên này"},
+                        {"word":"这个","pinyin":"zhège","meaning":"cái này"},
+                        {"word":"这里","pinyin":"zhèlǐ","meaning":"ở đây"},
+                        {"word":"真","pinyin":"zhēn","meaning":"thật, rất"},
+                        {"word":"正在","pinyin":"zhèngzài","meaning":"đang"},
+                        {"word":"这儿","pinyin":"zhèr","meaning":"chỗ này, ở đây"},
+                        {"word":"这些","pinyin":"zhèxiē","meaning":"những cái này"},
+                        {"word":"只","pinyin":"zhǐ","meaning":"con (dùng cho động vật)"},
+                        {"word":"知道","pinyin":"zhīdào","meaning":"biết"},
+                        {"word":"中国","pinyin":"Zhōngguó","meaning":"Trung Quốc"},
+                        {"word":"中文","pinyin":"Zhōngwén","meaning":"tiếng Trung"},
+                        {"word":"中午","pinyin":"zhōngwǔ","meaning":"buổi trưa"},
+                        {"word":"中学","pinyin":"zhōngxué","meaning":"trường trung học"},
+                        {"word":"中学生","pinyin":"zhōngxuéshēng","meaning":"học sinh trung học"},
+                        {"word":"住","pinyin":"zhù","meaning":"ở, cư trú"},
+                        {"word":"桌子","pinyin":"zhuōzi","meaning":"cái bàn"},
+                        {"word":"字","pinyin":"zì","meaning":"chữ, ký tự"},
+                        {"word":"坐","pinyin":"zuò","meaning":"ngồi"},
+                        {"word":"做","pinyin":"zuò","meaning":"làm"},
+                        {"word":"做饭","pinyin":"zuò fàn","meaning":"nấu ăn"},
+                        {"word":"昨天","pinyin":"zuótiān","meaning":"hôm qua"}
                     ]
                 },
                 grammar: { "1": [ { title: "Câu chữ 很 (hěn)", formula: "S + 很 + Tính từ", desc: "Dùng để miêu tả tính chất." } ] }, exam: { "1": [{ title: "Đề mô phỏng HSK 1 - Số 01", time: "40 phút", qCount: 40 }] }
@@ -554,7 +823,7 @@
         function loadFlashcard(index, dataArray) {
             const data = dataArray[index];
             document.getElementById('word-cn').textContent = data.word; document.getElementById('word-pinyin').textContent = data.pinyin; document.getElementById('word-meaning').textContent = data.meaning;
-            document.getElementById('ex-cn').textContent = data.exCn || ''; document.getElementById('ex-vn').textContent = data.exVn || ''; document.getElementById('progress').textContent = `${index + 1} / ${dataArray.length}`;
+            document.getElementById('progress').textContent = `${index + 1} / ${dataArray.length}`;
             updateSaveBtnState(getItemKey(data, 'vocab')); if (document.getElementById('flashcard').classList.contains('flipped')) document.getElementById('flashcard').classList.remove('flipped');
             if(isLoggedIn) { const key = getItemKey(data, 'vocab'); if(!userProgress[key]) { userProgress[key] = { correct: 0, wrong: 0, saved: false, itemData: data }; saveProgress(); } }
         }
