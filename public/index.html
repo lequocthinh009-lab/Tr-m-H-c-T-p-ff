@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trạm Học Tập Đa Ngôn Ngữ 29.0 🌍 (Full Examples)</title>
+    <title>Trạm Học Tập Đa Ngôn Ngữ 30.0 🌍 (Multi-Device Sync)</title>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root { --primary-color: #ff9a9e; --primary-dark: #ff758c; --bg-color: #fecfef; --card-bg: #ffffff; --text-main: #333333; --text-muted: #666666; --correct-color: #4caf50; --wrong-color: #f44336; --warning-color: #ff9800; }
@@ -148,7 +148,6 @@
         </div>
     </div>
 
-    <!-- MODAL ĐĂNG NHẬP / ĐĂNG KÝ / QUÊN MẬT KHẨU -->
     <div class="modal" id="authModal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal()">✖</span>
@@ -192,10 +191,10 @@
                 <h2>Chào mừng đến với Trạm Học Tập 🚀</h2>
                 <div class="intro-warning" id="intro-warning">🔒 Bạn cần Đăng nhập / Đăng ký để mở khóa toàn bộ tính năng bài học!</div>
                 <div class="feature-list">
-                    <div class="feature-item"><strong>📚 Big Data (Update):</strong> Toàn bộ 300 từ vựng HSK 1 đã kèm ví dụ.</div>
+                    <div class="feature-item"><strong>🔄 Multi-Device Sync (Mới):</strong> Dữ liệu đồng bộ hoàn hảo. Học trên điện thoại, tiếp tục trên máy tính!</div>
+                    <div class="feature-item"><strong>📚 Big Data:</strong> Trọn bộ 300 từ vựng HSK 1.</div>
                     <div class="feature-item"><strong>🎙️ Native Voice AI:</strong> Tự động ép trình duyệt phát âm chuẩn giọng bản xứ.</div>
-                    <div class="feature-item"><strong>🔒 Bảo mật:</strong> Tính năng Khôi phục mật khẩu và Xóa tài khoản.</div>
-                    <div class="feature-item"><strong>🎮 Ôn Tập:</strong> Thuật toán <em>Spaced Repetition</em> ưu tiên từ hay làm sai.</div>
+                    <div class="feature-item"><strong>🔒 Bảo mật:</strong> Khôi phục mật khẩu và Xóa tài khoản vĩnh viễn.</div>
                 </div>
             </div>
         </div>
@@ -272,7 +271,7 @@
 
     <script>
         const notificationsData = [
-            { date: "Hôm nay", title: "🚀 Bản cập nhật 29.0: Đầy đủ ví dụ", desc: "Đã bổ sung câu ví dụ thực tế song ngữ Trung-Việt và từ loại cho toàn bộ 300 từ vựng HSK 1." }
+            { date: "Hôm nay", title: "🔄 Multi-Device Sync", desc: "Hệ thống đồng bộ độc lập qua Database. Bạn có thể đăng nhập trên điện thoại và máy tính mà tiến độ học tập luôn thống nhất!" }
         ];
 
         function checkNotifications() {
@@ -300,7 +299,6 @@
         let userProgress = {}; 
         let vocabIndex = 0; let reviewMode = 'vocab'; let currentQuizItemKey = ""; let currentQuizCorrectAns = "";
 
-        // --- NATIVE VOICE AI ---
         let availableVoices = [];
         function loadVoices() { availableVoices = window.speechSynthesis.getVoices(); }
         if ('speechSynthesis' in window) { loadVoices(); if (speechSynthesis.onvoiceschanged !== undefined) speechSynthesis.onvoiceschanged = loadVoices; }
@@ -337,7 +335,7 @@
                         {w:"爸爸",p:"bàba",t:"danh từ",m:"bố, ba",c:"他是我爸爸。",v:"Ông ấy là bố tôi."},
                         {w:"百",p:"bǎi",t:"số",m:"một trăm",c:"一百块钱。",v:"Một trăm đồng."},
                         {w:"白天",p:"báitiān",t:"danh từ",m:"ban ngày",c:"白天很热。",v:"Ban ngày rất nóng."},
-                        {w:"半",p:"bàn",t:"số",m:"một nửa",c:"半个小时。",v:"Nửa tiếng."},
+                        {w:"半",p:"bàn",t:"số",m:"một nửa",c:"半个月。",v:"Nửa tháng."},
                         {w:"包子",p:"bāozi",t:"danh từ",m:"bánh bao",c:"吃包子。",v:"Ăn bánh bao."},
                         {w:"杯子",p:"bēizi",t:"danh từ",m:"cái cốc",c:"一个杯子。",v:"Một cái cốc."},
                         {w:"本",p:"běn",t:"lượng từ",m:"quyển (sách)",c:"一本书。",v:"Một quyển sách."},
@@ -484,7 +482,7 @@
                         {w:"牛奶",p:"niúnǎi",t:"Danh từ",m:"sữa",c:"喝牛奶。",v:"Uống sữa."},
                         {w:"女",p:"nǚ",t:"Tính từ",m:"nữ",c:"女孩。",v:"Cô bé."},
                         {w:"女儿",p:"nǚ’ér",t:"Danh từ",m:"con gái",c:"我女儿。",v:"Con gái tôi."},
-                        {w:"男朋友",p:"nǚpéngyou",t:"Danh từ",m:"bạn gái",c:"我女朋友。",v:"Bạn gái tôi."},
+                        {w:"女朋友",p:"nǚpéngyou",t:"Danh từ",m:"bạn gái",c:"我女朋友。",v:"Bạn gái tôi."},
                         {w:"女士",p:"nǚshì",t:"Danh từ",m:"quý bà",c:"王女士。",v:"Bà Vương."},
                         {w:"朋友",p:"péngyou",t:"Danh từ",m:"bạn bè",c:"好朋友。",v:"Bạn tốt."},
                         {w:"便宜",p:"piányi",t:"Tính từ",m:"rẻ",c:"很便宜。",v:"Rất rẻ."},
@@ -671,7 +669,7 @@
                 msgBox.innerHTML = `<span style='color: var(--wrong-color);'>${res.error}</span>`;
             } else {
                 isLoggedIn = true; currentUser = user;
-                userProgress = res.progress || JSON.parse(localStorage.getItem('languageAppProgress')) || {}; 
+                userProgress = res.progress || {}; 
                 
                 localStorage.setItem('app_is_logged_in', 'true'); localStorage.setItem('app_username', user); recordLoginTime();
                 
@@ -695,14 +693,15 @@
 
         function saveProgress() {
             if(!isLoggedIn) return;
-            localStorage.setItem('languageAppProgress', JSON.stringify(userProgress));
             fetchAPI('/api/progress', { username: currentUser, progress: userProgress });
         }
 
         window.onload = () => { 
             updateAuthUI();
             if(isLoggedIn) {
-                fetchAPI('/api/auth', { username: currentUser, password: "...", type: "login" }).then(res => { if(res.progress) userProgress = res.progress; renderContent(); });
+                fetchAPI('/api/get-progress', { username: currentUser }).then(res => { 
+                    if(res.progress) { userProgress = res.progress; renderContent(); } 
+                });
                 recordLoginTime();
             }
             checkNotifications();
