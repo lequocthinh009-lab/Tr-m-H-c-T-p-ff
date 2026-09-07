@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trạm Học Tập 35.0 🌟 (Dashboard UI)</title>
+    <title>Trạm Học Tập 36.0 🌟 (Thêm Tài Liệu)</title>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root { 
@@ -134,17 +134,27 @@
         button.nav-btn:hover { background: var(--primary-color); color: #fff; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(255, 117, 140, 0.3);}
         
         /* CÁC DANH SÁCH BÊN DƯỚI */
-        .grammar-list, .notebook-list, .exam-list { width: 100%; display: flex; flex-direction: column; gap: 15px; }
+        .grammar-list, .notebook-list, .exam-list, .doc-list { width: 100%; display: flex; flex-direction: column; gap: 15px; }
         .grammar-card { background: #fff; border-radius: 20px; padding: 25px; text-align: left; border-left: 6px solid var(--primary-color); box-shadow: var(--shadow-soft); position: relative;}
         .g-title { font-size: 1.3rem; color: var(--primary-dark); font-weight: 800; margin: 0 0 15px 0; padding-right: 30px;}
         .g-formula { background: #fdfbfb; padding: 12px; border-radius: 12px; font-family: monospace; font-size: 1.1rem; color: var(--text-main); margin-bottom: 12px; text-align: center; border: 1px solid #eee;}
         
-        .exam-list { grid-template-columns: 1fr 1fr; display: grid;}
+        .exam-list, .doc-list { grid-template-columns: 1fr 1fr; display: grid;}
         .exam-card { background: #fff; border-radius: 20px; padding: 25px; text-align: center; box-shadow: var(--shadow-soft); border: 2px solid transparent; transition: 0.3s;}
         .exam-card:hover { transform: translateY(-5px); border-color: var(--primary-light); }
         .e-title { font-size: 1.3rem; font-weight: 800; margin: 0 0 10px 0; color: var(--text-main);}
         .e-btn { background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%); border: none; padding: 12px 20px; border-radius: 15px; font-weight: 700; color: #0056b3; cursor: pointer; width: 100%; margin-top: 10px; transition: 0.2s;}
         .e-btn:hover { box-shadow: 0 5px 15px rgba(161, 196, 253, 0.4); }
+
+        /* TÀI LIỆU (NEW) */
+        .doc-card { background: #fff; border-radius: 20px; padding: 20px; display: flex; align-items: center; gap: 15px; box-shadow: var(--shadow-soft); transition: 0.3s; border: 1px solid #eee; }
+        .doc-card:hover { transform: translateY(-3px); border-color: var(--primary-light); }
+        .doc-icon { font-size: 2.5rem; }
+        .doc-info { flex: 1; text-align: left; }
+        .doc-title { font-size: 1.1rem; font-weight: 800; color: var(--primary-dark); margin: 0 0 5px 0; }
+        .doc-desc { font-size: 0.9rem; color: var(--text-muted); margin: 0; line-height: 1.4;}
+        .doc-btn { background: #f8f9fa; border: none; padding: 8px 15px; border-radius: 12px; font-weight: 700; color: var(--primary-color); cursor: pointer; transition: 0.2s; white-space: nowrap;}
+        .doc-btn:hover { background: var(--primary-color); color: #fff; }
         
         .review-mode-selector { display: flex; gap: 10px; margin-bottom: 25px; width: 100%; justify-content: center; flex-wrap: wrap;}
         .btn-mode { background: #fff; border: 2px solid #eee; padding: 10px 25px; border-radius: 25px; font-size: 1.05rem; font-weight: bold; color: var(--text-muted); cursor: pointer; transition: 0.3s; box-shadow: 0 2px 5px rgba(0,0,0,0.02);}
@@ -182,7 +192,7 @@
             .side-menu { left: -300px; }
             .side-menu.active { left: 0; }
             .hamburger { display: block; }
-            .exam-list { grid-template-columns: 1fr; }
+            .exam-list, .doc-list { grid-template-columns: 1fr; }
             .word {font-size: 3.5rem;}
         }
     </style>
@@ -200,6 +210,7 @@
         <button class="feature-tab-btn" onclick="switchTab('exam')">📝 Luyện Giải Đề</button>
         <button class="feature-tab-btn" onclick="switchTab('review')">🎮 Ôn Tập Quiz</button>
         <button class="feature-tab-btn" onclick="switchTab('notebook')">📚 Sổ Tay</button>
+        <button class="feature-tab-btn" onclick="switchTab('document')">📁 Tài Liệu</button>
         <button class="feature-tab-btn" onclick="switchTab('history')">⏱ Lịch Sử</button>
     </div>
     
@@ -249,10 +260,10 @@
                     <h2>Khám Phá Trạm Học Tập 🚀</h2>
                     <div class="intro-warning" id="intro-warning">🔒 Bạn cần Đăng nhập / Đăng ký để mở khóa toàn bộ tính năng bài học!</div>
                     <div class="feature-list">
-                        <div class="feature-item"><strong>🖥️ Giao diện Dashboard (Mới):</strong> Menu dọc cố định bên trái, nội dung học tập rộng rãi bên phải. Phân cấp rõ ràng: Chọn Chức năng ➔ Chọn Ngôn ngữ ➔ Chọn Cấp độ.</div>
+                        <div class="feature-item"><strong>📁 Mục Tài Liệu (Mới):</strong> Đã cập nhật chuyên mục Tài liệu tham khảo, sách và file nghe riêng cho từng cấp độ.</div>
+                        <div class="feature-item"><strong>🖥️ Giao diện Dashboard:</strong> Menu dọc cố định bên trái, nội dung học tập rộng rãi bên phải. Phân cấp rõ ràng: Chọn Chức năng ➔ Chọn Ngôn ngữ ➔ Chọn Cấp độ.</div>
                         <div class="feature-item"><strong>✏️ Từ Vựng Cá Nhân:</strong> Tự do thêm từ vựng mới của riêng bạn vào hệ thống.</div>
                         <div class="feature-item"><strong>🔄 Multi-Device Sync:</strong> Dữ liệu đồng bộ hoàn hảo trên mọi thiết bị qua Cloud.</div>
-                        <div class="feature-item"><strong>🎙️ Native Voice AI:</strong> Phát âm chuẩn giọng bản xứ.</div>
                     </div>
                 </div>
             </div>
@@ -316,6 +327,12 @@
                 <div id="notebook-empty" class="empty-state hidden">📭 Sổ tay trống. Hãy nhấn dấu ★ ở thẻ từ vựng nhé!</div>
             </div>
 
+            <!-- SECTION MỚI: TÀI LIỆU THAM KHẢO -->
+            <div id="document-section" class="content-section">
+                <div class="doc-list" id="document-list"></div>
+                <div id="document-empty" class="empty-state hidden">🚧 Tài liệu đang được cập nhật...</div>
+            </div>
+
             <div id="history-section" class="content-section">
                 <div class="intro-card" style="margin-bottom: 20px;">
                     <h3 style="color: var(--primary-dark); margin-top:0; text-align: left; font-size: 1.5rem;">📊 Tiến độ học tập (<span id="hist-lang-title"></span>)</h3>
@@ -374,7 +391,7 @@
 
     <script>
         const notificationsData = [
-            { date: "Hôm nay", title: "🖥️ Bố cục Dashboard chuyên nghiệp", desc: "Trang web đã được thiết kế lại thành dạng Bảng điều khiển. Cột menu trái chứa các Chức năng học, khu vực bên phải là Nội dung chính kèm thanh chọn Ngôn ngữ và Cấp độ. Việc học chưa bao giờ gọn gàng đến thế!" }
+            { date: "Hôm nay", title: "📁 Bổ sung mục Tài Liệu", desc: "Giờ đây bạn có thể tải giáo trình, sách tham khảo hoặc nghe Audio luyện nghe MP3 ngay trong tab Tài Liệu." }
         ];
 
         const pageTitles = {
@@ -384,6 +401,7 @@
             'exam': '📝 Luyện Giải Đề',
             'review': '🎮 Ôn Tập Thần Tốc',
             'notebook': '📚 Sổ Tay Cá Nhân',
+            'document': '📁 Tài Liệu Tham Khảo',
             'history': '⏱ Lịch Sử Học Tập'
         };
 
@@ -595,7 +613,7 @@
                         {w:"牛奶",p:"niúnǎi",t:"Danh từ",m:"sữa",c:"喝牛奶。",v:"Uống sữa."},
                         {w:"女",p:"nǚ",t:"Tính từ",m:"nữ",c:"女孩。",v:"Cô bé."},
                         {w:"女儿",p:"nǚ’ér",t:"Danh từ",m:"con gái",c:"我女儿。",v:"Con gái tôi."},
-                        {w:"男朋友",p:"nǚpéngyou",t:"Danh từ",m:"bạn gái",c:"我女朋友。",v:"Bạn gái tôi."},
+                        {w:"男朋友",p:"nǚpéngyou",t:"Danh từ",m:"bạn gái",c:"我男朋友。",v:"Bạn gái tôi."},
                         {w:"女士",p:"nǚshì",t:"Danh từ",m:"quý bà",c:"王女士。",v:"Bà Vương."},
                         {w:"朋友",p:"péngyou",t:"Danh từ",m:"bạn bè",c:"好朋友。",v:"Bạn tốt."},
                         {w:"便宜",p:"piányi",t:"Tính từ",m:"rẻ",c:"很便宜。",v:"Rất rẻ."},
@@ -744,12 +762,19 @@
                         {w:"昨天",p:"zuótiān",t:"Danh từ",m:"hôm qua",c:"昨天见。",v:"Hôm qua gặp."}
                     ]
                 },
-                grammar: { "1": [ { title: "Câu chữ 很 (hěn)", formula: "S + 很 + Tính từ", desc: "Dùng để miêu tả tính chất." } ] }, exam: { "1": [{ title: "Đề mô phỏng HSK 1 - Số 01", time: "40 phút", qCount: 40 }] }
+                grammar: { "1": [ { title: "Câu chữ 很 (hěn)", formula: "S + 很 + Tính từ", desc: "Dùng để miêu tả tính chất." } ] }, exam: { "1": [{ title: "Đề mô phỏng HSK 1 - Số 01", time: "40 phút", qCount: 40 }] },
+                document: {
+                    "1": [
+                        { title: "Giáo trình chuẩn HSK 1", desc: "Sách giáo trình bản gốc PDF dùng để học trên lớp.", link: "#" },
+                        { title: "File Nghe MP3 HSK 1", desc: "Trọn bộ file nghe chuẩn giọng bản xứ kèm theo sách.", link: "#" },
+                        { title: "Bảng tập viết chữ Hán", desc: "File PDF kẻ ô li giúp bạn luyện viết 300 từ vựng cơ bản.", link: "#" }
+                    ]
+                }
             },
-            TOEIC: { vocab: { "Mục tiêu 500+": [ { word: "Accommodate", pinyin: "/əˈkɑː.mə.deɪt/", meaning: "cung cấp chỗ ở", exCn: "The hotel can accommodate up to 500 guests.", exVn: "Khách sạn đáp ứng 500 khách." } ] }, grammar: {}, exam: {} },
-            IELTS: { vocab: { "Band 5.0": [ { word: "Crucial", pinyin: "/ˈkruː.ʃəl/", meaning: "quan trọng", exCn: "Water is crucial.", exVn: "Nước cốt yếu." } ] }, grammar: {}, exam: {} },
-            TOPIK: { vocab: { "Cấp 1": [ { word: "가다", pinyin: "gada", meaning: "đi", exCn: "학교에 가요.", exVn: "Tôi đi học." } ] }, grammar: {}, exam: {} },
-            JLPT: { vocab: { "N5": [ { word: "食べる", pinyin: "たべる", meaning: "ăn", exCn: "私はりんごを食べる。", exVn: "Tôi ăn táo." } ] }, grammar: {}, exam: {} }
+            TOEIC: { vocab: { "Mục tiêu 500+": [ { word: "Accommodate", pinyin: "/əˈkɑː.mə.deɪt/", meaning: "cung cấp chỗ ở", exCn: "The hotel can accommodate up to 500 guests.", exVn: "Khách sạn đáp ứng 500 khách." } ] }, grammar: {}, exam: {}, document: {} },
+            IELTS: { vocab: { "Band 5.0": [ { word: "Crucial", pinyin: "/ˈkruː.ʃəl/", meaning: "quan trọng", exCn: "Water is crucial.", exVn: "Nước cốt yếu." } ] }, grammar: {}, exam: {}, document: {} },
+            TOPIK: { vocab: { "Cấp 1": [ { word: "가다", pinyin: "gada", meaning: "đi", exCn: "학교에 가요.", exVn: "Tôi đi học." } ] }, grammar: {}, exam: {}, document: {} },
+            JLPT: { vocab: { "N5": [ { word: "食べる", pinyin: "たべる", meaning: "ăn", exCn: "私はりんごを食べる。", exVn: "Tôi ăn táo." } ] }, grammar: {}, exam: {}, document: {} }
         };
 
         async function fetchAPI(endpoint, payload, method = 'POST') {
@@ -895,7 +920,15 @@
             }
         }
 
-        function renderContent() { if (currentTab === 'vocab') renderVocab(); else if (currentTab === 'grammar') renderGrammar(); else if (currentTab === 'exam') renderExam(); else if (currentTab === 'review') { reviewMode = 'vocab'; startReview('vocab'); } else if (currentTab === 'notebook') renderNotebook(); else if (currentTab === 'history') renderHistory(); }
+        function renderContent() { 
+            if (currentTab === 'vocab') renderVocab(); 
+            else if (currentTab === 'grammar') renderGrammar(); 
+            else if (currentTab === 'exam') renderExam(); 
+            else if (currentTab === 'review') { reviewMode = 'vocab'; startReview('vocab'); } 
+            else if (currentTab === 'notebook') renderNotebook(); 
+            else if (currentTab === 'document') renderDocument(); 
+            else if (currentTab === 'history') renderHistory(); 
+        }
 
         function toggleSaveWord(event) {
             event.stopPropagation(); const data = getFullVocabData()[vocabIndex]; const key = getItemKey(data, 'vocab');
@@ -943,6 +976,29 @@
             const data = db[currentExamType].exam[currentLevel] || []; const list = document.getElementById('exam-list'); list.innerHTML = '';
             if (data.length === 0) { list.classList.add('hidden'); document.getElementById('exam-empty').classList.remove('hidden'); } 
             else { list.classList.remove('hidden'); document.getElementById('exam-empty').classList.add('hidden'); data.forEach(item => { list.innerHTML += `<div class="exam-card"><h3 class="e-title">📄 ${item.title}</h3><div style="margin-bottom: 15px; color:var(--text-muted); font-weight:600;">⏳ ${item.time} • ❓ ${item.qCount} câu</div><button class="e-btn">Bắt đầu làm bài 🚀</button></div>`; }); }
+        }
+
+        function renderDocument() {
+            const data = (db[currentExamType].document && db[currentExamType].document[currentLevel]) ? db[currentExamType].document[currentLevel] : [];
+            const list = document.getElementById('document-list');
+            const empty = document.getElementById('document-empty');
+            list.innerHTML = '';
+            if (data.length === 0) {
+                list.classList.add('hidden'); empty.classList.remove('hidden');
+            } else {
+                list.classList.remove('hidden'); empty.classList.add('hidden');
+                data.forEach(item => {
+                    list.innerHTML += `
+                    <div class="doc-card">
+                        <div class="doc-icon">📄</div>
+                        <div class="doc-info">
+                            <h3 class="doc-title">${item.title}</h3>
+                            <p class="doc-desc">${item.desc}</p>
+                        </div>
+                        <button class="doc-btn" onclick="window.open('${item.link}', '_blank')">Tải về ⬇️</button>
+                    </div>`;
+                });
+            }
         }
 
         function startReview(mode) {
