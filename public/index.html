@@ -3,121 +3,206 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trạm Học Tập Đa Ngôn Ngữ 31.0 🌍 (Custom Vocab)</title>
+    <title>Trạm Học Tập 32.0 🌙 (Lofi Chill Aesthetic)</title>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --primary-color: #ff9a9e; --primary-dark: #ff758c; --bg-color: #fecfef; --card-bg: #ffffff; --text-main: #333333; --text-muted: #666666; --correct-color: #4caf50; --wrong-color: #f44336; --warning-color: #ff9800; }
-        body { font-family: 'Quicksand', sans-serif; background: linear-gradient(135deg, var(--bg-color) 0%, #a1c4fd 100%); min-height: 100vh; margin: 0; display: flex; flex-direction: column; align-items: center; color: var(--text-main); overflow-x: hidden; }
-        .top-nav { width: 100%; background: rgba(255, 255, 255, 0.95); box-shadow: 0 4px 15px rgba(0,0,0,0.05); padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); box-sizing: border-box; }
-        .hamburger { font-size: 1.8rem; background: none; border: none; color: var(--primary-dark); cursor: pointer; transition: transform 0.2s; }
+        :root {
+            /* Tone màu Chill: Xanh ngọc, tím than, kính mờ */
+            --primary-color: #a2d2ff; 
+            --primary-dark: #bde0fe; 
+            --bg-color: #0b0c10; 
+            --card-bg: rgba(20, 20, 30, 0.55); 
+            --text-main: #f0f0f0; 
+            --text-muted: #b0b8c4; 
+            --correct-color: #2ecc71; 
+            --wrong-color: #e74c3c; 
+            --warning-color: #f39c12;
+            --glass-border: rgba(255, 255, 255, 0.15);
+        }
+
+        body { 
+            font-family: 'Quicksand', sans-serif; 
+            /* Hình nền Lofi Động */
+            background: url('https://i.pinimg.com/originals/a0/0a/65/a00a653cb306a4b11f67f96180374e2d.gif') no-repeat center center fixed; 
+            background-size: cover;
+            color: var(--text-main); 
+            min-height: 100vh; margin: 0; display: flex; flex-direction: column; align-items: center; overflow-x: hidden; 
+        }
+
+        /* Lớp phủ làm tối hình nền giúp chữ dễ đọc hơn */
+        body::before {
+            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(10, 10, 20, 0.4); z-index: -1;
+        }
+
+        /* --- CLASS DÙNG CHUNG CHO HIỆU ỨNG KÍNH (GLASSMORPHISM) --- */
+        .glass {
+            background: var(--card-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        }
+
+        /* NAVBAR */
+        .top-nav { width: 100%; padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-sizing: border-box; border-radius: 0 0 20px 20px; border-top: none;}
+        .hamburger { font-size: 1.8rem; background: none; border: none; color: #fff; cursor: pointer; transition: transform 0.2s; text-shadow: 0 2px 5px rgba(0,0,0,0.5);}
         .hamburger:hover { transform: scale(1.1); }
         .auth-buttons { display: flex; align-items: center; gap: 10px; }
-        .auth-buttons button { background: #fff; border: 2px solid var(--primary-color); padding: 8px 15px; border-radius: 20px; font-family: inherit; font-weight: 700; color: var(--primary-dark); cursor: pointer; transition: 0.3s; }
-        .auth-buttons button.btn-login { background: var(--primary-color); color: #fff; }
-        .auth-buttons button.btn-danger { background: #fff; color: var(--wrong-color); border-color: var(--wrong-color); }
-        .auth-buttons button.btn-danger:hover { background: var(--wrong-color); color: #fff; }
+        
+        button { font-family: inherit; }
+        .auth-buttons button { background: rgba(255,255,255,0.1); border: 1px solid var(--glass-border); padding: 8px 15px; border-radius: 20px; font-weight: 700; color: #fff; cursor: pointer; transition: 0.3s; backdrop-filter: blur(5px);}
+        .auth-buttons button.btn-login { background: var(--primary-color); color: #111; border: none; }
+        .auth-buttons button.btn-danger { background: rgba(231, 76, 60, 0.2); color: #ff7675; border-color: #ff7675; }
+        .auth-buttons button.btn-danger:hover { background: #e74c3c; color: #fff; }
         .auth-buttons button:hover { opacity: 0.8; transform: translateY(-2px); }
-        #welcome-text { font-weight: bold; color: var(--primary-dark); margin-right: 10px; font-size: 1rem;}
+        #welcome-text { font-weight: bold; color: var(--primary-color); margin-right: 10px; font-size: 1rem; text-shadow: 0 2px 5px rgba(0,0,0,0.5);}
+        
         .noti-btn { position: relative; background: none !important; border: none !important; font-size: 1.5rem !important; padding: 0 !important; margin-right: 10px; cursor: pointer; transition: transform 0.2s; }
         .noti-btn:hover { transform: scale(1.1); }
         .noti-badge { position: absolute; top: -5px; right: -5px; background: red; color: white; font-size: 0.7rem; font-weight: bold; border-radius: 50%; padding: 2px 6px; display: none; } 
-        .side-menu { position: fixed; top: 0; left: -280px; width: 250px; height: 100vh; background: #ffffff; box-shadow: 4px 0 15px rgba(0,0,0,0.1); z-index: 200; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); display: flex; flex-direction: column; padding: 20px; box-sizing: border-box; }
+        
+        /* MENU DỌC */
+        .side-menu { position: fixed; top: 0; left: -280px; width: 250px; height: 100vh; z-index: 200; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); display: flex; flex-direction: column; padding: 20px; box-sizing: border-box; border-radius: 0 20px 20px 0;}
         .side-menu.active { left: 0; }
-        .side-menu h2 { color: var(--primary-dark); margin-top: 0; border-bottom: 2px dashed #eee; padding-bottom: 15px; }
-        .exam-tab-btn { background: transparent; border: none; padding: 12px 15px; font-size: 1.1rem; font-family: inherit; font-weight: 700; color: var(--text-muted); border-radius: 15px; cursor: pointer; transition: all 0.3s ease; text-align: left; margin-bottom: 10px; }
-        .exam-tab-btn.active { background: #4facfe; color: #ffffff; box-shadow: 0 4px 10px rgba(79, 172, 254, 0.3); }
-        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 150; display: none; opacity: 0; transition: opacity 0.3s; }
+        .side-menu h2 { color: var(--primary-color); margin-top: 0; border-bottom: 1px solid var(--glass-border); padding-bottom: 15px; }
+        .exam-tab-btn { background: transparent; border: none; padding: 12px 15px; font-size: 1.1rem; font-weight: 700; color: var(--text-muted); border-radius: 15px; cursor: pointer; transition: all 0.3s ease; text-align: left; margin-bottom: 10px; }
+        .exam-tab-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
+        .exam-tab-btn.active { background: var(--primary-color); color: #111; box-shadow: 0 4px 15px rgba(162, 210, 255, 0.4); }
+        
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 150; display: none; opacity: 0; transition: opacity 0.3s; backdrop-filter: blur(3px);}
         .overlay.active { display: block; opacity: 1; }
         
-        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 300; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s; }
+        /* MODAL */
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 300; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s; backdrop-filter: blur(5px);}
         .modal.active { display: flex; opacity: 1; }
-        .modal-content { background: #fff; width: 90%; max-width: 400px; padding: 30px; border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); text-align: center; position: relative; transform: translateY(-20px); transition: 0.3s; max-height: 80vh; overflow-y: auto;}
+        .modal-content { width: 90%; max-width: 400px; padding: 30px; border-radius: 25px; text-align: center; position: relative; transform: translateY(-20px); transition: 0.3s; max-height: 80vh; overflow-y: auto;}
         .modal.active .modal-content { transform: translateY(0); }
-        .close-modal { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; color: #aaa; cursor: pointer; transition: 0.2s; }
-        .modal-title { color: var(--primary-dark); font-size: 1.8rem; margin-bottom: 20px; margin-top: 0;}
-        .auth-input { width: 100%; padding: 12px 15px; margin-bottom: 15px; border: 2px solid #eee; border-radius: 15px; font-family: inherit; font-size: 1rem; box-sizing: border-box; transition: 0.3s; }
-        .auth-input:focus { border-color: var(--primary-color); outline: none; }
-        .btn-submit { width: 100%; background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%); border: none; padding: 12px; border-radius: 15px; color: #fff; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: 0.3s; font-family: inherit; margin-top: 10px; }
+        .close-modal { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; color: #fff; cursor: pointer; transition: 0.2s; }
+        .close-modal:hover { color: var(--wrong-color); }
+        .modal-title { color: #fff; font-size: 1.8rem; margin-bottom: 20px; margin-top: 0; text-shadow: 0 0 10px rgba(255,255,255,0.3);}
         
-        .auth-switch { margin-top: 20px; color: #666; font-size: 0.95rem; cursor: pointer; }
+        .auth-input { width: 100%; padding: 12px 15px; margin-bottom: 15px; border-radius: 15px; font-size: 1rem; box-sizing: border-box; transition: 0.3s; background: rgba(0,0,0,0.3); color: #fff; border: 1px solid rgba(255,255,255,0.2);}
+        .auth-input::placeholder { color: #888; }
+        .auth-input:focus { border-color: var(--primary-color); outline: none; background: rgba(0,0,0,0.5);}
+        .btn-submit { width: 100%; background: var(--primary-color); border: none; padding: 12px; border-radius: 15px; color: #111; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; box-shadow: 0 4px 15px rgba(162, 210, 255, 0.4);}
+        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(162, 210, 255, 0.6); }
+        
+        .auth-switch { margin-top: 20px; color: #aaa; font-size: 0.95rem; cursor: pointer; }
         .auth-switch span { color: var(--primary-dark); font-weight: bold; }
-        .auth-switch span:hover { text-decoration: underline; }
+        .auth-switch span:hover { text-decoration: underline; color: #fff;}
         #authMessage { margin-top: 15px; font-size: 0.95rem; font-weight: bold; min-height: 20px; }
+        
+        /* HEADER & TABS */
         .main-content { flex: 1; width: 100%; display: flex; flex-direction: column; align-items: center; padding-bottom: 40px; }
-        .header { text-align: center; margin-bottom: 15px; margin-top: 20px; width: 100%; display: flex; flex-direction: column; align-items: center; padding: 0 15px; box-sizing: border-box;}
-        .header h1 { color: #ffffff; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); font-size: 2.2rem; margin: 0 0 15px 0; }
-        .country-img { width: 100%; max-width: 650px; height: 250px; object-fit: cover; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); transition: opacity 0.4s ease, transform 0.4s ease; border: 4px solid rgba(255, 255, 255, 0.6); }
-        .main-tabs { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; background: rgba(255,255,255,0.3); padding: 10px; border-radius: 30px; margin-bottom: 25px; margin-top: 20px; max-width: 95%; }
-        .tab-btn { background: transparent; border: none; padding: 10px 15px; font-size: 1rem; font-family: inherit; font-weight: 700; color: var(--text-muted); border-radius: 20px; cursor: pointer; transition: all 0.3s ease; }
-        .tab-btn.active { background-color: #ffffff; color: var(--primary-dark); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .header { text-align: center; margin-bottom: 15px; margin-top: 20px; width: 100%; }
+        .header h1 { color: #fff; text-shadow: 0 0 15px rgba(162, 210, 255, 0.8), 0 4px 5px rgba(0,0,0,0.5); font-size: 2.5rem; margin: 0 0 15px 0; letter-spacing: 2px;}
+        .country-img { display: none; } /* Ẩn ảnh cũ để show hình nền lofi */
+        
+        .main-tabs { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; padding: 10px; border-radius: 30px; margin-bottom: 25px; margin-top: 10px; max-width: 95%; }
+        .tab-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); padding: 10px 15px; font-size: 1rem; font-weight: 700; color: #ccc; border-radius: 20px; cursor: pointer; transition: all 0.3s ease; backdrop-filter: blur(5px);}
+        .tab-btn:hover { background: rgba(255,255,255,0.15); color: #fff;}
+        .tab-btn.active { background-color: var(--primary-color); color: #111; border-color: var(--primary-color); box-shadow: 0 0 15px rgba(162, 210, 255, 0.3); }
+        
         .level-selector { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; max-width: 700px; margin-bottom: 30px; padding: 0 10px; }
-        .level-btn { background-color: rgba(255, 255, 255, 0.6); border: 2px solid #ffffff; padding: 8px 16px; border-radius: 20px; font-family: inherit; font-weight: 700; color: var(--text-muted); cursor: pointer; transition: all 0.3s ease; }
-        .level-btn.active { background-color: var(--primary-dark); color: #ffffff; border-color: var(--primary-dark); box-shadow: 0 6px 12px rgba(255, 117, 140, 0.3); }
+        .level-btn { background-color: rgba(0,0,0,0.4); border: 1px solid var(--glass-border); padding: 8px 16px; border-radius: 20px; font-weight: 700; color: var(--text-muted); cursor: pointer; transition: all 0.3s ease; backdrop-filter: blur(5px);}
+        .level-btn.active { background-color: #fff; color: #111; box-shadow: 0 0 15px rgba(255,255,255,0.4); }
+        
         .content-section { display: none; flex-direction: column; align-items: center; width: 100%; max-width: 600px; padding: 0 10px; box-sizing: border-box;}
         .content-section.active { display: flex; }
-        .intro-card { background: #fff; width: 100%; border-radius: 25px; padding: 30px; box-sizing: border-box; box-shadow: 0 10px 30px rgba(0,0,0,0.08); text-align: left; }
-        .intro-card h2 { color: var(--primary-dark); margin-top: 0; text-align: center; font-size: 1.8rem; }
+        
+        /* GIỚI THIỆU & LỊCH SỬ */
+        .intro-card { width: 100%; border-radius: 25px; padding: 30px; box-sizing: border-box; text-align: left; }
+        .intro-card h2 { color: var(--primary-color); margin-top: 0; text-align: center; font-size: 1.8rem; text-shadow: 0 2px 4px rgba(0,0,0,0.5);}
         .feature-list { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
-        .feature-item { background: #f0f8ff; padding: 15px; border-radius: 15px; border-left: 5px solid #4facfe; font-size: 1.05rem; color: #333; }
-        .intro-warning { background: #fff8e1; color: var(--warning-color); padding: 10px; border-radius: 10px; text-align: center; font-weight: bold; margin-top: 15px; border: 1px dashed var(--warning-color); }
-        .progress-bar-bg { width: 100%; background: #ddd; border-radius: 10px; height: 18px; margin-top: 10px; overflow: hidden; }
-        .progress-bar-fill { background: var(--correct-color); height: 100%; border-radius: 10px; transition: width 0.5s ease; }
-        .history-list-item { background: #f9f9f9; padding: 10px 15px; border-radius: 10px; margin-bottom: 8px; border-left: 4px solid var(--primary-color); font-size: 0.95rem; }
+        .feature-item { background: rgba(0,0,0,0.3); padding: 15px; border-radius: 15px; border-left: 5px solid var(--primary-color); font-size: 1.05rem; color: #eee; }
+        .intro-warning { background: rgba(243, 156, 18, 0.2); color: #f39c12; padding: 10px; border-radius: 10px; text-align: center; font-weight: bold; margin-top: 15px; border: 1px dashed #f39c12; }
         
+        .progress-bar-bg { width: 100%; background: rgba(255,255,255,0.1); border-radius: 10px; height: 18px; margin-top: 10px; overflow: hidden; border: 1px solid var(--glass-border);}
+        .progress-bar-fill { background: var(--correct-color); height: 100%; border-radius: 10px; transition: width 0.5s ease; box-shadow: 0 0 10px var(--correct-color);}
+        .history-list-item { background: rgba(0,0,0,0.3); padding: 10px 15px; border-radius: 10px; margin-bottom: 8px; border-left: 4px solid var(--primary-color); font-size: 0.95rem; }
+        
+        /* FLASHCARD CHILL */
         .flashcard-container { perspective: 1000px; width: 350px; height: 450px; margin-bottom: 20px; max-width: 100%; }
-        .flashcard { width: 100%; height: 100%; position: relative; transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); transform-style: preserve-3d; cursor: pointer; box-shadow: 0 15px 35px rgba(0,0,0,0.1); border-radius: 25px; }
+        .flashcard { width: 100%; height: 100%; position: relative; transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); transform-style: preserve-3d; cursor: pointer; border-radius: 25px; }
         .flashcard.flipped { transform: rotateY(180deg); }
-        .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 25px; background-color: var(--card-bg); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; text-align: center; border: 4px solid #fff; }
-        .front { background: linear-gradient(to bottom right, #ffffff, #fff5f5); }
-        .back { background: linear-gradient(to bottom right, #ffffff, #f0f8ff); transform: rotateY(180deg); }
-        .word { font-size: 3.5rem; font-weight: 700; color: var(--primary-dark); margin-bottom: 5px; line-height: 1.2; word-break: break-word;}
-        .pinyin { font-size: 1.5rem; color: var(--text-muted); font-weight: 600; margin-bottom: 5px; }
-        .audio-btn { background: #f0f8ff; border: 2px solid #a1c4fd; border-radius: 50%; width: 50px; height: 50px; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s ease; margin-bottom: 15px; }
-        .btn-bookmark { position: absolute; top: 15px; right: 20px; font-size: 2rem; background: none; border: none; cursor: pointer; color: #ddd; transition: 0.3s; z-index: 10; }
-        .btn-bookmark.saved { color: #ffd700; text-shadow: 0 2px 5px rgba(255,215,0,0.5); }
-        .meaning { font-size: 1.8rem; font-weight: 700; color: #4facfe; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 2px dashed #eee; width: 100%; }
-        .example-cn { font-size: 1.2rem; margin-bottom: 5px; color: var(--text-main); font-weight: bold; }
-        .example-vn { font-size: 1.05rem; color: var(--text-muted); font-style: italic; }
+        .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 25px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; text-align: center; }
+        .back { transform: rotateY(180deg); }
         
-        .controls { display: flex; align-items: center; gap: 20px; background: rgba(255, 255, 255, 0.4); padding: 10px 25px; border-radius: 50px; backdrop-filter: blur(5px); }
-        button.nav-btn { background-color: #ffffff; border: none; padding: 10px 20px; font-size: 1rem; font-weight: 600; color: var(--primary-dark); border-radius: 25px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: 0.2s;}
-        button.nav-btn:hover { background: var(--primary-color); color: #fff;}
-        .grammar-list, .notebook-list { width: 100%; display: flex; flex-direction: column; gap: 15px; }
-        .grammar-card { background: #fff; border-radius: 20px; padding: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.05); text-align: left; border-left: 5px solid #4facfe; position: relative;}
-        .g-title { font-size: 1.3rem; color: var(--primary-dark); font-weight: 700; margin: 0 0 10px 0; padding-right: 30px;}
-        .g-formula { background: #f0f8ff; padding: 10px; border-radius: 10px; font-family: monospace; font-size: 1.1rem; color: #333; margin-bottom: 10px; font-weight: bold; text-align: center;}
-        .exam-list { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .exam-card { background: #fff; border-radius: 20px; padding: 20px; text-align: center; box-shadow: 0 8px 20px rgba(0,0,0,0.05); border: 2px solid transparent; }
-        .e-title { font-size: 1.2rem; font-weight: 700; margin: 0 0 10px 0; }
-        .e-btn { background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%); border: none; padding: 10px 20px; border-radius: 15px; font-weight: 700; color: #1a5f7a; cursor: pointer; width: 100%; font-family: inherit; }
+        .word { font-size: 4rem; font-weight: 700; color: var(--primary-color); margin-bottom: 5px; line-height: 1.2; text-shadow: 0 0 20px rgba(162, 210, 255, 0.5);}
+        .pinyin { font-size: 1.5rem; color: #fff; font-weight: 600; margin-bottom: 5px; letter-spacing: 1px;}
+        .word-type { font-size: 1rem; color: #aaa; font-style: italic; margin-bottom: 15px; }
+        
+        .audio-btn { background: rgba(255,255,255,0.1); border: 1px solid var(--glass-border); border-radius: 50%; width: 50px; height: 50px; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s ease; margin-bottom: 15px; color: #fff;}
+        .audio-btn:hover { background: var(--primary-color); color: #111; transform: scale(1.1); box-shadow: 0 0 15px rgba(162, 210, 255, 0.5);}
+        
+        .btn-bookmark { position: absolute; top: 15px; right: 20px; font-size: 2rem; background: none; border: none; cursor: pointer; color: rgba(255,255,255,0.3); transition: 0.3s; z-index: 10; }
+        .btn-bookmark.saved { color: #f1c40f; text-shadow: 0 0 15px rgba(241, 196, 15, 0.8); }
+        
+        .meaning { font-size: 1.8rem; font-weight: 700; color: var(--primary-color); margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid var(--glass-border); width: 100%; text-shadow: 0 2px 4px rgba(0,0,0,0.5);}
+        .example-cn { font-size: 1.2rem; margin-bottom: 8px; color: #fff; font-weight: bold; letter-spacing: 0.5px;}
+        .example-vn { font-size: 1.05rem; color: #aaa; font-style: italic; }
+        
+        .controls { display: flex; align-items: center; gap: 20px; padding: 10px 25px; border-radius: 50px; margin-bottom: 20px;}
+        button.nav-btn { background-color: rgba(255,255,255,0.1); border: 1px solid var(--glass-border); padding: 10px 20px; font-size: 1rem; font-weight: 600; color: #fff; border-radius: 25px; cursor: pointer; transition: 0.2s; backdrop-filter: blur(5px);}
+        button.nav-btn:hover { background: var(--primary-color); color: #111; box-shadow: 0 0 15px rgba(162, 210, 255, 0.4);}
+        
+        /* CÁC DANH SÁCH BÊN DƯỚI */
+        .grammar-list, .notebook-list, .exam-list { width: 100%; display: flex; flex-direction: column; gap: 15px; }
+        .grammar-card { border-radius: 20px; padding: 20px; text-align: left; border-left: 5px solid var(--primary-color); position: relative;}
+        .g-title { font-size: 1.3rem; color: var(--primary-color); font-weight: 700; margin: 0 0 10px 0; padding-right: 30px;}
+        .g-formula { background: rgba(0,0,0,0.4); padding: 10px; border-radius: 10px; font-family: monospace; font-size: 1.1rem; color: #fff; margin-bottom: 10px; text-align: center; border: 1px solid var(--glass-border);}
+        
+        .exam-list { grid-template-columns: 1fr 1fr; display: grid;}
+        .exam-card { border-radius: 20px; padding: 20px; text-align: center; }
+        .e-title { font-size: 1.2rem; font-weight: 700; margin: 0 0 10px 0; color: #fff;}
+        .e-btn { background: var(--primary-color); border: none; padding: 10px 20px; border-radius: 15px; font-weight: 700; color: #111; cursor: pointer; width: 100%; margin-top: 10px;}
+        
+        /* ÔN TẬP QUIZ */
         .review-mode-selector { display: flex; gap: 10px; margin-bottom: 20px; width: 100%; justify-content: center; flex-wrap: wrap;}
-        .btn-mode { background: #fff; border: 2px solid var(--primary-color); padding: 10px 20px; border-radius: 25px; font-size: 1rem; font-weight: bold; color: var(--primary-dark); cursor: pointer; font-family: inherit;}
-        .btn-mode.active { background: var(--primary-color); color: #fff; }
-        .quiz-container { background: #fff; width: 100%; border-radius: 25px; padding: 25px; box-sizing: border-box; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; }
-        .q-text { font-size: 1.3rem; font-weight: bold; color: #333; margin-bottom: 20px; }
-        .q-word-hl { font-size: 2rem; color: var(--primary-dark); display: block; margin: 10px 0; }
+        .btn-mode { background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border); padding: 10px 20px; border-radius: 25px; font-size: 1rem; font-weight: bold; color: #ccc; cursor: pointer; backdrop-filter: blur(5px);}
+        .btn-mode.active { background: var(--primary-color); color: #111; border-color: var(--primary-color); box-shadow: 0 0 15px rgba(162, 210, 255, 0.4);}
+        
+        .quiz-container { width: 100%; border-radius: 25px; padding: 25px; box-sizing: border-box; text-align: center; }
+        .q-text { font-size: 1.3rem; font-weight: bold; color: #eee; margin-bottom: 20px; line-height: 1.4;}
+        .q-word-hl { font-size: 2.2rem; color: var(--primary-color); display: block; margin: 10px 0; text-shadow: 0 0 10px rgba(162,210,255,0.4);}
+        
         .options-grid { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
-        .opt-btn { background: #f8f9fa; border: 2px solid #eee; padding: 12px; border-radius: 15px; font-size: 1rem; font-family: inherit; cursor: pointer; text-align: left; font-weight: 600; color: #444; }
-        .opt-btn.correct { background: var(--correct-color); color: #fff; border-color: var(--correct-color); }
-        .opt-btn.wrong { background: var(--wrong-color); color: #fff; border-color: var(--wrong-color); }
-        .btn-next-q { background: var(--primary-dark); color: #fff; border: none; padding: 12px 30px; font-size: 1.1rem; font-weight: bold; border-radius: 25px; cursor: pointer; font-family: inherit; display: none; margin: 0 auto; }
-        .empty-state { text-align: center; padding: 40px 20px; background: rgba(255,255,255,0.5); border-radius: 20px; width: 100%; font-size: 1.2rem; font-weight: 600; color: #666; }
+        .opt-btn { background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); padding: 12px; border-radius: 15px; font-size: 1rem; cursor: pointer; text-align: left; font-weight: 600; color: #fff; transition: 0.2s;}
+        .opt-btn:hover { background: rgba(255,255,255,0.1); }
+        .opt-btn.correct { background: rgba(46, 204, 113, 0.3); color: #fff; border-color: var(--correct-color); box-shadow: 0 0 10px rgba(46,204,113,0.4);}
+        .opt-btn.wrong { background: rgba(231, 76, 60, 0.3); color: #fff; border-color: var(--wrong-color); box-shadow: 0 0 10px rgba(231,76,60,0.4);}
+        .btn-next-q { background: var(--primary-color); color: #111; border: none; padding: 12px 30px; font-size: 1.1rem; font-weight: bold; border-radius: 25px; cursor: pointer; display: none; margin: 0 auto; box-shadow: 0 0 15px rgba(162, 210, 255, 0.4);}
+        
+        .empty-state { text-align: center; padding: 40px 20px; border-radius: 20px; width: 100%; font-size: 1.2rem; font-weight: 600; color: #aaa; }
         .hidden { display: none !important; }
-        .nb-card { background: #fff; border-radius: 15px; padding: 15px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        
+        .nb-card { border-radius: 15px; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
         .nb-info { flex: 1; text-align: left; }
-        .nb-word { font-size: 1.4rem; font-weight: bold; color: var(--primary-dark); margin: 0 0 5px 0;}
-        .nb-meaning { font-size: 1rem; color: #555; margin: 0;}
-        .nb-status { font-size: 0.85rem; font-weight: bold; padding: 5px 10px; border-radius: 15px; margin-left: 10px; white-space: nowrap; }
-        .status-bad { background: #ffebee; color: var(--wrong-color); }
-        .status-good { background: #e8f5e9; color: var(--correct-color); }
-        .status-saved { background: #fff8e1; color: var(--warning-color); }
-        .footer { width: 100%; background: rgba(255, 255, 255, 0.7); padding: 20px; text-align: center; font-size: 0.95rem; color: var(--text-muted); box-sizing: border-box; backdrop-filter: blur(10px); margin-top: auto; }
-        .footer a { color: var(--primary-dark); text-decoration: none; font-weight: bold; }
+        .nb-word { font-size: 1.4rem; font-weight: bold; color: var(--primary-color); margin: 0 0 5px 0; text-shadow: 0 2px 4px rgba(0,0,0,0.5);}
+        .nb-meaning { font-size: 1rem; color: #ccc; margin: 0;}
+        .nb-status { font-size: 0.85rem; font-weight: bold; padding: 5px 10px; border-radius: 15px; margin-left: 10px; white-space: nowrap; backdrop-filter: blur(5px);}
+        .status-bad { background: rgba(231, 76, 60, 0.2); color: #ff7675; border: 1px solid #e74c3c;}
+        .status-good { background: rgba(46, 204, 113, 0.2); color: #55efc4; border: 1px solid #2ecc71;}
+        .status-saved { background: rgba(241, 196, 15, 0.2); color: #ffeaa7; border: 1px solid #f1c40f;}
+
+        .footer { width: 100%; padding: 20px; text-align: center; font-size: 0.95rem; color: #aaa; box-sizing: border-box; margin-top: auto; border-top: 1px solid var(--glass-border);}
+        .footer a { color: var(--primary-color); text-decoration: none; font-weight: bold; }
+        
+        /* Áp dụng class .glass cho tất cả các thẻ nội dung */
+        .top-nav, .side-menu, .modal-content, .main-tabs, .intro-card, .card-face, .controls, .grammar-card, .exam-card, .quiz-container, .nb-card, .empty-state, .footer {
+            background: var(--card-bg); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid var(--glass-border); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        }
+        .top-nav { border-radius: 0 0 20px 20px; border-top: none; }
+        .side-menu { border-radius: 0 20px 20px 0; border-left: none; }
+        .footer { border-radius: 20px 20px 0 0; border-bottom: none; }
+        
+        @media (max-width: 600px) { .exam-list { grid-template-columns: 1fr; } .word {font-size: 3rem;} .auth-buttons button {padding: 6px 10px; font-size: 0.9rem;} #welcome-text { display: none; } .header h1 { font-size: 2rem; } }
     </style>
 </head>
 <body>
 
-    <nav class="top-nav">
+    <nav class="top-nav glass">
         <button class="hamburger" onclick="toggleMenu()">☰ Menu</button>
         <div class="auth-buttons">
             <button class="noti-btn" onclick="openNotiModal()" title="Thông báo">🔔<span class="noti-badge" id="noti-badge"></span></button>
@@ -127,14 +212,14 @@
             </div>
             <div id="user-nav" style="display: none; align-items: center;">
                 <span id="welcome-text"></span>
-                <button class="btn-login" onclick="logout()" style="background: var(--warning-color); border-color: var(--warning-color);">Đăng xuất</button>
+                <button class="btn-login" onclick="logout()" style="background: rgba(243, 156, 18, 0.8); color: #fff;">Đăng xuất</button>
                 <button class="btn-danger" onclick="deleteAccount()" title="Xóa tài khoản vĩnh viễn">Xóa TK</button>
             </div>
         </div>
     </nav>
 
-    <div class="side-menu" id="sideMenu">
-        <h2>Chọn Ngôn Ngữ</h2>
+    <div class="side-menu glass" id="sideMenu">
+        <h2>📚 Chọn Ngôn Ngữ</h2>
         <button class="exam-tab-btn" onclick="changeExamType('HSK')">🇨🇳 Tiếng Trung HSK</button>
         <button class="exam-tab-btn" onclick="changeExamType('TOEIC')">🇺🇸 Tiếng Anh TOEIC</button>
         <button class="exam-tab-btn" onclick="changeExamType('IELTS')">🇬🇧 Tiếng Anh IELTS</button>
@@ -144,16 +229,16 @@
     <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
 
     <div class="modal" id="notiModal">
-        <div class="modal-content" style="text-align: left;">
+        <div class="modal-content glass" style="text-align: left;">
             <span class="close-modal" onclick="closeNotiModal()">✖</span>
-            <h2 class="modal-title" style="text-align: center;">🔔 Thông Báo Mới</h2>
+            <h2 class="modal-title" style="text-align: center;">🔔 Thông Báo</h2>
             <div id="noti-list"></div>
         </div>
     </div>
 
     <!-- MODAL ĐĂNG NHẬP / ĐĂNG KÝ -->
     <div class="modal" id="authModal">
-        <div class="modal-content">
+        <div class="modal-content glass">
             <span class="close-modal" onclick="closeModal()">✖</span>
             <h2 class="modal-title" id="modalTitle">Đăng nhập</h2>
             <input type="text" id="authUsername" placeholder="Email / Tên tài khoản" class="auth-input">
@@ -161,16 +246,16 @@
             <button class="btn-submit" id="btnSubmitAuth" onclick="handleAuth()">Vào học ngay</button>
             <div id="authMessage"></div> 
             <p class="auth-switch"><span id="authSwitchText" onclick="switchAuthMode('register')">Chưa có tài khoản? Đăng ký ngay</span></p>
-            <p class="auth-switch" style="margin-top: 5px;"><span id="authForgotText" onclick="switchAuthMode('forgot')" style="color: #888; font-weight: normal; font-size: 0.9rem;">Quên mật khẩu?</span></p>
+            <p class="auth-switch" style="margin-top: 5px;"><span id="authForgotText" onclick="switchAuthMode('forgot')" style="color: #aaa; font-weight: normal; font-size: 0.9rem;">Quên mật khẩu?</span></p>
         </div>
     </div>
 
     <!-- MODAL THÊM TỪ VỰNG CÁ NHÂN -->
     <div class="modal" id="addVocabModal">
-        <div class="modal-content">
+        <div class="modal-content glass">
             <span class="close-modal" onclick="closeAddVocabModal()">✖</span>
             <h2 class="modal-title">✨ Thêm Từ Của Bạn</h2>
-            <p style="font-size: 0.9rem; color: #666; margin-bottom: 15px; margin-top: -10px;">Từ vựng này sẽ chỉ hiển thị riêng cho tài khoản của bạn.</p>
+            <p style="font-size: 0.9rem; color: #ccc; margin-bottom: 15px; margin-top: -10px;">Từ vựng này sẽ chỉ hiển thị riêng cho tài khoản của bạn.</p>
             <input type="text" id="cv-word" placeholder="Từ vựng (VD: 梦想)" class="auth-input">
             <input type="text" id="cv-pinyin" placeholder="Pinyin / Phiên âm (Tùy chọn)" class="auth-input">
             <input type="text" id="cv-type" placeholder="Từ loại (VD: danh từ)" class="auth-input">
@@ -187,7 +272,7 @@
             <img id="country-img" class="country-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvpt88mlCcbizuDj8HmSA99ajRs8UFf0i4bwp-bXQ1xA&s=10">
         </div>
 
-        <div class="main-tabs">
+        <div class="main-tabs glass">
             <button class="tab-btn" onclick="switchTab('intro')">🏠 Giới Thiệu</button>
             <button class="tab-btn" onclick="switchTab('vocab')">📇 Từ Vựng</button>
             <button class="tab-btn" onclick="switchTab('grammar')">📖 Ngữ Pháp</button>
@@ -200,57 +285,57 @@
         <div class="level-selector" id="level-buttons"></div>
 
         <div id="intro-section" class="content-section">
-            <div class="intro-card">
-                <h2>Chào mừng đến với Trạm Học Tập 🚀</h2>
+            <div class="intro-card glass">
+                <h2>Trạm Học Tập Lofi 🎧</h2>
                 <div class="intro-warning" id="intro-warning">🔒 Bạn cần Đăng nhập / Đăng ký để mở khóa toàn bộ tính năng bài học!</div>
                 <div class="feature-list">
-                    <div class="feature-item"><strong>✏️ Từ Vựng Cá Nhân (Mới):</strong> Đã có thể tự do thêm từ vựng mới của riêng bạn vào khóa học.</div>
-                    <div class="feature-item"><strong>🔄 Multi-Device Sync:</strong> Dữ liệu đồng bộ hoàn hảo trên mọi thiết bị.</div>
+                    <div class="feature-item"><strong>🌙 Giao diện Lofi Chill (Mới):</strong> Thiết kế Glassmorphism trong suốt và Dark Mode giúp bạn tập trung học tập ban đêm không mỏi mắt.</div>
+                    <div class="feature-item"><strong>✏️ Từ Vựng Cá Nhân:</strong> Tự do thêm từ vựng mới của riêng bạn vào khóa học.</div>
+                    <div class="feature-item"><strong>🔄 Multi-Device Sync:</strong> Dữ liệu đồng bộ hoàn hảo trên mọi thiết bị qua Cloud.</div>
                     <div class="feature-item"><strong>🎙️ Native Voice AI:</strong> Phát âm chuẩn giọng bản xứ.</div>
-                    <div class="feature-item"><strong>🎮 Ôn Tập:</strong> Thuật toán tự động trộn từ vựng gốc và từ vựng cá nhân để tạo bài thi.</div>
                 </div>
             </div>
         </div>
 
         <div id="vocab-section" class="content-section">
             <div style="margin-bottom: 15px; width: 100%; text-align: center;">
-                <button class="nav-btn" onclick="openAddVocabModal()" style="background: var(--primary-color); color: white; padding: 12px 25px; font-size: 1.1rem; box-shadow: 0 5px 15px rgba(255,117,140,0.3);">➕ Thêm từ của riêng bạn</button>
+                <button class="nav-btn glass" onclick="openAddVocabModal()" style="color: var(--primary-color); padding: 12px 25px; font-size: 1.1rem; border-color: var(--primary-color);">➕ Thêm từ của riêng bạn</button>
             </div>
             
             <div class="flashcard-container" id="fc-container">
                 <div class="flashcard" id="flashcard" onclick="flipCard()">
-                    <div class="card-face front">
-                        <div id="custom-badge" style="position: absolute; top: 15px; left: 20px; font-size: 0.8rem; background: var(--primary-color); color: #fff; padding: 4px 10px; border-radius: 12px; font-weight: bold; display: none; box-shadow: 0 2px 5px rgba(255,117,140,0.3);">Từ của bạn</div>
+                    <div class="card-face front glass">
+                        <div id="custom-badge" style="position: absolute; top: 15px; left: 20px; font-size: 0.8rem; background: var(--primary-color); color: #111; padding: 4px 10px; border-radius: 12px; font-weight: bold; display: none; box-shadow: 0 0 10px rgba(162, 210, 255, 0.5);">Từ của bạn</div>
                         <button class="btn-bookmark" id="btn-bookmark" onclick="toggleSaveWord(event)" title="Lưu từ này">★</button>
                         <div class="word" id="word-cn">...</div>
                         <div class="pinyin" id="word-pinyin">...</div>
-                        <div class="word-type" id="word-type" style="font-size: 1rem; color: #888; font-style: italic; margin-bottom: 10px;">...</div>
+                        <div class="word-type" id="word-type">...</div>
                         <button class="audio-btn" onclick="playAudio(event)" title="Nghe phát âm">🔊</button>
-                        <div class="hint" style="font-size: 0.9rem; color: #ccc;">👆 Chạm nền để lật thẻ</div>
+                        <div class="hint" style="font-size: 0.9rem; color: #888;">👆 Chạm nền để lật thẻ</div>
                     </div>
-                    <div class="card-face back">
+                    <div class="card-face back glass">
                         <div class="meaning" id="word-meaning">...</div>
                         <div class="example-cn" id="ex-cn">...</div>
                         <div class="example-vn" id="ex-vn">...</div>
                     </div>
                 </div>
             </div>
-            <div class="controls" id="vocab-controls">
+            <div class="controls glass" id="vocab-controls">
                 <button class="nav-btn" onclick="prevCard()">⬅️ Trước</button>
-                <div class="progress" id="progress" style="font-weight: bold; width: 80px; text-align: center;">0 / 0</div>
+                <div class="progress" id="progress" style="font-weight: bold; width: 80px; text-align: center; color: #fff;">0 / 0</div>
                 <button class="nav-btn" onclick="nextCard()">Sau ➡️</button>
             </div>
-            <div id="vocab-empty" class="empty-state hidden">🚧 Từ vựng đang cập nhật...</div>
+            <div id="vocab-empty" class="empty-state hidden glass">🚧 Từ vựng đang cập nhật...</div>
         </div>
 
         <div id="grammar-section" class="content-section">
             <div class="grammar-list" id="grammar-list"></div>
-            <div id="grammar-empty" class="empty-state hidden">🚧 Ngữ pháp đang cập nhật...</div>
+            <div id="grammar-empty" class="empty-state hidden glass">🚧 Ngữ pháp đang cập nhật...</div>
         </div>
 
         <div id="exam-section" class="content-section">
             <div class="exam-list" id="exam-list"></div>
-            <div id="exam-empty" class="empty-state hidden">🚧 Đề thi đang cập nhật...</div>
+            <div id="exam-empty" class="empty-state hidden glass">🚧 Đề thi đang cập nhật...</div>
         </div>
 
         <div id="review-section" class="content-section">
@@ -258,38 +343,38 @@
                 <button class="btn-mode active" id="btn-rev-vocab" onclick="startReview('vocab')">🎯 Ôn Từ Vựng</button>
                 <button class="btn-mode" id="btn-rev-grammar" onclick="startReview('grammar')">🧩 Ôn Ngữ Pháp</button>
             </div>
-            <div class="quiz-container hidden" id="quiz-board">
+            <div class="quiz-container hidden glass" id="quiz-board">
                 <div class="q-text" id="quiz-question">Câu hỏi</div>
                 <div class="options-grid" id="quiz-options"></div>
                 <button class="btn-next-q" id="btn-next-quiz" onclick="loadNextQuiz()">Tiếp theo ➡️</button>
             </div>
-            <div id="review-empty" class="empty-state hidden">🚧 Dữ liệu chưa đủ để tạo bài trắc nghiệm.</div>
+            <div id="review-empty" class="empty-state hidden glass">🚧 Dữ liệu chưa đủ để tạo bài trắc nghiệm.</div>
         </div>
 
         <div id="notebook-section" class="content-section">
             <div class="notebook-list" id="notebook-list"></div>
-            <div id="notebook-empty" class="empty-state hidden">📭 Sổ tay trống. Hãy nhấn dấu ★ ở thẻ từ vựng nhé!</div>
+            <div id="notebook-empty" class="empty-state hidden glass">📭 Sổ tay trống. Hãy nhấn dấu ★ ở thẻ từ vựng nhé!</div>
         </div>
 
         <div id="history-section" class="content-section">
-            <div class="intro-card" style="margin-bottom: 20px;">
-                <h3 style="color: var(--primary-dark); margin-top:0;">📊 Tiến độ học tập (<span id="hist-lang-title"></span>)</h3>
+            <div class="intro-card glass" style="margin-bottom: 20px;">
+                <h3 style="color: var(--primary-color); margin-top:0;">📊 Tiến độ học tập (<span id="hist-lang-title"></span>)</h3>
                 <div id="progress-stats"></div>
             </div>
-            <div class="intro-card">
-                <h3 style="color: var(--primary-dark); margin-top:0;">🕒 Lịch sử đăng nhập gần đây</h3>
+            <div class="intro-card glass">
+                <h3 style="color: var(--primary-color); margin-top:0;">🕒 Lịch sử đăng nhập gần đây</h3>
                 <div id="login-history-list"></div>
             </div>
         </div>
     </div>
 
-    <footer class="footer">
-        <p>👨‍💻 <strong>Người làm / Phát triển bởi:</strong> Lê Quốc Thịnh</p>
+    <footer class="footer glass">
+        <p>👨‍💻 <strong>Phát triển bởi:</strong> Lê Quốc Thịnh | Giao diện: Lofi Chill</p>
     </footer>
 
     <script>
         const notificationsData = [
-            { date: "Hôm nay", title: "✏️ Tính năng thêm từ vựng cá nhân", desc: "Bây giờ bạn đã có thể tự tay thêm những từ vựng mình thích vào hệ thống. Những từ này sẽ được lưu đồng bộ và hiển thị xen kẽ lúc ôn tập thẻ bài!" }
+            { date: "Hôm nay", title: "🌙 Giao diện Lofi Study Chill", desc: "Đã lột xác toàn bộ giao diện thành phong cách Dark Mode Glassmorphism (Kính mờ) với hình nền động Lofi, giúp bạn học ban đêm tập trung hơn." }
         ];
 
         function checkNotifications() {
@@ -304,7 +389,7 @@
             localStorage.setItem('app_noti_read_count', notificationsData.length.toString());
             document.getElementById('noti-badge').style.display = 'none';
             let html = '';
-            notificationsData.forEach(n => { html += `<div style="border-bottom:1px solid #eee; padding:15px 0;"><div style="font-size:0.85rem; color:#888; margin-bottom:5px;">🕒 ${n.date}</div><div style="font-weight:bold; color:var(--primary-dark); font-size:1.1rem; margin-bottom:5px;">${n.title}</div><div style="font-size:0.95rem; color:#444; line-height:1.4;">${n.desc}</div></div>`; });
+            notificationsData.forEach(n => { html += `<div style="border-bottom:1px solid rgba(255,255,255,0.1); padding:15px 0;"><div style="font-size:0.85rem; color:#888; margin-bottom:5px;">🕒 ${n.date}</div><div style="font-weight:bold; color:var(--primary-color); font-size:1.1rem; margin-bottom:5px;">${n.title}</div><div style="font-size:0.95rem; color:#ccc; line-height:1.4;">${n.desc}</div></div>`; });
             document.getElementById('noti-list').innerHTML = html;
         }
         function closeNotiModal() { document.getElementById('notiModal').classList.remove('active'); }
@@ -336,11 +421,11 @@
         }
 
         const config = {
-            HSK: { title: "Tiếng Trung HSK", levels: ["1", "2"], lang: "zh-CN", icon: "🐼", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvpt88mlCcbizuDj8HmSA99ajRs8UFf0i4bwp-bXQ1xA&s=10" }, 
-            TOEIC: { title: "Tiếng Anh TOEIC", levels: ["Mục tiêu 500+"], lang: "en-US", icon: "🗽", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqJKOtXNAXSo5WoYQjzlCyWs9OGvWDF3rM3SP7tuf2hw&s=10" }, 
-            IELTS: { title: "Tiếng Anh IELTS", levels: ["Band 5.0"], lang: "en-GB", icon: "🎡", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6bhO27FyJgz1x7vOoVr203QiC0fy1eltkWw5d91_T7g&s=10" }, 
-            TOPIK: { title: "Tiếng Hàn TOPIK", levels: ["Cấp 1"], lang: "ko-KR", icon: "🎎", img: "https://images.unsplash.com/photo-1517154421773-0529f29ea451?auto=format&fit=crop&w=800&q=80" }, 
-            JLPT: { title: "Tiếng Nhật JLPT", levels: ["N5"], lang: "ja-JP", icon: "🌸", img: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=800&q=80" } 
+            HSK: { title: "Tiếng Trung HSK", levels: ["1", "2"], lang: "zh-CN", icon: "🐼", img: "" }, 
+            TOEIC: { title: "Tiếng Anh TOEIC", levels: ["Mục tiêu 500+"], lang: "en-US", icon: "🗽", img: "" }, 
+            IELTS: { title: "Tiếng Anh IELTS", levels: ["Band 5.0"], lang: "en-GB", icon: "🎡", img: "" }, 
+            TOPIK: { title: "Tiếng Hàn TOPIK", levels: ["Cấp 1"], lang: "ko-KR", icon: "🎎", img: "" }, 
+            JLPT: { title: "Tiếng Nhật JLPT", levels: ["N5"], lang: "ja-JP", icon: "🌸", img: "" } 
         };
 
         const db = {
@@ -672,18 +757,13 @@
 
             if (currentAuthMode === 'forgot') {
                 const res = await fetchAPI('/api/reset-password', { username: user, newPassword: pass });
-                if (res.error && res.error !== "Lỗi kết nối máy chủ!") {
-                    msgBox.innerHTML = `<span style='color: var(--wrong-color);'>${res.error}</span>`;
-                } else {
-                    msgBox.innerHTML = `<span style='color: var(--correct-color);'>${res.message}</span>`;
-                    setTimeout(() => switchAuthMode('login'), 2000);
-                } return;
+                if (res.error && res.error !== "Lỗi kết nối máy chủ!") { msgBox.innerHTML = `<span style='color: var(--wrong-color);'>${res.error}</span>`; } 
+                else { msgBox.innerHTML = `<span style='color: var(--correct-color);'>${res.message}</span>`; setTimeout(() => switchAuthMode('login'), 2000); } return;
             }
 
             const res = await fetchAPI('/api/auth', { username: user, password: pass, type: currentAuthMode });
-            if(res.error && res.error !== "Lỗi kết nối máy chủ!") {
-                msgBox.innerHTML = `<span style='color: var(--wrong-color);'>${res.error}</span>`;
-            } else {
+            if(res.error && res.error !== "Lỗi kết nối máy chủ!") { msgBox.innerHTML = `<span style='color: var(--wrong-color);'>${res.error}</span>`; } 
+            else {
                 isLoggedIn = true; currentUser = user; userProgress = res.progress || {}; 
                 localStorage.setItem('app_is_logged_in', 'true'); localStorage.setItem('app_username', user); recordLoginTime();
                 msgBox.innerHTML = "<span style='color: var(--correct-color);'>Thành công! Đang vào học...</span>";
@@ -694,14 +774,10 @@
         async function deleteAccount() {
             if(!confirm(`⚠️ NGUY HIỂM: Bạn có chắc chắn muốn xóa vĩnh viễn tài khoản "${currentUser}" và toàn bộ dữ liệu học tập không? Hành động này không thể hoàn tác!`)) return;
             const res = await fetchAPI('/api/account', { username: currentUser }, 'DELETE');
-            if(res.success || res.error === "Lỗi kết nối máy chủ!") { alert("Tài khoản của bạn đã được xóa khỏi hệ thống."); logout(); } 
-            else { alert("Có lỗi xảy ra: " + res.error); }
+            if(res.success || res.error === "Lỗi kết nối máy chủ!") { alert("Tài khoản của bạn đã được xóa khỏi hệ thống."); logout(); } else { alert("Có lỗi xảy ra: " + res.error); }
         }
 
-        function saveProgress() {
-            if(!isLoggedIn) return;
-            fetchAPI('/api/progress', { username: currentUser, progress: userProgress });
-        }
+        function saveProgress() { if(!isLoggedIn) return; fetchAPI('/api/progress', { username: currentUser, progress: userProgress }); }
 
         window.onload = () => { 
             updateAuthUI();
@@ -709,7 +785,6 @@
             checkNotifications();
             document.querySelectorAll('.exam-tab-btn').forEach(btn => { btn.classList.remove('active'); if (btn.getAttribute('onclick').includes(`'${currentExamType}'`)) btn.classList.add('active'); });
             document.getElementById('main-title').innerText = `${config[currentExamType].icon} Trạm ${config[currentExamType].title} ${config[currentExamType].icon}`;
-            document.getElementById('country-img').src = config[currentExamType].img;
             if (!config[currentExamType].levels.includes(currentLevel)) currentLevel = config[currentExamType].levels[0];
             buildLevelButtons(); 
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -744,36 +819,20 @@
             else if (currentAuthMode === 'forgot') { title.innerText = "Khôi phục mật khẩu"; btn.innerText = "Đổi mật khẩu mới"; passInput.placeholder = "Nhập mật khẩu mới của bạn"; switchText.innerText = "Quay lại màn hình Đăng nhập"; switchText.onclick = () => switchAuthMode('login'); forgotText.style.display = "none"; }
         }
 
-        window.onclick = function(event) { 
-            if (event.target === document.getElementById('authModal')) closeModal(); 
-            if (event.target === document.getElementById('notiModal')) closeNotiModal(); 
-            if (event.target === document.getElementById('addVocabModal')) closeAddVocabModal(); 
-        }
+        window.onclick = function(event) { if (event.target === document.getElementById('authModal')) closeModal(); if (event.target === document.getElementById('notiModal')) closeNotiModal(); if (event.target === document.getElementById('addVocabModal')) closeAddVocabModal(); }
 
-        // --- XỬ LÝ TỪ VỰNG CÁ NHÂN ---
-        function openAddVocabModal() {
-            if (!isLoggedIn) { openModal('login'); return; }
-            document.getElementById('addVocabModal').classList.add('active');
-        }
+        function openAddVocabModal() { if (!isLoggedIn) { openModal('login'); return; } document.getElementById('addVocabModal').classList.add('active'); }
         function closeAddVocabModal() { document.getElementById('addVocabModal').classList.remove('active'); }
         
         function submitCustomVocab() {
-            const w = document.getElementById('cv-word').value.trim(); const p = document.getElementById('cv-pinyin').value.trim();
-            const t = document.getElementById('cv-type').value.trim(); const m = document.getElementById('cv-meaning').value.trim();
-            const c = document.getElementById('cv-ex-cn').value.trim(); const v = document.getElementById('cv-ex-vn').value.trim();
-            
+            const w = document.getElementById('cv-word').value.trim(); const p = document.getElementById('cv-pinyin').value.trim(); const t = document.getElementById('cv-type').value.trim(); const m = document.getElementById('cv-meaning').value.trim(); const c = document.getElementById('cv-ex-cn').value.trim(); const v = document.getElementById('cv-ex-vn').value.trim();
             if (!w || !m) { alert("Vui lòng nhập ít nhất Từ vựng và Nghĩa tiếng Việt!"); return; }
             if (!userProgress['_custom_vocab']) userProgress['_custom_vocab'] = [];
-            
             const exists = userProgress['_custom_vocab'].some(item => item.course === currentExamType && item.level === currentLevel && item.w === w);
             if (exists) { alert("Từ vựng này đã có trong danh sách cá nhân của bạn rồi!"); return; }
-            
             userProgress['_custom_vocab'].push({ course: currentExamType, level: currentLevel, w, p, t, m, c, v, isCustom: true });
             saveProgress(); closeAddVocabModal();
-            
-            document.getElementById('cv-word').value = ''; document.getElementById('cv-pinyin').value = ''; document.getElementById('cv-type').value = '';
-            document.getElementById('cv-meaning').value = ''; document.getElementById('cv-ex-cn').value = ''; document.getElementById('cv-ex-vn').value = '';
-            
+            document.getElementById('cv-word').value = ''; document.getElementById('cv-pinyin').value = ''; document.getElementById('cv-type').value = ''; document.getElementById('cv-meaning').value = ''; document.getElementById('cv-ex-cn').value = ''; document.getElementById('cv-ex-vn').value = '';
             alert("Đã thêm từ vựng thành công!"); renderVocab();
         }
 
@@ -788,7 +847,6 @@
             currentExamType = examType; localStorage.setItem('app_last_exam', currentExamType); 
             document.querySelectorAll('.exam-tab-btn').forEach(btn => { btn.classList.remove('active'); event.target.classList.add('active'); });
             document.getElementById('main-title').innerText = `${config[examType].icon} Trạm ${config[examType].title} ${config[examType].icon}`;
-            const imgElement = document.getElementById('country-img'); imgElement.style.opacity = 0; setTimeout(() => { imgElement.src = config[examType].img; imgElement.style.opacity = 1; }, 300);
             currentLevel = config[examType].levels[0]; localStorage.setItem('app_last_level', currentLevel); buildLevelButtons(); renderContent(); toggleMenu();
         }
 
@@ -808,9 +866,7 @@
             renderContent();
         }
 
-        function renderContent() {
-            if (currentTab === 'vocab') renderVocab(); else if (currentTab === 'grammar') renderGrammar(); else if (currentTab === 'exam') renderExam(); else if (currentTab === 'review') { reviewMode = 'vocab'; startReview('vocab'); } else if (currentTab === 'notebook') renderNotebook(); else if (currentTab === 'history') renderHistory();
-        }
+        function renderContent() { if (currentTab === 'vocab') renderVocab(); else if (currentTab === 'grammar') renderGrammar(); else if (currentTab === 'exam') renderExam(); else if (currentTab === 'review') { reviewMode = 'vocab'; startReview('vocab'); } else if (currentTab === 'notebook') renderNotebook(); else if (currentTab === 'history') renderHistory(); }
 
         function toggleSaveWord(event) {
             event.stopPropagation(); const data = getFullVocabData()[vocabIndex]; const key = getItemKey(data, 'vocab');
@@ -828,19 +884,11 @@
 
         function loadFlashcard(index, dataArray) {
             const data = dataArray[index];
-            document.getElementById('word-cn').textContent = data.w || data.word; 
-            document.getElementById('word-pinyin').textContent = data.p || data.pinyin;
-            
-            const typeElem = document.getElementById('word-type');
-            if(data.t) { typeElem.textContent = `[${data.t}]`; typeElem.style.display = 'block'; } else { typeElem.style.display = 'none'; }
-            
-            document.getElementById('word-meaning').textContent = data.m || data.meaning;
-            document.getElementById('ex-cn').textContent = data.c || data.exCn || ''; 
-            document.getElementById('ex-vn').textContent = data.v || data.exVn || ''; 
+            document.getElementById('word-cn').textContent = data.w || data.word; document.getElementById('word-pinyin').textContent = data.p || data.pinyin;
+            const typeElem = document.getElementById('word-type'); if(data.t) { typeElem.textContent = `[${data.t}]`; typeElem.style.display = 'block'; } else { typeElem.style.display = 'none'; }
+            document.getElementById('word-meaning').textContent = data.m || data.meaning; document.getElementById('ex-cn').textContent = data.c || data.exCn || ''; document.getElementById('ex-vn').textContent = data.v || data.exVn || ''; 
             document.getElementById('progress').textContent = `${index + 1} / ${dataArray.length}`;
-            
             if (data.isCustom) document.getElementById('custom-badge').style.display = 'block'; else document.getElementById('custom-badge').style.display = 'none';
-
             updateSaveBtnState(getItemKey(data, 'vocab')); if (document.getElementById('flashcard').classList.contains('flipped')) document.getElementById('flashcard').classList.remove('flipped');
             if(isLoggedIn) { const key = getItemKey(data, 'vocab'); if(!userProgress[key]) { userProgress[key] = { correct: 0, wrong: 0, saved: false, itemData: data }; saveProgress(); } }
         }
@@ -852,7 +900,7 @@
         function renderGrammar() {
             const data = db[currentExamType].grammar[currentLevel] || []; const list = document.getElementById('grammar-list'); list.innerHTML = '';
             if (data.length === 0) { list.classList.add('hidden'); document.getElementById('grammar-empty').classList.remove('hidden'); } 
-            else { list.classList.remove('hidden'); document.getElementById('grammar-empty').classList.add('hidden'); data.forEach((item, idx) => { list.innerHTML += `<div class="grammar-card"><button class="btn-bookmark ${isItemSaved(item, 'grammar') ? 'saved' : ''}" style="top:15px; color:#ccc;" onclick="toggleSaveGrammar(this, ${idx})">★</button><h3 class="g-title">📌 ${item.title}</h3><div class="g-formula">${item.formula}</div><div class="g-desc">${item.desc}</div></div>`; }); }
+            else { list.classList.remove('hidden'); document.getElementById('grammar-empty').classList.add('hidden'); data.forEach((item, idx) => { list.innerHTML += `<div class="grammar-card glass"><button class="btn-bookmark ${isItemSaved(item, 'grammar') ? 'saved' : ''}" style="top:15px; color:#ccc;" onclick="toggleSaveGrammar(this, ${idx})">★</button><h3 class="g-title">📌 ${item.title}</h3><div class="g-formula">${item.formula}</div><div class="g-desc">${item.desc}</div></div>`; }); }
         }
         function isItemSaved(item, mode) { return userProgress[getItemKey(item, mode)]?.saved; }
         function toggleSaveGrammar(btn, index) {
@@ -865,7 +913,7 @@
         function renderExam() {
             const data = db[currentExamType].exam[currentLevel] || []; const list = document.getElementById('exam-list'); list.innerHTML = '';
             if (data.length === 0) { list.classList.add('hidden'); document.getElementById('exam-empty').classList.remove('hidden'); } 
-            else { list.classList.remove('hidden'); document.getElementById('exam-empty').classList.add('hidden'); data.forEach(item => { list.innerHTML += `<div class="exam-card"><h3 class="e-title">📄 ${item.title}</h3><div style="margin-bottom: 15px; color:#666;">⏳ ${item.time} • ❓ ${item.qCount} câu</div><button class="e-btn">Bắt đầu làm bài 🚀</button></div>`; }); }
+            else { list.classList.remove('hidden'); document.getElementById('exam-empty').classList.add('hidden'); data.forEach(item => { list.innerHTML += `<div class="exam-card glass"><h3 class="e-title">📄 ${item.title}</h3><div style="margin-bottom: 15px; color:#aaa;">⏳ ${item.time} • ❓ ${item.qCount} câu</div><button class="e-btn">Bắt đầu làm bài 🚀</button></div>`; }); }
         }
 
         function startReview(mode) {
@@ -887,7 +935,7 @@
                 qBox.innerHTML = `Nghĩa của từ <span class="q-word-hl">${currentItem.w || currentItem.word}</span> <br><span style="font-size:1rem;color:#888">${currentItem.p || currentItem.pinyin}</span><br> là gì?`; 
                 options.forEach(opt => { const ansMeaning = opt.m || opt.meaning; optBox.innerHTML += `<button class="opt-btn" onclick="checkAnswer(this, '${ansMeaning.replace(/'/g, "\\'")}')">${ansMeaning}</button>`; }); 
             } else { 
-                currentQuizCorrectAns = currentItem.desc; qBox.innerHTML = `Cấu trúc: <span style="color:var(--primary-dark)">${currentItem.formula}</span><br>có cách dùng như thế nào?`; 
+                currentQuizCorrectAns = currentItem.desc; qBox.innerHTML = `Cấu trúc: <span style="color:var(--primary-color)">${currentItem.formula}</span><br>có cách dùng như thế nào?`; 
                 options.forEach(opt => { optBox.innerHTML += `<button class="opt-btn" onclick="checkAnswer(this, '${opt.desc.replace(/'/g, "\\'")}')">${opt.desc}</button>`; }); 
             }
         }
@@ -913,7 +961,7 @@
                         if (stats.wrong > stats.correct) statusHtml = `<span class="nb-status status-bad">🔴 Hay quên (${stats.correct}/${stats.correct+stats.wrong})</span>`; else if (stats.saved) statusHtml = `<span class="nb-status status-saved">⭐ Đã lưu</span>`; else statusHtml = `<span class="nb-status status-good">🟢 Tốt</span>`;
                         const wordOrTitle = stats.itemData.w || stats.itemData.word || stats.itemData.title; 
                         const meaningOrDesc = stats.itemData.m || stats.itemData.meaning || stats.itemData.desc;
-                        list.innerHTML += `<div class="nb-card"><div class="nb-info"><h4 class="nb-word">${wordOrTitle}</h4><p class="nb-meaning">${meaningOrDesc}</p></div>${statusHtml}</div>`;
+                        list.innerHTML += `<div class="nb-card glass"><div class="nb-info"><h4 class="nb-word">${wordOrTitle}</h4><p class="nb-meaning">${meaningOrDesc}</p></div>${statusHtml}</div>`;
                     }
                 }
             }
@@ -925,9 +973,9 @@
             const vocabData = getFullVocabData(); const totalVocab = vocabData.length; let learnedCount = 0; const prefix = `${currentExamType}_${currentLevel}_vocab_`;
             for (const key in userProgress) { if (key.startsWith(prefix) && userProgress[key].itemData) learnedCount++; }
             let percent = totalVocab > 0 ? Math.round((learnedCount / totalVocab) * 100) : 0;
-            document.getElementById('progress-stats').innerHTML = `<div style="font-size: 1.1rem; color: #444;">Đã học: <strong>${learnedCount} / ${totalVocab}</strong> từ vựng</div><div class="progress-bar-bg"><div class="progress-bar-fill" style="width: ${percent}%;"></div></div><div style="text-align:right; font-size:0.9rem; font-weight:bold; color:var(--correct-color); margin-top:5px;">${percent}% Hoàn thành</div>`;
+            document.getElementById('progress-stats').innerHTML = `<div style="font-size: 1.1rem; color: #eee;">Đã học: <strong>${learnedCount} / ${totalVocab}</strong> từ vựng</div><div class="progress-bar-bg"><div class="progress-bar-fill" style="width: ${percent}%;"></div></div><div style="text-align:right; font-size:0.9rem; font-weight:bold; color:var(--correct-color); margin-top:5px;">${percent}% Hoàn thành</div>`;
             const histList = document.getElementById('login-history-list'); const userHist = JSON.parse(localStorage.getItem('app_history_' + currentUser)) || [];
-            if (userHist.length === 0) { histList.innerHTML = "<div style='color:#888; font-style:italic;'>Chưa có lịch sử truy cập.</div>"; } else { histList.innerHTML = userHist.map(h => `<div class="history-list-item">🟢 Đăng nhập lúc: <strong>${h}</strong></div>`).join(''); }
+            if (userHist.length === 0) { histList.innerHTML = "<div style='color:#888; font-style:italic;'>Chưa có lịch sử truy cập.</div>"; } else { histList.innerHTML = userHist.map(h => `<div class="history-list-item">🟢 Đăng nhập lúc: <strong style="color: #fff;">${h}</strong></div>`).join(''); }
         }
     </script>
 </body>
