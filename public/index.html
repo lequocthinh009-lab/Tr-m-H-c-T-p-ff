@@ -3,15 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trạm Học Tập 33.0 🌟 (Modern Light UI)</title>
+    <title>Trạm Học Tập 34.0 🌟 (New Hierarchy UI)</title>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root { 
-            /* Tone màu Hiện đại: Sáng, Sạch, Nổi bật */
             --primary-color: #ff758c; 
             --primary-light: #ff9a9e;
             --primary-dark: #ff4757; 
-            --bg-color: #f4f7f6; /* Nền xám nhạt thanh lịch */
+            --bg-color: #f4f7f6; 
             --card-bg: #ffffff; 
             --text-main: #2d3436; 
             --text-muted: #636e72; 
@@ -22,12 +21,7 @@
             --shadow-hover: 0 15px 35px rgba(255, 117, 140, 0.2);
         }
 
-        body { 
-            font-family: 'Quicksand', sans-serif; 
-            background: var(--bg-color); 
-            color: var(--text-main); 
-            min-height: 100vh; margin: 0; display: flex; flex-direction: column; align-items: center; overflow-x: hidden; 
-        }
+        body { font-family: 'Quicksand', sans-serif; background: var(--bg-color); color: var(--text-main); min-height: 100vh; margin: 0; display: flex; flex-direction: column; align-items: center; overflow-x: hidden; }
 
         /* NAVBAR */
         .top-nav { width: 100%; background: rgba(255, 255, 255, 0.95); box-shadow: 0 2px 15px rgba(0,0,0,0.05); padding: 12px 25px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); box-sizing: border-box; }
@@ -47,13 +41,13 @@
         .noti-btn:hover { transform: scale(1.1); }
         .noti-badge { position: absolute; top: -5px; right: -5px; background: var(--wrong-color); color: white; font-size: 0.7rem; font-weight: bold; border-radius: 50%; padding: 2px 6px; display: none; } 
         
-        /* MENU DỌC */
+        /* MENU DỌC (Bây giờ chứa các Chức năng thay vì Ngôn ngữ) */
         .side-menu { position: fixed; top: 0; left: -280px; width: 250px; height: 100vh; background: #fff; box-shadow: 5px 0 25px rgba(0,0,0,0.1); z-index: 200; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); display: flex; flex-direction: column; padding: 25px 20px; box-sizing: border-box; }
         .side-menu.active { left: 0; }
         .side-menu h2 { color: var(--primary-dark); margin-top: 0; border-bottom: 2px dashed #eee; padding-bottom: 15px; font-size: 1.5rem;}
-        .exam-tab-btn { background: #f8f9fa; border: none; padding: 12px 15px; font-size: 1.1rem; font-weight: 700; color: var(--text-muted); border-radius: 15px; cursor: pointer; transition: all 0.3s ease; text-align: left; margin-bottom: 10px; }
-        .exam-tab-btn:hover { background: #ffeaa7; color: #d35400; }
-        .exam-tab-btn.active { background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%); color: #fff; box-shadow: 0 4px 15px rgba(255, 117, 140, 0.4); }
+        .feature-tab-btn { background: #f8f9fa; border: none; padding: 12px 15px; font-size: 1.1rem; font-weight: 700; color: var(--text-muted); border-radius: 15px; cursor: pointer; transition: all 0.3s ease; text-align: left; margin-bottom: 10px; }
+        .feature-tab-btn:hover { background: #ffeaa7; color: #d35400; }
+        .feature-tab-btn.active { background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%); color: #fff; box-shadow: 0 4px 15px rgba(255, 117, 140, 0.4); }
         
         .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 150; display: none; opacity: 0; transition: opacity 0.3s; backdrop-filter: blur(2px);}
         .overlay.active { display: block; opacity: 1; }
@@ -77,28 +71,35 @@
         .auth-switch span:hover { text-decoration: underline;}
         #authMessage { margin-top: 15px; font-size: 0.95rem; font-weight: bold; min-height: 20px; }
         
-        /* HEADER & TABS */
+        /* HEADER & TIER 1: MỤC LỚN (CHỨC NĂNG) */
         .main-content { flex: 1; width: 100%; display: flex; flex-direction: column; align-items: center; padding-bottom: 50px; }
-        .header { text-align: center; margin-bottom: 15px; margin-top: 30px; width: 100%; }
-        .header h1 { color: var(--text-main); font-size: 2.5rem; margin: 0 0 20px 0; font-weight: 800;}
-        .country-img { width: 100%; max-width: 650px; height: 250px; object-fit: cover; border-radius: 25px; box-shadow: var(--shadow-soft); border: 5px solid #fff; }
+        .header { text-align: center; margin-bottom: 5px; margin-top: 20px; width: 100%; }
+        .header h1 { color: var(--primary-dark); font-size: 2.2rem; margin: 0 0 10px 0; font-weight: 800;}
         
-        .main-tabs { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; padding: 10px; border-radius: 30px; margin-bottom: 25px; margin-top: 25px; max-width: 95%; }
-        .tab-btn { background: #fff; border: 2px solid transparent; padding: 10px 18px; font-size: 1rem; font-weight: 700; color: var(--text-muted); border-radius: 20px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.03);}
-        .tab-btn:hover { color: var(--primary-color); transform: translateY(-2px);}
-        .tab-btn.active { background-color: var(--primary-color); color: #fff; box-shadow: 0 6px 15px rgba(255, 117, 140, 0.4); }
-        
-        .level-selector { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; max-width: 700px; margin-bottom: 35px; padding: 0 10px; }
-        .level-btn { background-color: #fff; border: 2px solid #eee; padding: 8px 20px; border-radius: 25px; font-weight: 700; color: var(--text-muted); cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.02);}
-        .level-btn.active { background-color: var(--primary-dark); color: #fff; border-color: var(--primary-dark); box-shadow: 0 6px 15px rgba(255, 71, 87, 0.3); }
+        .feature-tabs { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; padding: 12px; background: #fff; border-radius: 25px; box-shadow: var(--shadow-soft); margin-bottom: 20px; width: 95%; max-width: 850px; }
+        .feature-btn { background: transparent; border: none; padding: 12px 20px; font-size: 1.05rem; font-weight: 700; color: var(--text-muted); border-radius: 15px; cursor: pointer; transition: all 0.3s ease; }
+        .feature-btn:hover { color: var(--primary-color); background: #fdfbfb;}
+        .feature-btn.active { background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%); color: #fff; box-shadow: 0 4px 12px rgba(255, 117, 140, 0.4); }
+
+        /* TIER 2: MỤC NHỎ (NGÔN NGỮ) */
+        .language-tabs { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 15px; width: 100%; max-width: 700px; padding: 0 10px;}
+        .lang-btn { background: #fff; border: 2px solid #e0e6ed; padding: 10px 18px; border-radius: 20px; font-size: 0.95rem; font-weight: 700; color: var(--text-muted); cursor: pointer; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.02);}
+        .lang-btn:hover { border-color: #ffeaa7; color: #d35400; transform: translateY(-2px);}
+        .lang-btn.active { background: #fff2cc; color: #d35400; border-color: #f1c40f; box-shadow: 0 4px 10px rgba(241, 196, 15, 0.3); }
+
+        /* TIER 3: MỤC NHỎ HƠN (CẤP ĐỘ) */
+        .level-selector { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; max-width: 700px; margin-bottom: 30px; padding: 0 10px; }
+        .level-btn { background-color: #f8f9fa; border: 2px solid transparent; padding: 6px 15px; border-radius: 15px; font-size: 0.9rem; font-weight: 700; color: var(--text-muted); cursor: pointer; transition: all 0.3s ease; }
+        .level-btn.active { background-color: var(--primary-dark); color: #fff; box-shadow: 0 4px 10px rgba(255, 71, 87, 0.3); }
         
         .content-section { display: none; flex-direction: column; align-items: center; width: 100%; max-width: 650px; padding: 0 15px; box-sizing: border-box;}
         .content-section.active { display: flex; }
         
-        /* CARDS CHUNG */
+        /* CÁC THÀNH PHẦN NỘI DUNG */
+        .country-img { width: 100%; height: 200px; object-fit: cover; border-radius: 20px; box-shadow: var(--shadow-soft); margin-bottom: 20px; border: 3px solid #fff; }
         .intro-card, .quiz-container { background: #fff; width: 100%; border-radius: 25px; padding: 35px; box-sizing: border-box; text-align: left; box-shadow: var(--shadow-soft); }
         .intro-card h2 { color: var(--primary-dark); margin-top: 0; text-align: center; font-size: 1.8rem; }
-        .feature-list { display: flex; flex-direction: column; gap: 15px; margin-top: 25px; }
+        .feature-list { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
         .feature-item { background: #fdfbfb; padding: 18px; border-radius: 15px; border-left: 5px solid var(--primary-color); font-size: 1.05rem; color: var(--text-main); border: 1px solid #eee; border-left-width: 5px;}
         .intro-warning { background: #fff8e1; color: var(--warning-color); padding: 12px; border-radius: 12px; text-align: center; font-weight: bold; margin-top: 20px; border: 1px dashed var(--warning-color); }
         
@@ -106,7 +107,7 @@
         .progress-bar-fill { background: linear-gradient(90deg, #2ed573, #7bed9f); height: 100%; border-radius: 15px; transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
         .history-list-item { background: #f8f9fa; padding: 12px 18px; border-radius: 12px; margin-bottom: 10px; border-left: 4px solid var(--primary-color); font-size: 0.95rem; font-weight: 600;}
         
-        /* FLASHCARD HIỆN ĐẠI */
+        /* FLASHCARD */
         .flashcard-container { perspective: 1000px; width: 380px; height: 480px; margin-bottom: 25px; max-width: 100%; }
         .flashcard { width: 100%; height: 100%; position: relative; transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1); transform-style: preserve-3d; cursor: pointer; border-radius: 30px; box-shadow: var(--shadow-soft); }
         .flashcard.flipped { transform: rotateY(180deg); }
@@ -146,7 +147,6 @@
         .e-btn { background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%); border: none; padding: 12px 20px; border-radius: 15px; font-weight: 700; color: #0056b3; cursor: pointer; width: 100%; margin-top: 10px; transition: 0.2s;}
         .e-btn:hover { box-shadow: 0 5px 15px rgba(161, 196, 253, 0.4); }
         
-        /* ÔN TẬP QUIZ */
         .review-mode-selector { display: flex; gap: 10px; margin-bottom: 25px; width: 100%; justify-content: center; flex-wrap: wrap;}
         .btn-mode { background: #fff; border: 2px solid #eee; padding: 10px 25px; border-radius: 25px; font-size: 1.05rem; font-weight: bold; color: var(--text-muted); cursor: pointer; transition: 0.3s; box-shadow: 0 2px 5px rgba(0,0,0,0.02);}
         .btn-mode.active { background: var(--primary-dark); color: #fff; border-color: var(--primary-dark); box-shadow: 0 6px 15px rgba(255, 71, 87, 0.3);}
@@ -178,13 +178,20 @@
         .footer { width: 100%; padding: 25px; text-align: center; font-size: 1rem; font-weight: 600; color: var(--text-muted); margin-top: auto; }
         .footer a { color: var(--primary-dark); text-decoration: none; }
         
-        @media (max-width: 600px) { .exam-list { grid-template-columns: 1fr; } .word {font-size: 3.5rem;} .auth-buttons button {padding: 8px 12px; font-size: 0.9rem;} #welcome-text { display: none; } .header h1 { font-size: 2rem; } }
+        @media (max-width: 700px) { .exam-list { grid-template-columns: 1fr; } .word {font-size: 3.5rem;} .auth-buttons button {padding: 8px 12px; font-size: 0.9rem;} #welcome-text { display: none; } .feature-tabs { display: none; /* Giấu tab to trên mobile, dùng menu dọc */ } }
+        @media (min-width: 701px) { .hamburger { display: none; /* Giấu menu dọc trên desktop, dùng tab to */ } }
     </style>
 </head>
 <body>
 
     <nav class="top-nav">
-        <button class="hamburger" onclick="toggleMenu()">☰ Menu</button>
+        <!-- Nút Menu này chỉ hiện trên Mobile -->
+        <button class="hamburger" onclick="toggleMenu()">☰ Chức năng</button>
+        
+        <div style="font-size: 1.5rem; font-weight: 800; color: var(--primary-dark); letter-spacing: 1px;">
+            🎓 Trạm Học Tập
+        </div>
+
         <div class="auth-buttons">
             <button class="noti-btn" onclick="openNotiModal()" title="Thông báo">🔔<span class="noti-badge" id="noti-badge"></span></button>
             <div id="guest-nav">
@@ -199,13 +206,16 @@
         </div>
     </nav>
 
+    <!-- MENU DỌC (DÀNH CHO MOBILE - Chứa các Chức Năng) -->
     <div class="side-menu" id="sideMenu">
-        <h2>📚 Chọn Ngôn Ngữ</h2>
-        <button class="exam-tab-btn" onclick="changeExamType('HSK')">🇨🇳 Tiếng Trung HSK</button>
-        <button class="exam-tab-btn" onclick="changeExamType('TOEIC')">🇺🇸 Tiếng Anh TOEIC</button>
-        <button class="exam-tab-btn" onclick="changeExamType('IELTS')">🇬🇧 Tiếng Anh IELTS</button>
-        <button class="exam-tab-btn" onclick="changeExamType('TOPIK')">🇰🇷 Tiếng Hàn TOPIK</button>
-        <button class="exam-tab-btn" onclick="changeExamType('JLPT')">🇯🇵 Tiếng Nhật JLPT</button>
+        <h2>🚀 Chức Năng</h2>
+        <button class="feature-tab-btn active" onclick="switchTab('intro')">🏠 Giới Thiệu</button>
+        <button class="feature-tab-btn" onclick="switchTab('vocab')">📇 Từ Vựng</button>
+        <button class="feature-tab-btn" onclick="switchTab('grammar')">📖 Ngữ Pháp</button>
+        <button class="feature-tab-btn" onclick="switchTab('exam')">📝 Luyện Đề</button>
+        <button class="feature-tab-btn" onclick="switchTab('review')">🎮 Ôn Tập</button>
+        <button class="feature-tab-btn" onclick="switchTab('notebook')">📚 Sổ Tay</button>
+        <button class="feature-tab-btn" onclick="switchTab('history')">⏱ Lịch Sử</button>
     </div>
     <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
 
@@ -248,29 +258,43 @@
     </div>
 
     <div class="main-content">
+        
+        <!-- TIER 1: MỤC LỚN (CHỨC NĂNG) - Hiện dạng nút bự trên Desktop -->
+        <div class="feature-tabs">
+            <button class="feature-btn active" onclick="switchTab('intro')">🏠 Giới Thiệu</button>
+            <button class="feature-btn" onclick="switchTab('vocab')">📇 Từ Vựng</button>
+            <button class="feature-btn" onclick="switchTab('grammar')">📖 Ngữ Pháp</button>
+            <button class="feature-btn" onclick="switchTab('exam')">📝 Luyện Đề</button>
+            <button class="feature-btn" onclick="switchTab('review')">🎮 Ôn Tập</button>
+            <button class="feature-btn" onclick="switchTab('notebook')">📚 Sổ Tay</button>
+            <button class="feature-btn" onclick="switchTab('history')">⏱ Lịch Sử</button>
+        </div>
+
         <div class="header">
-            <h1 id="main-title">🐼 Trạm Tiếng Trung HSK 🐼</h1>
-            <img id="country-img" class="country-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvpt88mlCcbizuDj8HmSA99ajRs8UFf0i4bwp-bXQ1xA&s=10">
+            <!-- Tiêu đề sẽ thay đổi linh hoạt theo Chức năng -->
+            <h1 id="page-title">🏠 Giới Thiệu Chung</h1>
         </div>
 
-        <div class="main-tabs">
-            <button class="tab-btn" onclick="switchTab('intro')">🏠 Giới Thiệu</button>
-            <button class="tab-btn" onclick="switchTab('vocab')">📇 Từ Vựng</button>
-            <button class="tab-btn" onclick="switchTab('grammar')">📖 Ngữ Pháp</button>
-            <button class="tab-btn" onclick="switchTab('exam')">📝 Luyện Đề</button>
-            <button class="tab-btn" onclick="switchTab('review')">🎮 Ôn Tập</button>
-            <button class="tab-btn" onclick="switchTab('notebook')">📚 Sổ Tay</button>
-            <button class="tab-btn" onclick="switchTab('history')">⏱ Lịch Sử</button>
+        <!-- TIER 2: MỤC NHỎ (NGÔN NGỮ) -->
+        <div class="language-tabs" id="lang-buttons">
+            <button class="lang-btn active" onclick="changeExamType('HSK')">🇨🇳 HSK</button>
+            <button class="lang-btn" onclick="changeExamType('TOEIC')">🇺🇸 TOEIC</button>
+            <button class="lang-btn" onclick="changeExamType('IELTS')">🇬🇧 IELTS</button>
+            <button class="lang-btn" onclick="changeExamType('TOPIK')">🇰🇷 TOPIK</button>
+            <button class="lang-btn" onclick="changeExamType('JLPT')">🇯🇵 JLPT</button>
         </div>
 
+        <!-- TIER 3: MỤC NHỎ HƠN (CẤP ĐỘ) -->
         <div class="level-selector" id="level-buttons"></div>
 
+        <!-- CÁC SECTION NỘI DUNG CHÍNH -->
         <div id="intro-section" class="content-section">
+            <img id="country-img" class="country-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvpt88mlCcbizuDj8HmSA99ajRs8UFf0i4bwp-bXQ1xA&s=10">
             <div class="intro-card">
-                <h2>Trạm Học Tập Đa Ngôn Ngữ 🚀</h2>
+                <h2>Khám Phá Các Khóa Học 🚀</h2>
                 <div class="intro-warning" id="intro-warning">🔒 Bạn cần Đăng nhập / Đăng ký để mở khóa toàn bộ tính năng bài học!</div>
                 <div class="feature-list">
-                    <div class="feature-item"><strong>🌟 Giao diện Modern Light (Mới):</strong> Đã nâng cấp giao diện sáng theo phong cách hiện đại, thanh lịch như Duolingo/Quizlet.</div>
+                    <div class="feature-item"><strong>📂 Cấu trúc mới (Mới):</strong> Thay đổi phân cấp giao diện thông minh hơn: Chọn Tính năng ➔ Chọn Ngôn ngữ ➔ Chọn Cấp độ.</div>
                     <div class="feature-item"><strong>✏️ Từ Vựng Cá Nhân:</strong> Tự do thêm từ vựng mới của riêng bạn vào khóa học.</div>
                     <div class="feature-item"><strong>🔄 Multi-Device Sync:</strong> Dữ liệu đồng bộ hoàn hảo trên mọi thiết bị qua Cloud.</div>
                     <div class="feature-item"><strong>🎙️ Native Voice AI:</strong> Phát âm chuẩn giọng bản xứ.</div>
@@ -355,8 +379,19 @@
 
     <script>
         const notificationsData = [
-            { date: "Hôm nay", title: "🌟 Nâng cấp Giao diện Sáng Hiện đại", desc: "Chúng mình đã quay lại giao diện sáng sủa truyền thống nhưng được thiết kế lại hoàn toàn theo phong cách Modern UI (Giống Duolingo), mang lại cảm giác mượt mà và chuyên nghiệp hơn." }
+            { date: "Hôm nay", title: "📂 Phân cấp Giao diện mới", desc: "Đã thay đổi theo cấu trúc học tập hợp lý hơn: Bạn chọn Tính năng (Mục lớn) trước, rồi mới chọn Ngôn ngữ (Mục nhỏ) và Cấp độ. Rất gọn gàng và khoa học!" }
         ];
+
+        // --- CẤU HÌNH TIÊU ĐỀ ---
+        const pageTitles = {
+            'intro': '🏠 Giới Thiệu Chung',
+            'vocab': '📇 Kho Từ Vựng',
+            'grammar': '📖 Cấu Trúc Ngữ Pháp',
+            'exam': '📝 Luyện Giải Đề',
+            'review': '🎮 Ôn Tập Thần Tốc',
+            'notebook': '📚 Sổ Tay Cá Nhân',
+            'history': '⏱ Lịch Sử Học Tập'
+        };
 
         function checkNotifications() {
             const readCount = parseInt(localStorage.getItem('app_noti_read_count') || '0');
@@ -764,16 +799,11 @@
             updateAuthUI();
             if(isLoggedIn) { fetchAPI('/api/get-progress', { username: currentUser }).then(res => { if(res.progress) { userProgress = res.progress; renderContent(); } }); recordLoginTime(); }
             checkNotifications();
-            document.querySelectorAll('.exam-tab-btn').forEach(btn => { btn.classList.remove('active'); if (btn.getAttribute('onclick').includes(`'${currentExamType}'`)) btn.classList.add('active'); });
-            document.getElementById('main-title').innerText = `${config[currentExamType].icon} Trạm ${config[currentExamType].title} ${config[currentExamType].icon}`;
-            document.getElementById('country-img').src = config[currentExamType].img;
             if (!config[currentExamType].levels.includes(currentLevel)) currentLevel = config[currentExamType].levels[0];
-            buildLevelButtons(); 
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            const activeTabBtn = document.querySelector(`.tab-btn[onclick="switchTab('${currentTab}')"]`); if(activeTabBtn) activeTabBtn.classList.add('active');
-            document.querySelectorAll('.content-section').forEach(sec => sec.classList.remove('active'));
-            const activeSection = document.getElementById(`${currentTab}-section`); if(activeSection) activeSection.classList.add('active');
-            renderContent(); 
+            
+            // Render Cấu trúc ban đầu
+            changeExamType(currentExamType, true); 
+            switchTab(currentTab);
         };
 
         function updateAuthUI() {
@@ -825,12 +855,19 @@
         }
         function getItemKey(item, mode) { return `${currentExamType}_${currentLevel}_${mode}_${item.w || item.word || item.title}`; }
 
-        function changeExamType(examType) {
+        function changeExamType(examType, initialLoad = false) {
             currentExamType = examType; localStorage.setItem('app_last_exam', currentExamType); 
-            document.querySelectorAll('.exam-tab-btn').forEach(btn => { btn.classList.remove('active'); event.target.classList.add('active'); });
-            document.getElementById('main-title').innerText = `${config[examType].icon} Trạm ${config[examType].title} ${config[examType].icon}`;
-            const imgElement = document.getElementById('country-img'); imgElement.style.opacity = 0; setTimeout(() => { imgElement.src = config[examType].img; imgElement.style.opacity = 1; }, 300);
-            currentLevel = config[examType].levels[0]; localStorage.setItem('app_last_level', currentLevel); buildLevelButtons(); renderContent(); toggleMenu();
+            
+            document.querySelectorAll('.lang-btn').forEach(btn => { 
+                btn.classList.remove('active'); 
+                if (btn.getAttribute('onclick').includes(`'${examType}'`)) btn.classList.add('active'); 
+            });
+            
+            document.getElementById('country-img').src = config[examType].img || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvpt88mlCcbizuDj8HmSA99ajRs8UFf0i4bwp-bXQ1xA&s=10';
+            
+            if(!initialLoad) { currentLevel = config[examType].levels[0]; localStorage.setItem('app_last_level', currentLevel); }
+            buildLevelButtons(); 
+            if(!initialLoad) renderContent();
         }
 
         function buildLevelButtons() {
@@ -844,9 +881,23 @@
         function switchTab(tabName) {
             if (!isLoggedIn && tabName !== 'intro') { openModal('login'); return; }
             currentTab = tabName; localStorage.setItem('app_last_tab', currentTab); 
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active')); document.querySelector(`.tab-btn[onclick="switchTab('${tabName}')"]`).classList.add('active');
-            document.querySelectorAll('.content-section').forEach(sec => sec.classList.remove('active')); document.getElementById(`${tabName}-section`).classList.add('active');
+            
+            // Update Feature Tabs (Mục Lớn)
+            document.querySelectorAll('.feature-btn, .feature-tab-btn').forEach(btn => btn.classList.remove('active')); 
+            document.querySelectorAll(`.feature-btn[onclick="switchTab('${tabName}')"], .feature-tab-btn[onclick="switchTab('${tabName}')"]`).forEach(b => b.classList.add('active'));
+            
+            // Update Title
+            document.getElementById('page-title').innerText = pageTitles[tabName] || 'Trạm Học Tập';
+
+            // Show Content
+            document.querySelectorAll('.content-section').forEach(sec => sec.classList.remove('active')); 
+            document.getElementById(`${tabName}-section`).classList.add('active');
+            
             renderContent();
+            
+            // Close side menu if open (on mobile)
+            document.getElementById('sideMenu').classList.remove('active');
+            document.getElementById('overlay').classList.remove('active');
         }
 
         function renderContent() { if (currentTab === 'vocab') renderVocab(); else if (currentTab === 'grammar') renderGrammar(); else if (currentTab === 'exam') renderExam(); else if (currentTab === 'review') { reviewMode = 'vocab'; startReview('vocab'); } else if (currentTab === 'notebook') renderNotebook(); else if (currentTab === 'history') renderHistory(); }
