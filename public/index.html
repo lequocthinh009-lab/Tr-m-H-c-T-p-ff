@@ -3,357 +3,231 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trạm Học Tập 33.0 🌸 (StudyChill Aesthetic)</title>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <title>Trạm Học Tập 33.0 🌟 (Modern Light UI)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root { 
-            --primary-color: #ff9a9e; 
-            --primary-dark: #ff758c; 
-            --bg-color: #fecfef; 
+            /* Tone màu Hiện đại: Sáng, Sạch, Nổi bật */
+            --primary-color: #ff758c; 
+            --primary-light: #ff9a9e;
+            --primary-dark: #ff4757; 
+            --bg-color: #f4f7f6; /* Nền xám nhạt thanh lịch */
             --card-bg: #ffffff; 
-            --text-main: #333333; 
-            --text-muted: #666666; 
-            --correct-color: #4caf50; 
-            --wrong-color: #f44336; 
-            --warning-color: #ff9800; 
+            --text-main: #2d3436; 
+            --text-muted: #636e72; 
+            --correct-color: #2ed573; 
+            --wrong-color: #ff4757; 
+            --warning-color: #ffa502; 
+            --shadow-soft: 0 10px 30px rgba(0,0,0,0.06);
+            --shadow-hover: 0 15px 35px rgba(255, 117, 140, 0.2);
         }
-        
-        /* SCROLLBAR CHILL */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: rgba(255, 117, 140, 0.3); border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--primary-dark); }
 
         body { 
             font-family: 'Quicksand', sans-serif; 
-            background: linear-gradient(135deg, var(--bg-color) 0%, #a1c4fd 100%); 
-            margin: 0; display: flex; height: 100vh; overflow: hidden; color: var(--text-main); 
+            background: var(--bg-color); 
+            color: var(--text-main); 
+            min-height: 100vh; margin: 0; display: flex; flex-direction: column; align-items: center; overflow-x: hidden; 
         }
 
-        /* BỐ CỤC DASHBOARD (GIỐNG STUDYCHILL) */
-        .app-container { display: flex; width: 100%; height: 100%; }
-
-        /* LEFT SIDEBAR */
-        .sidebar { 
-            width: 260px; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px); 
-            border-right: 1px solid rgba(255,255,255,0.5); padding: 25px 20px; box-sizing: border-box; 
-            display: flex; flex-direction: column; z-index: 200; transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
-            box-shadow: 4px 0 25px rgba(0,0,0,0.05); flex-shrink: 0;
-        }
-        .sidebar-logo { font-size: 1.6rem; font-weight: 800; color: var(--primary-dark); text-align: center; margin-bottom: 40px; letter-spacing: 0.5px; display: flex; align-items: center; justify-content: center; gap: 8px;}
+        /* NAVBAR */
+        .top-nav { width: 100%; background: rgba(255, 255, 255, 0.95); box-shadow: 0 2px 15px rgba(0,0,0,0.05); padding: 12px 25px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); box-sizing: border-box; }
+        .hamburger { font-size: 1.6rem; font-weight: bold; background: none; border: none; color: var(--primary-dark); cursor: pointer; transition: 0.3s; }
+        .hamburger:hover { transform: scale(1.05); }
+        .auth-buttons { display: flex; align-items: center; gap: 12px; }
         
-        .sidebar-menu { display: flex; flex-direction: column; gap: 10px; flex: 1; }
-        .sidebar .tab-btn { 
-            background: transparent; border: none; padding: 15px 20px; font-size: 1.05rem; font-weight: 700; 
-            color: var(--text-muted); border-radius: 18px; cursor: pointer; transition: all 0.3s ease; 
-            text-align: left; display: flex; align-items: center; gap: 12px;
-        }
-        .sidebar .tab-btn:hover { background: #fff5f5; color: var(--primary-dark); transform: translateX(5px); }
-        .sidebar .tab-btn.active { background: var(--primary-color); color: #fff; box-shadow: 0 4px 15px rgba(255, 154, 158, 0.4); transform: translateX(5px);}
-
-        /* MAIN CONTENT AREA */
-        .main-wrapper { flex: 1; display: flex; flex-direction: column; overflow-y: auto; overflow-x: hidden; position: relative; }
-        
-        /* TOP NAV HEADER */
-        .top-nav { 
-            display: flex; justify-content: space-between; align-items: center; padding: 15px 30px; 
-            position: sticky; top: 0; z-index: 100; background: rgba(255, 255, 255, 0.5); 
-            backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255,255,255,0.6); 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.02); 
-        }
-        .hamburger { display: none; font-size: 1.8rem; background: none; border: none; color: var(--primary-dark); cursor: pointer; padding: 0;}
-        .top-nav-left { display: flex; align-items: center; gap: 15px; }
-        
-        .auth-buttons { display: flex; align-items: center; gap: 10px; }
-        .auth-buttons button { background: #fff; border: 2px solid var(--primary-color); padding: 8px 18px; border-radius: 20px; font-family: inherit; font-weight: 700; color: var(--primary-dark); cursor: pointer; transition: 0.3s; }
-        .auth-buttons button.btn-login { background: var(--primary-color); color: #fff; }
+        button { font-family: inherit; }
+        .auth-buttons button { background: #fff; border: 2px solid var(--primary-color); padding: 8px 18px; border-radius: 25px; font-weight: 700; color: var(--primary-color); cursor: pointer; transition: 0.3s; }
+        .auth-buttons button.btn-login { background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%); color: #fff; border: none; box-shadow: 0 4px 10px rgba(255, 117, 140, 0.3);}
         .auth-buttons button.btn-danger { background: #fff; color: var(--wrong-color); border-color: var(--wrong-color); }
         .auth-buttons button.btn-danger:hover { background: var(--wrong-color); color: #fff; }
-        .auth-buttons button:hover { opacity: 0.8; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.05);}
-        #welcome-text { font-weight: bold; color: var(--primary-dark); margin-right: 10px; font-size: 1rem;}
+        .auth-buttons button:hover { transform: translateY(-2px); }
+        #welcome-text { font-weight: 700; color: var(--text-main); margin-right: 10px; font-size: 1rem;}
         
-        .noti-btn { position: relative; background: none !important; border: none !important; font-size: 1.5rem !important; padding: 0 !important; margin-right: 5px; cursor: pointer; transition: transform 0.2s; }
+        .noti-btn { position: relative; background: none !important; border: none !important; font-size: 1.5rem !important; padding: 0 !important; margin-right: 10px; cursor: pointer; transition: transform 0.2s; }
         .noti-btn:hover { transform: scale(1.1); }
-        .noti-badge { position: absolute; top: -5px; right: -5px; background: red; color: white; font-size: 0.7rem; font-weight: bold; border-radius: 50%; padding: 2px 6px; display: none; } 
-
-        /* CHỌN NGÔN NGỮ & CẤP ĐỘ */
-        .controls-panel { width: 100%; display: flex; flex-direction: column; align-items: center; padding: 25px 20px 10px 20px; box-sizing: border-box;}
-        .lang-selector { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; }
-        .exam-tab-btn { background: rgba(255, 255, 255, 0.7); border: 2px solid #fff; padding: 10px 20px; border-radius: 25px; font-family: inherit; font-size: 0.95rem; font-weight: 700; color: var(--text-muted); cursor: pointer; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
-        .exam-tab-btn:hover { background: #fff; transform: translateY(-2px); color: var(--primary-dark); }
-        .exam-tab-btn.active { background: var(--primary-dark); color: #fff; border-color: var(--primary-dark); box-shadow: 0 6px 15px rgba(255, 117, 140, 0.3); }
-
-        .level-selector { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; max-width: 700px; margin-bottom: 20px;}
-        .level-btn { background-color: rgba(255, 255, 255, 0.5); border: 2px solid #ffffff; padding: 8px 18px; border-radius: 20px; font-family: inherit; font-weight: 700; color: var(--text-muted); cursor: pointer; transition: all 0.3s ease; }
-        .level-btn.active { background-color: var(--primary-color); color: #ffffff; border-color: var(--primary-color); box-shadow: 0 6px 12px rgba(255, 117, 140, 0.3); }
-
-        /* CONTENT SECTIONS */
-        .content-section { display: none; flex-direction: column; align-items: center; width: 100%; max-width: 800px; margin: 0 auto; padding: 0 20px; box-sizing: border-box;}
-        .content-section.active { display: flex; animation: fadeIn 0.4s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* CARDS & COMPONENTS */
-        .intro-card { background: rgba(255,255,255,0.9); width: 100%; border-radius: 30px; padding: 35px; box-sizing: border-box; box-shadow: 0 15px 35px rgba(0,0,0,0.05); text-align: left; border: 1px solid rgba(255,255,255,0.8); backdrop-filter: blur(10px);}
+        .noti-badge { position: absolute; top: -5px; right: -5px; background: var(--wrong-color); color: white; font-size: 0.7rem; font-weight: bold; border-radius: 50%; padding: 2px 6px; display: none; } 
+        
+        /* MENU DỌC */
+        .side-menu { position: fixed; top: 0; left: -280px; width: 250px; height: 100vh; background: #fff; box-shadow: 5px 0 25px rgba(0,0,0,0.1); z-index: 200; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); display: flex; flex-direction: column; padding: 25px 20px; box-sizing: border-box; }
+        .side-menu.active { left: 0; }
+        .side-menu h2 { color: var(--primary-dark); margin-top: 0; border-bottom: 2px dashed #eee; padding-bottom: 15px; font-size: 1.5rem;}
+        .exam-tab-btn { background: #f8f9fa; border: none; padding: 12px 15px; font-size: 1.1rem; font-weight: 700; color: var(--text-muted); border-radius: 15px; cursor: pointer; transition: all 0.3s ease; text-align: left; margin-bottom: 10px; }
+        .exam-tab-btn:hover { background: #ffeaa7; color: #d35400; }
+        .exam-tab-btn.active { background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%); color: #fff; box-shadow: 0 4px 15px rgba(255, 117, 140, 0.4); }
+        
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 150; display: none; opacity: 0; transition: opacity 0.3s; backdrop-filter: blur(2px);}
+        .overlay.active { display: block; opacity: 1; }
+        
+        /* MODAL */
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 300; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s; }
+        .modal.active { display: flex; opacity: 1; }
+        .modal-content { background: #fff; width: 90%; max-width: 420px; padding: 35px; border-radius: 25px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); text-align: center; position: relative; transform: translateY(-20px); transition: 0.3s; max-height: 85vh; overflow-y: auto;}
+        .modal.active .modal-content { transform: translateY(0); }
+        .close-modal { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; color: #ccc; cursor: pointer; transition: 0.2s; }
+        .close-modal:hover { color: var(--wrong-color); }
+        .modal-title { color: var(--primary-dark); font-size: 1.8rem; margin-bottom: 20px; margin-top: 0;}
+        
+        .auth-input { width: 100%; padding: 14px 15px; margin-bottom: 15px; border-radius: 15px; font-size: 1rem; box-sizing: border-box; transition: 0.3s; background: #f8f9fa; border: 2px solid #eee; color: var(--text-main);}
+        .auth-input:focus { border-color: var(--primary-color); outline: none; background: #fff; box-shadow: 0 0 0 4px rgba(255, 117, 140, 0.1);}
+        .btn-submit { width: 100%; background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%); border: none; padding: 14px; border-radius: 15px; color: #fff; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; box-shadow: 0 4px 15px rgba(255, 117, 140, 0.4);}
+        .btn-submit:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); }
+        
+        .auth-switch { margin-top: 20px; color: #888; font-size: 0.95rem; cursor: pointer; }
+        .auth-switch span { color: var(--primary-dark); font-weight: bold; transition: 0.2s;}
+        .auth-switch span:hover { text-decoration: underline;}
+        #authMessage { margin-top: 15px; font-size: 0.95rem; font-weight: bold; min-height: 20px; }
+        
+        /* HEADER & TABS */
+        .main-content { flex: 1; width: 100%; display: flex; flex-direction: column; align-items: center; padding-bottom: 50px; }
+        .header { text-align: center; margin-bottom: 15px; margin-top: 30px; width: 100%; }
+        .header h1 { color: var(--text-main); font-size: 2.5rem; margin: 0 0 20px 0; font-weight: 800;}
+        .country-img { width: 100%; max-width: 650px; height: 250px; object-fit: cover; border-radius: 25px; box-shadow: var(--shadow-soft); border: 5px solid #fff; }
+        
+        .main-tabs { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; padding: 10px; border-radius: 30px; margin-bottom: 25px; margin-top: 25px; max-width: 95%; }
+        .tab-btn { background: #fff; border: 2px solid transparent; padding: 10px 18px; font-size: 1rem; font-weight: 700; color: var(--text-muted); border-radius: 20px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.03);}
+        .tab-btn:hover { color: var(--primary-color); transform: translateY(-2px);}
+        .tab-btn.active { background-color: var(--primary-color); color: #fff; box-shadow: 0 6px 15px rgba(255, 117, 140, 0.4); }
+        
+        .level-selector { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; max-width: 700px; margin-bottom: 35px; padding: 0 10px; }
+        .level-btn { background-color: #fff; border: 2px solid #eee; padding: 8px 20px; border-radius: 25px; font-weight: 700; color: var(--text-muted); cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.02);}
+        .level-btn.active { background-color: var(--primary-dark); color: #fff; border-color: var(--primary-dark); box-shadow: 0 6px 15px rgba(255, 71, 87, 0.3); }
+        
+        .content-section { display: none; flex-direction: column; align-items: center; width: 100%; max-width: 650px; padding: 0 15px; box-sizing: border-box;}
+        .content-section.active { display: flex; }
+        
+        /* CARDS CHUNG */
+        .intro-card, .quiz-container { background: #fff; width: 100%; border-radius: 25px; padding: 35px; box-sizing: border-box; text-align: left; box-shadow: var(--shadow-soft); }
         .intro-card h2 { color: var(--primary-dark); margin-top: 0; text-align: center; font-size: 1.8rem; }
         .feature-list { display: flex; flex-direction: column; gap: 15px; margin-top: 25px; }
-        .feature-item { background: #f0f8ff; padding: 18px; border-radius: 20px; border-left: 6px solid #4facfe; font-size: 1.05rem; color: #333; box-shadow: 0 4px 10px rgba(0,0,0,0.02);}
-        .intro-warning { background: #fff8e1; color: var(--warning-color); padding: 15px; border-radius: 15px; text-align: center; font-weight: bold; margin-top: 20px; border: 1px dashed var(--warning-color); }
+        .feature-item { background: #fdfbfb; padding: 18px; border-radius: 15px; border-left: 5px solid var(--primary-color); font-size: 1.05rem; color: var(--text-main); border: 1px solid #eee; border-left-width: 5px;}
+        .intro-warning { background: #fff8e1; color: var(--warning-color); padding: 12px; border-radius: 12px; text-align: center; font-weight: bold; margin-top: 20px; border: 1px dashed var(--warning-color); }
         
-        .progress-bar-bg { width: 100%; background: #eee; border-radius: 15px; height: 20px; margin-top: 10px; overflow: hidden; box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);}
-        .progress-bar-fill { background: var(--correct-color); height: 100%; border-radius: 15px; transition: width 0.5s ease; }
-        .history-list-item { background: #f9f9f9; padding: 12px 18px; border-radius: 15px; margin-bottom: 10px; border-left: 5px solid var(--primary-color); font-size: 0.95rem; font-weight: 600;}
-
-        /* FLASHCARD */
-        .flashcard-container { perspective: 1000px; width: 400px; height: 500px; margin-bottom: 25px; max-width: 100%; }
-        .flashcard { width: 100%; height: 100%; position: relative; transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); transform-style: preserve-3d; cursor: pointer; box-shadow: 0 20px 40px rgba(0,0,0,0.08); border-radius: 35px; }
+        .progress-bar-bg { width: 100%; background: #eee; border-radius: 15px; height: 20px; margin-top: 10px; overflow: hidden; }
+        .progress-bar-fill { background: linear-gradient(90deg, #2ed573, #7bed9f); height: 100%; border-radius: 15px; transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        .history-list-item { background: #f8f9fa; padding: 12px 18px; border-radius: 12px; margin-bottom: 10px; border-left: 4px solid var(--primary-color); font-size: 0.95rem; font-weight: 600;}
+        
+        /* FLASHCARD HIỆN ĐẠI */
+        .flashcard-container { perspective: 1000px; width: 380px; height: 480px; margin-bottom: 25px; max-width: 100%; }
+        .flashcard { width: 100%; height: 100%; position: relative; transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1); transform-style: preserve-3d; cursor: pointer; border-radius: 30px; box-shadow: var(--shadow-soft); }
         .flashcard.flipped { transform: rotateY(180deg); }
-        .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 35px; background-color: var(--card-bg); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 30px; box-sizing: border-box; text-align: center; border: 5px solid #fff; }
-        .front { background: linear-gradient(to bottom right, #ffffff, #fff5f5); }
-        .back { background: linear-gradient(to bottom right, #ffffff, #f0f8ff); transform: rotateY(180deg); }
-        .word { font-size: 4rem; font-weight: 800; color: var(--primary-dark); margin-bottom: 5px; line-height: 1.2; word-break: break-word;}
-        .pinyin { font-size: 1.6rem; color: var(--text-muted); font-weight: 600; margin-bottom: 5px; }
-        .word-type { font-size: 1.1rem; color: #888; font-style: italic; margin-bottom: 15px; background: #eee; padding: 4px 12px; border-radius: 20px;}
-        .audio-btn { background: #f0f8ff; border: 2px solid #a1c4fd; border-radius: 50%; width: 55px; height: 55px; font-size: 1.6rem; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s ease; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);}
-        .audio-btn:hover { background: #a1c4fd; transform: scale(1.1); color: #fff;}
-        .btn-bookmark { position: absolute; top: 20px; right: 25px; font-size: 2.2rem; background: none; border: none; cursor: pointer; color: #ddd; transition: 0.3s; z-index: 10; }
-        .btn-bookmark.saved { color: #ffd700; text-shadow: 0 2px 10px rgba(255,215,0,0.5); }
-        .meaning { font-size: 2rem; font-weight: 800; color: #4facfe; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 2px dashed #eee; width: 100%; }
-        .example-cn { font-size: 1.3rem; margin-bottom: 8px; color: var(--text-main); font-weight: bold;}
+        .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 30px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 25px; box-sizing: border-box; text-align: center; background: #fff; border: 3px solid #f8f9fa;}
+        .front { background: linear-gradient(to bottom, #ffffff, #fffdfd); }
+        .back { transform: rotateY(180deg); background: linear-gradient(to bottom, #ffffff, #f0f8ff); }
+        
+        .word { font-size: 4.5rem; font-weight: 800; color: var(--primary-dark); margin-bottom: 5px; line-height: 1.2; text-shadow: 2px 2px 0px #ffeaa7;}
+        .pinyin { font-size: 1.6rem; color: var(--text-muted); font-weight: 600; margin-bottom: 5px; letter-spacing: 1px;}
+        .word-type { font-size: 1rem; color: #a4b0be; font-style: italic; margin-bottom: 20px; background: #f1f2f6; padding: 4px 12px; border-radius: 15px;}
+        
+        .audio-btn { background: #fdfbfb; border: 2px solid #eee; border-radius: 50%; width: 55px; height: 55px; font-size: 1.6rem; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s ease; margin-bottom: 15px; color: var(--primary-color); box-shadow: 0 4px 10px rgba(0,0,0,0.05);}
+        .audio-btn:hover { background: var(--primary-light); color: #fff; transform: scale(1.1); border-color: var(--primary-light);}
+        
+        .btn-bookmark { position: absolute; top: 20px; right: 25px; font-size: 2.2rem; background: none; border: none; cursor: pointer; color: #dfe6e9; transition: 0.3s; z-index: 10; }
+        .btn-bookmark:hover { transform: scale(1.1); color: #ffeaa7; }
+        .btn-bookmark.saved { color: #f1c40f; text-shadow: 0 2px 10px rgba(241, 196, 15, 0.5); }
+        
+        .meaning { font-size: 2rem; font-weight: 800; color: var(--primary-color); margin-bottom: 20px; padding-bottom: 20px; border-bottom: 2px dashed #eee; width: 100%;}
+        .example-cn { font-size: 1.3rem; margin-bottom: 8px; color: var(--text-main); font-weight: 700; }
         .example-vn { font-size: 1.1rem; color: var(--text-muted); font-style: italic; }
         
-        .controls { display: flex; align-items: center; gap: 25px; background: rgba(255, 255, 255, 0.6); padding: 12px 30px; border-radius: 50px; backdrop-filter: blur(10px); box-shadow: 0 10px 25px rgba(0,0,0,0.05); margin-bottom: 20px;}
-        button.nav-btn { background-color: #ffffff; border: none; padding: 12px 25px; font-size: 1.05rem; font-weight: 700; color: var(--primary-dark); border-radius: 25px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: 0.2s;}
-        button.nav-btn:hover { background: var(--primary-color); color: #fff; transform: translateY(-2px);}
-
-        /* CÁC CHỨC NĂNG KHÁC */
-        .grammar-list, .notebook-list { width: 100%; display: flex; flex-direction: column; gap: 20px; }
-        .grammar-card { background: rgba(255,255,255,0.9); border-radius: 25px; padding: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); text-align: left; border-left: 6px solid #4facfe; position: relative; border: 1px solid #fff;}
-        .g-title { font-size: 1.4rem; color: var(--primary-dark); font-weight: 800; margin: 0 0 15px 0; padding-right: 40px;}
-        .g-formula { background: #f0f8ff; padding: 15px; border-radius: 15px; font-family: monospace; font-size: 1.2rem; color: #333; margin-bottom: 15px; font-weight: bold; text-align: center;}
+        .controls { display: flex; align-items: center; gap: 20px; padding: 15px 30px; border-radius: 50px; margin-bottom: 20px; background: #fff; box-shadow: var(--shadow-soft);}
+        button.nav-btn { background-color: #f8f9fa; border: none; padding: 12px 25px; font-size: 1rem; font-weight: 700; color: var(--primary-dark); border-radius: 25px; cursor: pointer; transition: 0.2s; }
+        button.nav-btn:hover { background: var(--primary-color); color: #fff; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(255, 117, 140, 0.3);}
         
-        .exam-list { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .exam-card { background: rgba(255,255,255,0.9); border-radius: 25px; padding: 25px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 2px solid #fff; }
-        .e-title { font-size: 1.3rem; font-weight: 800; margin: 0 0 15px 0; color: var(--primary-dark);}
-        .e-btn { background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%); border: none; padding: 12px 25px; border-radius: 20px; font-weight: 800; color: #1a5f7a; cursor: pointer; width: 100%; font-family: inherit; font-size: 1.05rem;}
+        /* CÁC DANH SÁCH BÊN DƯỚI */
+        .grammar-list, .notebook-list, .exam-list { width: 100%; display: flex; flex-direction: column; gap: 15px; }
+        .grammar-card { background: #fff; border-radius: 20px; padding: 25px; text-align: left; border-left: 6px solid var(--primary-color); box-shadow: var(--shadow-soft); position: relative;}
+        .g-title { font-size: 1.3rem; color: var(--primary-dark); font-weight: 800; margin: 0 0 15px 0; padding-right: 30px;}
+        .g-formula { background: #fdfbfb; padding: 12px; border-radius: 12px; font-family: monospace; font-size: 1.1rem; color: var(--text-main); margin-bottom: 12px; text-align: center; border: 1px solid #eee;}
         
-        .review-mode-selector { display: flex; gap: 15px; margin-bottom: 25px; width: 100%; justify-content: center; flex-wrap: wrap;}
-        .btn-mode { background: rgba(255,255,255,0.7); border: 2px solid #fff; padding: 12px 25px; border-radius: 30px; font-size: 1.05rem; font-weight: 800; color: var(--primary-dark); cursor: pointer; font-family: inherit; box-shadow: 0 4px 10px rgba(0,0,0,0.03);}
-        .btn-mode.active { background: var(--primary-color); color: #fff; border-color: var(--primary-color); box-shadow: 0 8px 20px rgba(255,154,158,0.4);}
+        .exam-list { grid-template-columns: 1fr 1fr; display: grid;}
+        .exam-card { background: #fff; border-radius: 20px; padding: 25px; text-align: center; box-shadow: var(--shadow-soft); border: 2px solid transparent; transition: 0.3s;}
+        .exam-card:hover { transform: translateY(-5px); border-color: var(--primary-light); }
+        .e-title { font-size: 1.3rem; font-weight: 800; margin: 0 0 10px 0; color: var(--text-main);}
+        .e-btn { background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%); border: none; padding: 12px 20px; border-radius: 15px; font-weight: 700; color: #0056b3; cursor: pointer; width: 100%; margin-top: 10px; transition: 0.2s;}
+        .e-btn:hover { box-shadow: 0 5px 15px rgba(161, 196, 253, 0.4); }
         
-        .quiz-container { background: rgba(255,255,255,0.9); width: 100%; border-radius: 30px; padding: 35px; box-sizing: border-box; box-shadow: 0 15px 35px rgba(0,0,0,0.08); text-align: center; border: 1px solid #fff;}
-        .q-text { font-size: 1.4rem; font-weight: bold; color: #444; margin-bottom: 25px; line-height: 1.5;}
+        /* ÔN TẬP QUIZ */
+        .review-mode-selector { display: flex; gap: 10px; margin-bottom: 25px; width: 100%; justify-content: center; flex-wrap: wrap;}
+        .btn-mode { background: #fff; border: 2px solid #eee; padding: 10px 25px; border-radius: 25px; font-size: 1.05rem; font-weight: bold; color: var(--text-muted); cursor: pointer; transition: 0.3s; box-shadow: 0 2px 5px rgba(0,0,0,0.02);}
+        .btn-mode.active { background: var(--primary-dark); color: #fff; border-color: var(--primary-dark); box-shadow: 0 6px 15px rgba(255, 71, 87, 0.3);}
+        
+        .quiz-container { text-align: center; }
+        .q-text { font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin-bottom: 25px; line-height: 1.5;}
         .q-word-hl { font-size: 2.5rem; color: var(--primary-dark); display: block; margin: 15px 0; font-weight: 800;}
-        .options-grid { display: flex; flex-direction: column; gap: 15px; margin-bottom: 25px; }
-        .opt-btn { background: #f8f9fa; border: 2px solid #eee; padding: 15px; border-radius: 20px; font-size: 1.1rem; font-family: inherit; cursor: pointer; text-align: left; font-weight: 700; color: #444; transition: 0.2s;}
-        .opt-btn:hover { background: #fff5f5; border-color: var(--primary-color); transform: translateX(5px);}
-        .opt-btn.correct { background: var(--correct-color); color: #fff; border-color: var(--correct-color); box-shadow: 0 5px 15px rgba(76,175,80,0.3);}
-        .opt-btn.wrong { background: var(--wrong-color); color: #fff; border-color: var(--wrong-color); box-shadow: 0 5px 15px rgba(244,67,54,0.3);}
-        .btn-next-q { background: var(--primary-dark); color: #fff; border: none; padding: 15px 40px; font-size: 1.2rem; font-weight: 800; border-radius: 30px; cursor: pointer; font-family: inherit; display: none; margin: 0 auto; box-shadow: 0 8px 20px rgba(255,117,140,0.4);}
-        .btn-next-q:hover { transform: translateY(-3px); }
-
-        .empty-state { text-align: center; padding: 50px 20px; background: rgba(255,255,255,0.6); border-radius: 25px; width: 100%; font-size: 1.2rem; font-weight: 700; color: #888; border: 1px dashed #ccc;}
+        
+        .options-grid { display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px; }
+        .opt-btn { background: #f8f9fa; border: 2px solid #eee; padding: 15px; border-radius: 15px; font-size: 1.05rem; cursor: pointer; text-align: left; font-weight: 600; color: var(--text-main); transition: 0.2s;}
+        .opt-btn:hover { background: #fff; border-color: var(--primary-light); box-shadow: 0 4px 10px rgba(0,0,0,0.05); transform: translateX(5px);}
+        .opt-btn.correct { background: var(--correct-color); color: #fff; border-color: var(--correct-color); box-shadow: 0 4px 15px rgba(46, 213, 115, 0.3);}
+        .opt-btn.wrong { background: var(--wrong-color); color: #fff; border-color: var(--wrong-color); box-shadow: 0 4px 15px rgba(255, 71, 87, 0.3);}
+        .btn-next-q { background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%); color: #fff; border: none; padding: 14px 35px; font-size: 1.1rem; font-weight: bold; border-radius: 25px; cursor: pointer; display: none; margin: 0 auto; box-shadow: 0 6px 15px rgba(255, 117, 140, 0.4); transition: 0.3s;}
+        .btn-next-q:hover { transform: translateY(-2px); }
+        
+        .empty-state { text-align: center; padding: 50px 20px; border-radius: 25px; width: 100%; font-size: 1.2rem; font-weight: 600; color: var(--text-muted); background: #fff; box-shadow: var(--shadow-soft);}
         .hidden { display: none !important; }
         
-        .nb-card { background: rgba(255,255,255,0.9); border-radius: 20px; padding: 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 8px 20px rgba(0,0,0,0.05); border: 1px solid #fff;}
+        .nb-card { background: #fff; border-radius: 20px; padding: 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow-soft); border: 1px solid #f1f2f6;}
         .nb-info { flex: 1; text-align: left; }
-        .nb-word { font-size: 1.5rem; font-weight: 800; color: var(--primary-dark); margin: 0 0 8px 0;}
-        .nb-meaning { font-size: 1.05rem; color: #555; margin: 0; font-weight: 600;}
-        .nb-status { font-size: 0.9rem; font-weight: 800; padding: 8px 15px; border-radius: 20px; margin-left: 15px; white-space: nowrap; }
-        .status-bad { background: #ffebee; color: var(--wrong-color); }
-        .status-good { background: #e8f5e9; color: var(--correct-color); }
-        .status-saved { background: #fff8e1; color: var(--warning-color); }
+        .nb-word { font-size: 1.6rem; font-weight: 800; color: var(--primary-dark); margin: 0 0 5px 0; }
+        .nb-meaning { font-size: 1.05rem; color: var(--text-muted); margin: 0; font-weight: 600;}
+        .nb-status { font-size: 0.85rem; font-weight: 800; padding: 6px 12px; border-radius: 20px; margin-left: 15px; white-space: nowrap; }
+        .status-bad { background: #ffeff0; color: var(--wrong-color); }
+        .status-good { background: #e8f8f5; color: var(--correct-color); }
+        .status-saved { background: #fff9e6; color: var(--warning-color); }
 
-        /* MODALS (Đăng nhập / Thêm từ) */
-        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 250; display: none; opacity: 0; transition: opacity 0.3s; backdrop-filter: blur(3px);}
-        .overlay.active { display: block; opacity: 1; }
-        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 300; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s; }
-        .modal.active { display: flex; opacity: 1; }
-        .modal-content { background: #fff; width: 90%; max-width: 420px; padding: 40px 30px; border-radius: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.15); text-align: center; position: relative; transform: translateY(-20px); transition: 0.3s; max-height: 85vh; overflow-y: auto;}
-        .modal.active .modal-content { transform: translateY(0); }
-        .close-modal { position: absolute; top: 20px; right: 25px; font-size: 1.8rem; color: #ccc; cursor: pointer; transition: 0.2s; }
-        .close-modal:hover { color: var(--primary-dark); }
-        .modal-title { color: var(--primary-dark); font-size: 2rem; margin-bottom: 25px; margin-top: 0; font-weight: 800;}
-        .auth-input { width: 100%; padding: 15px 20px; margin-bottom: 18px; border: 2px solid #eee; border-radius: 20px; font-family: inherit; font-size: 1.05rem; box-sizing: border-box; transition: 0.3s; background: #fdfdfd;}
-        .auth-input:focus { border-color: var(--primary-color); outline: none; background: #fff; box-shadow: 0 0 10px rgba(255,154,158,0.2);}
-        .btn-submit { width: 100%; background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%); border: none; padding: 15px; border-radius: 20px; color: #fff; font-size: 1.2rem; font-weight: 800; cursor: pointer; transition: 0.3s; font-family: inherit; margin-top: 10px; box-shadow: 0 10px 20px rgba(255,117,140,0.3);}
-        .btn-submit:hover { transform: translateY(-3px); box-shadow: 0 12px 25px rgba(255,117,140,0.4);}
-        .auth-switch { margin-top: 25px; color: #888; font-size: 1rem; cursor: pointer; }
-        .auth-switch span { color: var(--primary-dark); font-weight: 800; }
-        .auth-switch span:hover { text-decoration: underline; }
-
-        .footer { width: 100%; padding: 30px 20px; text-align: center; font-size: 1rem; color: var(--text-muted); box-sizing: border-box; margin-top: auto; font-weight: 600;}
-
-        /* RESPONSIVE DESIGN */
-        @media (max-width: 900px) {
-            .sidebar { position: fixed; left: -300px; height: 100vh; border-radius: 0; box-shadow: 10px 0 30px rgba(0,0,0,0.1); }
-            .sidebar.active { left: 0; transform: translateX(0); }
-            .hamburger { display: block; }
-            .top-nav { padding: 15px 20px; }
-            #header-title { display: none; }
-            .exam-list { grid-template-columns: 1fr; }
-            .flashcard-container { height: 450px; }
-            .word { font-size: 3rem; }
-            .auth-buttons button { padding: 8px 12px; font-size: 0.9rem; }
-            #welcome-text { display: none; }
-        }
-        @media (min-width: 901px) {
-            .sidebar { transform: translateX(0) !important; }
-        }
+        .footer { width: 100%; padding: 25px; text-align: center; font-size: 1rem; font-weight: 600; color: var(--text-muted); margin-top: auto; }
+        .footer a { color: var(--primary-dark); text-decoration: none; }
+        
+        @media (max-width: 600px) { .exam-list { grid-template-columns: 1fr; } .word {font-size: 3.5rem;} .auth-buttons button {padding: 8px 12px; font-size: 0.9rem;} #welcome-text { display: none; } .header h1 { font-size: 2rem; } }
     </style>
 </head>
 <body>
 
-    <div class="app-container">
-        <!-- MENU DỌC (SIDEBAR) -->
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-logo">🎓 StudyChill</div>
-            <div class="sidebar-menu">
-                <button class="tab-btn active" onclick="switchTab('intro')">🏠 Giới Thiệu</button>
-                <button class="tab-btn" onclick="switchTab('vocab')">📇 Từ Vựng</button>
-                <button class="tab-btn" onclick="switchTab('grammar')">📖 Ngữ Pháp</button>
-                <button class="tab-btn" onclick="switchTab('exam')">📝 Luyện Đề</button>
-                <button class="tab-btn" onclick="switchTab('review')">🎮 Ôn Tập</button>
-                <button class="tab-btn" onclick="switchTab('notebook')">📚 Sổ Tay</button>
-                <button class="tab-btn" onclick="switchTab('history')">⏱ Lịch Sử</button>
+    <nav class="top-nav">
+        <button class="hamburger" onclick="toggleMenu()">☰ Menu</button>
+        <div class="auth-buttons">
+            <button class="noti-btn" onclick="openNotiModal()" title="Thông báo">🔔<span class="noti-badge" id="noti-badge"></span></button>
+            <div id="guest-nav">
+                <button class="btn-register" onclick="openModal('register')">Đăng ký</button>
+                <button class="btn-login" onclick="openModal('login')">Đăng nhập</button>
             </div>
-            <div style="margin-top: auto; text-align: center; font-size: 0.85rem; color: #aaa; font-weight: 600;">
-                © 2026 Lê Quốc Thịnh
+            <div id="user-nav" style="display: none; align-items: center;">
+                <span id="welcome-text"></span>
+                <button class="btn-login" onclick="logout()" style="background: #ffa502; box-shadow: 0 4px 10px rgba(255, 165, 2, 0.3);">Đăng xuất</button>
+                <button class="btn-danger" onclick="deleteAccount()" title="Xóa tài khoản vĩnh viễn">Xóa TK</button>
             </div>
-        </aside>
+        </div>
+    </nav>
 
-        <!-- LỚP MÀN MỜ KHI MỞ MENU MOBILE -->
-        <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
-
-        <!-- KHU VỰC NỘI DUNG CHÍNH -->
-        <main class="main-wrapper">
-            
-            <!-- TOP NAV HEADER -->
-            <nav class="top-nav">
-                <div class="top-nav-left">
-                    <button class="hamburger" onclick="toggleMenu()">☰</button>
-                    <h2 id="header-title" style="margin:0; color: var(--primary-dark); font-size: 1.5rem; font-weight: 800;">Trạm Học Tập</h2>
-                </div>
-                <div class="auth-buttons">
-                    <button class="noti-btn" onclick="openNotiModal()" title="Thông báo">🔔<span class="noti-badge" id="noti-badge"></span></button>
-                    <div id="guest-nav">
-                        <button class="btn-register" onclick="openModal('register')">Đăng ký</button>
-                        <button class="btn-login" onclick="openModal('login')">Đăng nhập</button>
-                    </div>
-                    <div id="user-nav" style="display: none; align-items: center;">
-                        <span id="welcome-text"></span>
-                        <button class="btn-login" onclick="logout()" style="background: var(--warning-color); border-color: var(--warning-color);">Đăng xuất</button>
-                        <button class="btn-danger" onclick="deleteAccount()" title="Xóa tài khoản vĩnh viễn">Xóa TK</button>
-                    </div>
-                </div>
-            </nav>
-
-            <!-- BẢNG ĐIỀU KHIỂN CHỌN NGÔN NGỮ & CẤP ĐỘ -->
-            <div class="controls-panel">
-                <div class="lang-selector">
-                    <button class="exam-tab-btn active" onclick="changeExamType('HSK', this)">🇨🇳 HSK</button>
-                    <button class="exam-tab-btn" onclick="changeExamType('TOEIC', this)">🇺🇸 TOEIC</button>
-                    <button class="exam-tab-btn" onclick="changeExamType('IELTS', this)">🇬🇧 IELTS</button>
-                    <button class="exam-tab-btn" onclick="changeExamType('TOPIK', this)">🇰🇷 TOPIK</button>
-                    <button class="exam-tab-btn" onclick="changeExamType('JLPT', this)">🇯🇵 JLPT</button>
-                </div>
-                <div class="level-selector" id="level-buttons"></div>
-            </div>
-
-            <!-- CÁC TÍNH NĂNG HỌC TẬP -->
-            <div id="intro-section" class="content-section active">
-                <div class="intro-card">
-                    <h2 id="welcome-header">Trạm Học Tập Dashboard 🚀</h2>
-                    <div class="intro-warning" id="intro-warning">🔒 Bạn cần Đăng nhập / Đăng ký để mở khóa toàn bộ tính năng bài học!</div>
-                    <div class="feature-list">
-                        <div class="feature-item"><strong>🖥️ Giao diện Dashboard (Mới):</strong> Cấu trúc Sidebar điều hướng gọn gàng, phong cách StudyChill tối giản giúp tập trung tối đa.</div>
-                        <div class="feature-item"><strong>✏️ Từ Vựng Cá Nhân:</strong> Tự do thêm từ vựng mới của riêng bạn.</div>
-                        <div class="feature-item"><strong>🔄 Multi-Device Sync:</strong> Dữ liệu đồng bộ đám mây trên mọi thiết bị.</div>
-                        <div class="feature-item"><strong>📚 Big Data:</strong> Trọn bộ 300 từ vựng HSK 1 kèm Ví dụ song ngữ.</div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="vocab-section" class="content-section">
-                <div style="margin-bottom: 20px; width: 100%; text-align: center;">
-                    <button class="nav-btn" onclick="openAddVocabModal()" style="background: var(--primary-color); color: white; padding: 12px 25px; border: none;">➕ Thêm từ của riêng bạn</button>
-                </div>
-                <div class="flashcard-container" id="fc-container">
-                    <div class="flashcard" id="flashcard" onclick="flipCard()">
-                        <div class="card-face front">
-                            <div id="custom-badge" style="position: absolute; top: 20px; left: 25px; font-size: 0.85rem; background: var(--primary-color); color: #fff; padding: 6px 12px; border-radius: 15px; font-weight: 800; display: none; box-shadow: 0 5px 10px rgba(255,154,158,0.4);">Từ của bạn</div>
-                            <button class="btn-bookmark" id="btn-bookmark" onclick="toggleSaveWord(event)" title="Lưu từ này">★</button>
-                            <div class="word" id="word-cn">...</div>
-                            <div class="pinyin" id="word-pinyin">...</div>
-                            <div class="word-type" id="word-type">...</div>
-                            <button class="audio-btn" onclick="playAudio(event)" title="Nghe phát âm">🔊</button>
-                            <div class="hint" style="font-size: 0.95rem; color: #aaa; font-weight: 600;">👆 Chạm nền để lật thẻ</div>
-                        </div>
-                        <div class="card-face back">
-                            <div class="meaning" id="word-meaning">...</div>
-                            <div class="example-cn" id="ex-cn">...</div>
-                            <div class="example-vn" id="ex-vn">...</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="controls" id="vocab-controls">
-                    <button class="nav-btn" onclick="prevCard()">⬅️ Trước</button>
-                    <div class="progress" id="progress" style="font-weight: 800; font-size: 1.1rem; width: 90px; text-align: center; color: var(--primary-dark);">0 / 0</div>
-                    <button class="nav-btn" onclick="nextCard()">Sau ➡️</button>
-                </div>
-                <div id="vocab-empty" class="empty-state hidden">🚧 Từ vựng đang cập nhật...</div>
-            </div>
-
-            <div id="grammar-section" class="content-section">
-                <div class="grammar-list" id="grammar-list"></div>
-                <div id="grammar-empty" class="empty-state hidden">🚧 Ngữ pháp đang cập nhật...</div>
-            </div>
-
-            <div id="exam-section" class="content-section">
-                <div class="exam-list" id="exam-list"></div>
-                <div id="exam-empty" class="empty-state hidden">🚧 Đề thi đang cập nhật...</div>
-            </div>
-
-            <div id="review-section" class="content-section">
-                <div class="review-mode-selector" id="review-controls">
-                    <button class="btn-mode active" id="btn-rev-vocab" onclick="startReview('vocab')">🎯 Ôn Từ Vựng</button>
-                    <button class="btn-mode" id="btn-rev-grammar" onclick="startReview('grammar')">🧩 Ôn Ngữ Pháp</button>
-                </div>
-                <div class="quiz-container hidden" id="quiz-board">
-                    <div class="q-text" id="quiz-question">Câu hỏi</div>
-                    <div class="options-grid" id="quiz-options"></div>
-                    <button class="btn-next-q" id="btn-next-quiz" onclick="loadNextQuiz()">Tiếp theo ➡️</button>
-                </div>
-                <div id="review-empty" class="empty-state hidden">🚧 Dữ liệu chưa đủ để tạo bài trắc nghiệm.</div>
-            </div>
-
-            <div id="notebook-section" class="content-section">
-                <div class="notebook-list" id="notebook-list"></div>
-                <div id="notebook-empty" class="empty-state hidden">📭 Sổ tay trống. Hãy nhấn dấu ★ ở thẻ từ vựng nhé!</div>
-            </div>
-
-            <div id="history-section" class="content-section">
-                <div class="intro-card" style="margin-bottom: 25px;">
-                    <h3 style="color: var(--primary-dark); margin-top:0; font-size: 1.6rem;">📊 Tiến độ (<span id="hist-lang-title"></span>)</h3>
-                    <div id="progress-stats"></div>
-                </div>
-                <div class="intro-card">
-                    <h3 style="color: var(--primary-dark); margin-top:0; font-size: 1.6rem;">🕒 Lịch sử truy cập</h3>
-                    <div id="login-history-list"></div>
-                </div>
-            </div>
-            
-            <footer class="footer">
-                Tạo ra với ❤️ bởi Lê Quốc Thịnh
-            </footer>
-        </main>
+    <div class="side-menu" id="sideMenu">
+        <h2>📚 Chọn Ngôn Ngữ</h2>
+        <button class="exam-tab-btn" onclick="changeExamType('HSK')">🇨🇳 Tiếng Trung HSK</button>
+        <button class="exam-tab-btn" onclick="changeExamType('TOEIC')">🇺🇸 Tiếng Anh TOEIC</button>
+        <button class="exam-tab-btn" onclick="changeExamType('IELTS')">🇬🇧 Tiếng Anh IELTS</button>
+        <button class="exam-tab-btn" onclick="changeExamType('TOPIK')">🇰🇷 Tiếng Hàn TOPIK</button>
+        <button class="exam-tab-btn" onclick="changeExamType('JLPT')">🇯🇵 Tiếng Nhật JLPT</button>
     </div>
+    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
 
-    <!-- MODAL THÔNG BÁO -->
     <div class="modal" id="notiModal">
         <div class="modal-content" style="text-align: left;">
             <span class="close-modal" onclick="closeNotiModal()">✖</span>
-            <h2 class="modal-title" style="text-align: center;">🔔 Thông Báo Mới</h2>
+            <h2 class="modal-title" style="text-align: center;">🔔 Thông Báo</h2>
             <div id="noti-list"></div>
+        </div>
+    </div>
+
+    <!-- MODAL ĐĂNG NHẬP / ĐĂNG KÝ -->
+    <div class="modal" id="authModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">✖</span>
+            <h2 class="modal-title" id="modalTitle">Đăng nhập</h2>
+            <input type="text" id="authUsername" placeholder="Email / Tên tài khoản" class="auth-input">
+            <input type="password" id="authPassword" placeholder="Mật khẩu" class="auth-input">
+            <button class="btn-submit" id="btnSubmitAuth" onclick="handleAuth()">Vào học ngay</button>
+            <div id="authMessage"></div> 
+            <p class="auth-switch"><span id="authSwitchText" onclick="switchAuthMode('register')">Chưa có tài khoản? Đăng ký ngay</span></p>
+            <p class="auth-switch" style="margin-top: 5px;"><span id="authForgotText" onclick="switchAuthMode('forgot')" style="color: #aaa; font-weight: normal; font-size: 0.9rem;">Quên mật khẩu?</span></p>
         </div>
     </div>
 
@@ -362,7 +236,7 @@
         <div class="modal-content">
             <span class="close-modal" onclick="closeAddVocabModal()">✖</span>
             <h2 class="modal-title">✨ Thêm Từ Của Bạn</h2>
-            <p style="font-size: 0.95rem; color: #888; margin-bottom: 20px; font-weight: 600;">Từ vựng này sẽ chỉ hiển thị riêng cho bạn.</p>
+            <p style="font-size: 0.9rem; color: #888; margin-bottom: 20px; margin-top: -10px; font-weight: 600;">Từ vựng này sẽ chỉ hiển thị riêng cho tài khoản của bạn.</p>
             <input type="text" id="cv-word" placeholder="Từ vựng (VD: 梦想)" class="auth-input">
             <input type="text" id="cv-pinyin" placeholder="Pinyin / Phiên âm (Tùy chọn)" class="auth-input">
             <input type="text" id="cv-type" placeholder="Từ loại (VD: danh từ)" class="auth-input">
@@ -373,9 +247,115 @@
         </div>
     </div>
 
+    <div class="main-content">
+        <div class="header">
+            <h1 id="main-title">🐼 Trạm Tiếng Trung HSK 🐼</h1>
+            <img id="country-img" class="country-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvpt88mlCcbizuDj8HmSA99ajRs8UFf0i4bwp-bXQ1xA&s=10">
+        </div>
+
+        <div class="main-tabs">
+            <button class="tab-btn" onclick="switchTab('intro')">🏠 Giới Thiệu</button>
+            <button class="tab-btn" onclick="switchTab('vocab')">📇 Từ Vựng</button>
+            <button class="tab-btn" onclick="switchTab('grammar')">📖 Ngữ Pháp</button>
+            <button class="tab-btn" onclick="switchTab('exam')">📝 Luyện Đề</button>
+            <button class="tab-btn" onclick="switchTab('review')">🎮 Ôn Tập</button>
+            <button class="tab-btn" onclick="switchTab('notebook')">📚 Sổ Tay</button>
+            <button class="tab-btn" onclick="switchTab('history')">⏱ Lịch Sử</button>
+        </div>
+
+        <div class="level-selector" id="level-buttons"></div>
+
+        <div id="intro-section" class="content-section">
+            <div class="intro-card">
+                <h2>Trạm Học Tập Đa Ngôn Ngữ 🚀</h2>
+                <div class="intro-warning" id="intro-warning">🔒 Bạn cần Đăng nhập / Đăng ký để mở khóa toàn bộ tính năng bài học!</div>
+                <div class="feature-list">
+                    <div class="feature-item"><strong>🌟 Giao diện Modern Light (Mới):</strong> Đã nâng cấp giao diện sáng theo phong cách hiện đại, thanh lịch như Duolingo/Quizlet.</div>
+                    <div class="feature-item"><strong>✏️ Từ Vựng Cá Nhân:</strong> Tự do thêm từ vựng mới của riêng bạn vào khóa học.</div>
+                    <div class="feature-item"><strong>🔄 Multi-Device Sync:</strong> Dữ liệu đồng bộ hoàn hảo trên mọi thiết bị qua Cloud.</div>
+                    <div class="feature-item"><strong>🎙️ Native Voice AI:</strong> Phát âm chuẩn giọng bản xứ.</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="vocab-section" class="content-section">
+            <div style="margin-bottom: 20px; width: 100%; text-align: center;">
+                <button class="nav-btn" onclick="openAddVocabModal()" style="background: var(--primary-color); color: white; padding: 12px 25px; font-size: 1.1rem; box-shadow: 0 5px 15px rgba(255,117,140,0.3);">➕ Thêm từ của riêng bạn</button>
+            </div>
+            
+            <div class="flashcard-container" id="fc-container">
+                <div class="flashcard" id="flashcard" onclick="flipCard()">
+                    <div class="card-face front">
+                        <div id="custom-badge" style="position: absolute; top: 20px; left: 20px; font-size: 0.85rem; background: var(--warning-color); color: #fff; padding: 5px 12px; border-radius: 15px; font-weight: bold; display: none; box-shadow: 0 4px 10px rgba(255, 165, 2, 0.4);">Từ của bạn</div>
+                        <button class="btn-bookmark" id="btn-bookmark" onclick="toggleSaveWord(event)" title="Lưu từ này">★</button>
+                        <div class="word" id="word-cn">...</div>
+                        <div class="pinyin" id="word-pinyin">...</div>
+                        <div class="word-type" id="word-type">...</div>
+                        <button class="audio-btn" onclick="playAudio(event)" title="Nghe phát âm">🔊</button>
+                        <div class="hint" style="font-size: 0.95rem; color: #a4b0be; font-weight: 600;">👆 Chạm nền để lật thẻ</div>
+                    </div>
+                    <div class="card-face back">
+                        <div class="meaning" id="word-meaning">...</div>
+                        <div class="example-cn" id="ex-cn">...</div>
+                        <div class="example-vn" id="ex-vn">...</div>
+                    </div>
+                </div>
+            </div>
+            <div class="controls" id="vocab-controls">
+                <button class="nav-btn" onclick="prevCard()">⬅️ Trước</button>
+                <div class="progress" id="progress" style="font-weight: 800; width: 90px; text-align: center; color: var(--text-main); font-size: 1.1rem;">0 / 0</div>
+                <button class="nav-btn" onclick="nextCard()">Sau ➡️</button>
+            </div>
+            <div id="vocab-empty" class="empty-state hidden">🚧 Từ vựng đang cập nhật...</div>
+        </div>
+
+        <div id="grammar-section" class="content-section">
+            <div class="grammar-list" id="grammar-list"></div>
+            <div id="grammar-empty" class="empty-state hidden">🚧 Ngữ pháp đang cập nhật...</div>
+        </div>
+
+        <div id="exam-section" class="content-section">
+            <div class="exam-list" id="exam-list"></div>
+            <div id="exam-empty" class="empty-state hidden">🚧 Đề thi đang cập nhật...</div>
+        </div>
+
+        <div id="review-section" class="content-section">
+            <div class="review-mode-selector" id="review-controls">
+                <button class="btn-mode active" id="btn-rev-vocab" onclick="startReview('vocab')">🎯 Ôn Từ Vựng</button>
+                <button class="btn-mode" id="btn-rev-grammar" onclick="startReview('grammar')">🧩 Ôn Ngữ Pháp</button>
+            </div>
+            <div class="quiz-container hidden" id="quiz-board">
+                <div class="q-text" id="quiz-question">Câu hỏi</div>
+                <div class="options-grid" id="quiz-options"></div>
+                <button class="btn-next-q" id="btn-next-quiz" onclick="loadNextQuiz()">Tiếp theo ➡️</button>
+            </div>
+            <div id="review-empty" class="empty-state hidden">🚧 Dữ liệu chưa đủ để tạo bài trắc nghiệm.</div>
+        </div>
+
+        <div id="notebook-section" class="content-section">
+            <div class="notebook-list" id="notebook-list"></div>
+            <div id="notebook-empty" class="empty-state hidden">📭 Sổ tay trống. Hãy nhấn dấu ★ ở thẻ từ vựng nhé!</div>
+        </div>
+
+        <div id="history-section" class="content-section">
+            <div class="intro-card" style="margin-bottom: 20px;">
+                <h3 style="color: var(--primary-dark); margin-top:0; text-align: left; font-size: 1.5rem;">📊 Tiến độ học tập (<span id="hist-lang-title"></span>)</h3>
+                <div id="progress-stats"></div>
+            </div>
+            <div class="intro-card">
+                <h3 style="color: var(--primary-dark); margin-top:0; text-align: left; font-size: 1.5rem;">🕒 Lịch sử truy cập</h3>
+                <div id="login-history-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>👨‍💻 <strong>Phát triển bởi:</strong> Lê Quốc Thịnh</p>
+    </footer>
+
     <script>
         const notificationsData = [
-            { date: "Hôm nay", title: "🖥️ Lột xác với thiết kế Dashboard", desc: "Trạm Học Tập đã được nâng cấp với giao diện thanh điều hướng dọc (Sidebar) hiện đại giống nền tảng StudyChill, nhưng vẫn giữ nguyên tông màu Pastel ngọt ngào." }
+            { date: "Hôm nay", title: "🌟 Nâng cấp Giao diện Sáng Hiện đại", desc: "Chúng mình đã quay lại giao diện sáng sủa truyền thống nhưng được thiết kế lại hoàn toàn theo phong cách Modern UI (Giống Duolingo), mang lại cảm giác mượt mà và chuyên nghiệp hơn." }
         ];
 
         function checkNotifications() {
@@ -390,7 +370,7 @@
             localStorage.setItem('app_noti_read_count', notificationsData.length.toString());
             document.getElementById('noti-badge').style.display = 'none';
             let html = '';
-            notificationsData.forEach(n => { html += `<div style="border-bottom:2px dashed #eee; padding:20px 0;"><div style="font-size:0.9rem; color:#888; font-weight:bold; margin-bottom:8px;">🕒 ${n.date}</div><div style="font-weight:800; color:var(--primary-dark); font-size:1.2rem; margin-bottom:8px;">${n.title}</div><div style="font-size:1.05rem; color:#555; line-height:1.5; font-weight:600;">${n.desc}</div></div>`; });
+            notificationsData.forEach(n => { html += `<div style="border-bottom:1px solid #eee; padding:15px 0;"><div style="font-size:0.85rem; color:#888; margin-bottom:5px; font-weight: bold;">🕒 ${n.date}</div><div style="font-weight:800; color:var(--primary-dark); font-size:1.1rem; margin-bottom:8px;">${n.title}</div><div style="font-size:1rem; color:var(--text-main); line-height:1.5;">${n.desc}</div></div>`; });
             document.getElementById('noti-list').innerHTML = html;
         }
         function closeNotiModal() { document.getElementById('notiModal').classList.remove('active'); }
@@ -422,11 +402,11 @@
         }
 
         const config = {
-            HSK: { title: "Tiếng Trung HSK", levels: ["1", "2"], lang: "zh-CN", icon: "🐼" }, 
-            TOEIC: { title: "Tiếng Anh TOEIC", levels: ["Mục tiêu 500+"], lang: "en-US", icon: "🗽" }, 
-            IELTS: { title: "Tiếng Anh IELTS", levels: ["Band 5.0"], lang: "en-GB", icon: "🎡" }, 
-            TOPIK: { title: "Tiếng Hàn TOPIK", levels: ["Cấp 1"], lang: "ko-KR", icon: "🎎" }, 
-            JLPT: { title: "Tiếng Nhật JLPT", levels: ["N5"], lang: "ja-JP", icon: "🌸" } 
+            HSK: { title: "Tiếng Trung HSK", levels: ["1", "2"], lang: "zh-CN", icon: "🐼", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvpt88mlCcbizuDj8HmSA99ajRs8UFf0i4bwp-bXQ1xA&s=10" }, 
+            TOEIC: { title: "Tiếng Anh TOEIC", levels: ["Mục tiêu 500+"], lang: "en-US", icon: "🗽", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqJKOtXNAXSo5WoYQjzlCyWs9OGvWDF3rM3SP7tuf2hw&s=10" }, 
+            IELTS: { title: "Tiếng Anh IELTS", levels: ["Band 5.0"], lang: "en-GB", icon: "🎡", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6bhO27FyJgz1x7vOoVr203QiC0fy1eltkWw5d91_T7g&s=10" }, 
+            TOPIK: { title: "Tiếng Hàn TOPIK", levels: ["Cấp 1"], lang: "ko-KR", icon: "🎎", img: "https://images.unsplash.com/photo-1517154421773-0529f29ea451?auto=format&fit=crop&w=800&q=80" }, 
+            JLPT: { title: "Tiếng Nhật JLPT", levels: ["N5"], lang: "ja-JP", icon: "🌸", img: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=800&q=80" } 
         };
 
         const db = {
@@ -785,14 +765,12 @@
             if(isLoggedIn) { fetchAPI('/api/get-progress', { username: currentUser }).then(res => { if(res.progress) { userProgress = res.progress; renderContent(); } }); recordLoginTime(); }
             checkNotifications();
             document.querySelectorAll('.exam-tab-btn').forEach(btn => { btn.classList.remove('active'); if (btn.getAttribute('onclick').includes(`'${currentExamType}'`)) btn.classList.add('active'); });
-            
+            document.getElementById('main-title').innerText = `${config[currentExamType].icon} Trạm ${config[currentExamType].title} ${config[currentExamType].icon}`;
+            document.getElementById('country-img').src = config[currentExamType].img;
             if (!config[currentExamType].levels.includes(currentLevel)) currentLevel = config[currentExamType].levels[0];
             buildLevelButtons(); 
-            
-            // Xử lý Active Menu Dọc
-            document.querySelectorAll('.sidebar .tab-btn').forEach(btn => btn.classList.remove('active'));
-            const activeTabBtn = document.querySelector(`.sidebar .tab-btn[onclick="switchTab('${currentTab}')"]`); if(activeTabBtn) activeTabBtn.classList.add('active');
-            
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            const activeTabBtn = document.querySelector(`.tab-btn[onclick="switchTab('${currentTab}')"]`); if(activeTabBtn) activeTabBtn.classList.add('active');
             document.querySelectorAll('.content-section').forEach(sec => sec.classList.remove('active'));
             const activeSection = document.getElementById(`${currentTab}-section`); if(activeSection) activeSection.classList.add('active');
             renderContent(); 
@@ -810,18 +788,7 @@
         }
 
         function logout() { isLoggedIn = false; currentUser = ''; userProgress = {}; localStorage.setItem('app_is_logged_in', 'false'); localStorage.removeItem('app_username'); localStorage.removeItem('app_last_tab'); updateAuthUI(); switchTab('intro'); }
-        
-        function toggleMenu() { 
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.getElementById('overlay');
-            if (sidebar.style.transform === 'translateX(0px)') {
-                sidebar.style.transform = '';
-                overlay.classList.remove('active');
-            } else {
-                sidebar.style.transform = 'translateX(0px)';
-                overlay.classList.add('active');
-            }
-        }
+        function toggleMenu() { document.getElementById('sideMenu').classList.toggle('active'); document.getElementById('overlay').classList.toggle('active'); }
         
         let currentAuthMode = 'login';
         function openModal(mode) { currentAuthMode = mode; updateModalUI_form(); document.getElementById('authModal').classList.add('active'); document.getElementById('authMessage').innerHTML = ""; }
@@ -858,13 +825,12 @@
         }
         function getItemKey(item, mode) { return `${currentExamType}_${currentLevel}_${mode}_${item.w || item.word || item.title}`; }
 
-        function changeExamType(examType, btnElement) {
+        function changeExamType(examType) {
             currentExamType = examType; localStorage.setItem('app_last_exam', currentExamType); 
-            document.querySelectorAll('.exam-tab-btn').forEach(btn => { btn.classList.remove('active'); });
-            if(btnElement) btnElement.classList.add('active');
-            
-            currentLevel = config[examType].levels[0]; localStorage.setItem('app_last_level', currentLevel); 
-            buildLevelButtons(); renderContent(); 
+            document.querySelectorAll('.exam-tab-btn').forEach(btn => { btn.classList.remove('active'); event.target.classList.add('active'); });
+            document.getElementById('main-title').innerText = `${config[examType].icon} Trạm ${config[examType].title} ${config[examType].icon}`;
+            const imgElement = document.getElementById('country-img'); imgElement.style.opacity = 0; setTimeout(() => { imgElement.src = config[examType].img; imgElement.style.opacity = 1; }, 300);
+            currentLevel = config[examType].levels[0]; localStorage.setItem('app_last_level', currentLevel); buildLevelButtons(); renderContent(); toggleMenu();
         }
 
         function buildLevelButtons() {
@@ -878,17 +844,8 @@
         function switchTab(tabName) {
             if (!isLoggedIn && tabName !== 'intro') { openModal('login'); return; }
             currentTab = tabName; localStorage.setItem('app_last_tab', currentTab); 
-            
-            // Xử lý Active Sidebar Tabs
-            document.querySelectorAll('.sidebar .tab-btn').forEach(btn => btn.classList.remove('active')); 
-            document.querySelector(`.sidebar .tab-btn[onclick="switchTab('${tabName}')"]`).classList.add('active');
-            
-            // Chuyển content section
-            document.querySelectorAll('.content-section').forEach(sec => sec.classList.remove('active')); 
-            document.getElementById(`${tabName}-section`).classList.add('active');
-            
-            // Tự đóng menu trên mobile
-            if(window.innerWidth <= 900) toggleMenu();
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active')); document.querySelector(`.tab-btn[onclick="switchTab('${tabName}')"]`).classList.add('active');
+            document.querySelectorAll('.content-section').forEach(sec => sec.classList.remove('active')); document.getElementById(`${tabName}-section`).classList.add('active');
             renderContent();
         }
 
@@ -926,7 +883,7 @@
         function renderGrammar() {
             const data = db[currentExamType].grammar[currentLevel] || []; const list = document.getElementById('grammar-list'); list.innerHTML = '';
             if (data.length === 0) { list.classList.add('hidden'); document.getElementById('grammar-empty').classList.remove('hidden'); } 
-            else { list.classList.remove('hidden'); document.getElementById('grammar-empty').classList.add('hidden'); data.forEach((item, idx) => { list.innerHTML += `<div class="grammar-card"><button class="btn-bookmark ${isItemSaved(item, 'grammar') ? 'saved' : ''}" style="top:15px; color:#ccc;" onclick="toggleSaveGrammar(this, ${idx})">★</button><h3 class="g-title">📌 ${item.title}</h3><div class="g-formula">${item.formula}</div><div class="g-desc">${item.desc}</div></div>`; }); }
+            else { list.classList.remove('hidden'); document.getElementById('grammar-empty').classList.add('hidden'); data.forEach((item, idx) => { list.innerHTML += `<div class="grammar-card"><button class="btn-bookmark ${isItemSaved(item, 'grammar') ? 'saved' : ''}" style="top:25px; right:20px; color:#ccc; font-size:1.8rem;" onclick="toggleSaveGrammar(this, ${idx})">★</button><h3 class="g-title">📌 ${item.title}</h3><div class="g-formula">${item.formula}</div><div class="g-desc" style="color:var(--text-muted); line-height:1.5;">${item.desc}</div></div>`; }); }
         }
         function isItemSaved(item, mode) { return userProgress[getItemKey(item, mode)]?.saved; }
         function toggleSaveGrammar(btn, index) {
@@ -939,7 +896,7 @@
         function renderExam() {
             const data = db[currentExamType].exam[currentLevel] || []; const list = document.getElementById('exam-list'); list.innerHTML = '';
             if (data.length === 0) { list.classList.add('hidden'); document.getElementById('exam-empty').classList.remove('hidden'); } 
-            else { list.classList.remove('hidden'); document.getElementById('exam-empty').classList.add('hidden'); data.forEach(item => { list.innerHTML += `<div class="exam-card"><h3 class="e-title">📄 ${item.title}</h3><div style="margin-bottom: 15px; color:#666;">⏳ ${item.time} • ❓ ${item.qCount} câu</div><button class="e-btn">Bắt đầu làm bài 🚀</button></div>`; }); }
+            else { list.classList.remove('hidden'); document.getElementById('exam-empty').classList.add('hidden'); data.forEach(item => { list.innerHTML += `<div class="exam-card"><h3 class="e-title">📄 ${item.title}</h3><div style="margin-bottom: 15px; color:var(--text-muted); font-weight:600;">⏳ ${item.time} • ❓ ${item.qCount} câu</div><button class="e-btn">Bắt đầu làm bài 🚀</button></div>`; }); }
         }
 
         function startReview(mode) {
@@ -958,10 +915,10 @@
             
             if (reviewMode === 'vocab') { 
                 currentQuizCorrectAns = currentItem.m || currentItem.meaning; 
-                qBox.innerHTML = `Nghĩa của từ <span class="q-word-hl">${currentItem.w || currentItem.word}</span> <br><span style="font-size:1rem;color:#888">${currentItem.p || currentItem.pinyin}</span><br> là gì?`; 
+                qBox.innerHTML = `Nghĩa của từ <span class="q-word-hl">${currentItem.w || currentItem.word}</span> <br><span style="font-size:1.1rem;color:var(--text-muted)">${currentItem.p || currentItem.pinyin}</span><br> là gì?`; 
                 options.forEach(opt => { const ansMeaning = opt.m || opt.meaning; optBox.innerHTML += `<button class="opt-btn" onclick="checkAnswer(this, '${ansMeaning.replace(/'/g, "\\'")}')">${ansMeaning}</button>`; }); 
             } else { 
-                currentQuizCorrectAns = currentItem.desc; qBox.innerHTML = `Cấu trúc: <span style="color:var(--primary-dark)">${currentItem.formula}</span><br>có cách dùng như thế nào?`; 
+                currentQuizCorrectAns = currentItem.desc; qBox.innerHTML = `Cấu trúc: <span style="color:var(--primary-dark); font-size:1.8rem; display:block; margin:10px 0;">${currentItem.formula}</span>có cách dùng như thế nào?`; 
                 options.forEach(opt => { optBox.innerHTML += `<button class="opt-btn" onclick="checkAnswer(this, '${opt.desc.replace(/'/g, "\\'")}')">${opt.desc}</button>`; }); 
             }
         }
@@ -999,9 +956,9 @@
             const vocabData = getFullVocabData(); const totalVocab = vocabData.length; let learnedCount = 0; const prefix = `${currentExamType}_${currentLevel}_vocab_`;
             for (const key in userProgress) { if (key.startsWith(prefix) && userProgress[key].itemData) learnedCount++; }
             let percent = totalVocab > 0 ? Math.round((learnedCount / totalVocab) * 100) : 0;
-            document.getElementById('progress-stats').innerHTML = `<div style="font-size: 1.1rem; color: #444;">Đã học: <strong>${learnedCount} / ${totalVocab}</strong> từ vựng</div><div class="progress-bar-bg"><div class="progress-bar-fill" style="width: ${percent}%;"></div></div><div style="text-align:right; font-size:0.9rem; font-weight:bold; color:var(--correct-color); margin-top:8px;">${percent}% Hoàn thành</div>`;
+            document.getElementById('progress-stats').innerHTML = `<div style="font-size: 1.1rem; color: var(--text-main); font-weight:600;">Đã học: <strong>${learnedCount} / ${totalVocab}</strong> từ vựng</div><div class="progress-bar-bg"><div class="progress-bar-fill" style="width: ${percent}%;"></div></div><div style="text-align:right; font-size:0.95rem; font-weight:bold; color:var(--correct-color); margin-top:8px;">${percent}% Hoàn thành</div>`;
             const histList = document.getElementById('login-history-list'); const userHist = JSON.parse(localStorage.getItem('app_history_' + currentUser)) || [];
-            if (userHist.length === 0) { histList.innerHTML = "<div style='color:#888; font-style:italic;'>Chưa có lịch sử truy cập.</div>"; } else { histList.innerHTML = userHist.map(h => `<div class="history-list-item">🟢 Đăng nhập lúc: <strong>${h}</strong></div>`).join(''); }
+            if (userHist.length === 0) { histList.innerHTML = "<div style='color:var(--text-muted); font-style:italic;'>Chưa có lịch sử truy cập.</div>"; } else { histList.innerHTML = userHist.map(h => `<div class="history-list-item">🟢 Đăng nhập lúc: <strong style="color: var(--text-main);">${h}</strong></div>`).join(''); }
         }
     </script>
 </body>
