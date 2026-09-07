@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trạm Học Tập 34.0 🌟 (New Hierarchy UI)</title>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Trạm Học Tập 35.0 🌟 (Dashboard UI)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root { 
             --primary-color: #ff758c; 
@@ -19,38 +19,61 @@
             --warning-color: #ffa502; 
             --shadow-soft: 0 10px 30px rgba(0,0,0,0.06);
             --shadow-hover: 0 15px 35px rgba(255, 117, 140, 0.2);
+            --sidebar-width: 260px;
         }
 
-        body { font-family: 'Quicksand', sans-serif; background: var(--bg-color); color: var(--text-main); min-height: 100vh; margin: 0; display: flex; flex-direction: column; align-items: center; overflow-x: hidden; }
+        body { font-family: 'Quicksand', sans-serif; background: var(--bg-color); color: var(--text-main); margin: 0; display: flex; flex-direction: row; align-items: flex-start; overflow-x: hidden; min-height: 100vh;}
 
-        /* NAVBAR */
-        .top-nav { width: 100%; background: rgba(255, 255, 255, 0.95); box-shadow: 0 2px 15px rgba(0,0,0,0.05); padding: 12px 25px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); box-sizing: border-box; }
-        .hamburger { font-size: 1.6rem; font-weight: bold; background: none; border: none; color: var(--primary-dark); cursor: pointer; transition: 0.3s; }
-        .hamburger:hover { transform: scale(1.05); }
-        .auth-buttons { display: flex; align-items: center; gap: 12px; }
+        /* BỐ CỤC CHÍNH */
+        .main-wrapper { flex: 1; width: calc(100% - var(--sidebar-width)); margin-left: var(--sidebar-width); display: flex; flex-direction: column; min-height: 100vh; transition: margin-left 0.3s, width 0.3s; }
         
+        /* MENU DỌC (SIDEBAR) BÊN TRÁI CỐ ĐỊNH */
+        .side-menu { position: fixed; top: 0; left: 0; width: var(--sidebar-width); height: 100vh; background: #fff; box-shadow: 2px 0 15px rgba(0,0,0,0.05); z-index: 200; transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); display: flex; flex-direction: column; padding: 25px 20px; box-sizing: border-box; border-right: 1px solid #eee;}
+        .side-menu h2 { color: var(--primary-dark); margin: 0 0 5px 0; text-align: center; font-size: 1.6rem; font-weight: 800;}
+        .side-menu .subtitle { font-size: 0.8rem; color: #a4b0be; font-weight: 700; text-align: center; margin-bottom: 25px; letter-spacing: 1px; }
+        
+        .feature-tab-btn { background: transparent; border: none; padding: 14px 18px; font-size: 1.1rem; font-weight: 700; color: var(--text-muted); border-radius: 15px; cursor: pointer; transition: all 0.2s ease; text-align: left; margin-bottom: 8px; display: flex; align-items: center; gap: 10px;}
+        .feature-tab-btn:hover { background: #fdfbfb; color: var(--primary-color); transform: translateX(5px);}
+        .feature-tab-btn.active { background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%); color: #fff; box-shadow: 0 4px 15px rgba(255, 117, 140, 0.4); transform: translateX(5px);}
+
+        /* NAVBAR TRÊN CÙNG (CỦA MAIN WRAPPER) */
+        .top-nav { width: 100%; background: rgba(255, 255, 255, 0.95); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); box-sizing: border-box; border-bottom: 1px solid #eee; }
+        .hamburger { font-size: 1.5rem; font-weight: 800; background: none; border: none; color: var(--primary-dark); cursor: pointer; transition: 0.3s; display: none; }
+        
+        .auth-buttons { display: flex; align-items: center; gap: 12px; margin-left: auto;}
         button { font-family: inherit; }
-        .auth-buttons button { background: #fff; border: 2px solid var(--primary-color); padding: 8px 18px; border-radius: 25px; font-weight: 700; color: var(--primary-color); cursor: pointer; transition: 0.3s; }
+        .auth-buttons button { background: #fff; border: 2px solid var(--primary-color); padding: 8px 20px; border-radius: 25px; font-weight: 700; color: var(--primary-color); cursor: pointer; transition: 0.3s; }
         .auth-buttons button.btn-login { background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%); color: #fff; border: none; box-shadow: 0 4px 10px rgba(255, 117, 140, 0.3);}
         .auth-buttons button.btn-danger { background: #fff; color: var(--wrong-color); border-color: var(--wrong-color); }
         .auth-buttons button.btn-danger:hover { background: var(--wrong-color); color: #fff; }
         .auth-buttons button:hover { transform: translateY(-2px); }
         #welcome-text { font-weight: 700; color: var(--text-main); margin-right: 10px; font-size: 1rem;}
         
-        .noti-btn { position: relative; background: none !important; border: none !important; font-size: 1.5rem !important; padding: 0 !important; margin-right: 10px; cursor: pointer; transition: transform 0.2s; }
+        .noti-btn { position: relative; background: none !important; border: none !important; font-size: 1.5rem !important; padding: 0 !important; margin-right: 15px; cursor: pointer; transition: transform 0.2s; }
         .noti-btn:hover { transform: scale(1.1); }
         .noti-badge { position: absolute; top: -5px; right: -5px; background: var(--wrong-color); color: white; font-size: 0.7rem; font-weight: bold; border-radius: 50%; padding: 2px 6px; display: none; } 
         
-        /* MENU DỌC (Bây giờ chứa các Chức năng thay vì Ngôn ngữ) */
-        .side-menu { position: fixed; top: 0; left: -280px; width: 250px; height: 100vh; background: #fff; box-shadow: 5px 0 25px rgba(0,0,0,0.1); z-index: 200; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); display: flex; flex-direction: column; padding: 25px 20px; box-sizing: border-box; }
-        .side-menu.active { left: 0; }
-        .side-menu h2 { color: var(--primary-dark); margin-top: 0; border-bottom: 2px dashed #eee; padding-bottom: 15px; font-size: 1.5rem;}
-        .feature-tab-btn { background: #f8f9fa; border: none; padding: 12px 15px; font-size: 1.1rem; font-weight: 700; color: var(--text-muted); border-radius: 15px; cursor: pointer; transition: all 0.3s ease; text-align: left; margin-bottom: 10px; }
-        .feature-tab-btn:hover { background: #ffeaa7; color: #d35400; }
-        .feature-tab-btn.active { background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%); color: #fff; box-shadow: 0 4px 15px rgba(255, 117, 140, 0.4); }
-        
         .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 150; display: none; opacity: 0; transition: opacity 0.3s; backdrop-filter: blur(2px);}
         .overlay.active { display: block; opacity: 1; }
+
+        /* HEADER VÀ NGÔN NGỮ / CẤP ĐỘ */
+        .main-content { flex: 1; width: 100%; display: flex; flex-direction: column; align-items: center; padding-bottom: 50px; padding-top: 20px; }
+        .header { text-align: center; margin-bottom: 10px; width: 100%; }
+        .header h1 { color: var(--primary-dark); font-size: 2.2rem; margin: 0 0 15px 0; font-weight: 800;}
+        
+        /* TIER 2: NGÔN NGỮ */
+        .language-tabs { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 15px; width: 100%; max-width: 800px; padding: 0 15px;}
+        .lang-btn { background: #fff; border: 2px solid #e0e6ed; padding: 10px 22px; border-radius: 20px; font-size: 1rem; font-weight: 700; color: var(--text-muted); cursor: pointer; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.02);}
+        .lang-btn:hover { border-color: #ffeaa7; color: #d35400; transform: translateY(-2px);}
+        .lang-btn.active { background: #fff2cc; color: #d35400; border-color: #f1c40f; box-shadow: 0 4px 10px rgba(241, 196, 15, 0.3); }
+
+        /* TIER 3: CẤP ĐỘ */
+        .level-selector { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; max-width: 800px; margin-bottom: 30px; padding: 0 15px; }
+        .level-btn { background-color: #f8f9fa; border: 2px solid transparent; padding: 8px 18px; border-radius: 15px; font-size: 0.95rem; font-weight: 700; color: var(--text-muted); cursor: pointer; transition: all 0.3s ease; }
+        .level-btn.active { background-color: var(--primary-dark); color: #fff; box-shadow: 0 4px 10px rgba(255, 71, 87, 0.3); }
+        
+        .content-section { display: none; flex-direction: column; align-items: center; width: 100%; max-width: 700px; padding: 0 20px; box-sizing: border-box;}
+        .content-section.active { display: flex; }
         
         /* MODAL */
         .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 300; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s; }
@@ -71,32 +94,8 @@
         .auth-switch span:hover { text-decoration: underline;}
         #authMessage { margin-top: 15px; font-size: 0.95rem; font-weight: bold; min-height: 20px; }
         
-        /* HEADER & TIER 1: MỤC LỚN (CHỨC NĂNG) */
-        .main-content { flex: 1; width: 100%; display: flex; flex-direction: column; align-items: center; padding-bottom: 50px; }
-        .header { text-align: center; margin-bottom: 5px; margin-top: 20px; width: 100%; }
-        .header h1 { color: var(--primary-dark); font-size: 2.2rem; margin: 0 0 10px 0; font-weight: 800;}
-        
-        .feature-tabs { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; padding: 12px; background: #fff; border-radius: 25px; box-shadow: var(--shadow-soft); margin-bottom: 20px; width: 95%; max-width: 850px; }
-        .feature-btn { background: transparent; border: none; padding: 12px 20px; font-size: 1.05rem; font-weight: 700; color: var(--text-muted); border-radius: 15px; cursor: pointer; transition: all 0.3s ease; }
-        .feature-btn:hover { color: var(--primary-color); background: #fdfbfb;}
-        .feature-btn.active { background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%); color: #fff; box-shadow: 0 4px 12px rgba(255, 117, 140, 0.4); }
-
-        /* TIER 2: MỤC NHỎ (NGÔN NGỮ) */
-        .language-tabs { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 15px; width: 100%; max-width: 700px; padding: 0 10px;}
-        .lang-btn { background: #fff; border: 2px solid #e0e6ed; padding: 10px 18px; border-radius: 20px; font-size: 0.95rem; font-weight: 700; color: var(--text-muted); cursor: pointer; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.02);}
-        .lang-btn:hover { border-color: #ffeaa7; color: #d35400; transform: translateY(-2px);}
-        .lang-btn.active { background: #fff2cc; color: #d35400; border-color: #f1c40f; box-shadow: 0 4px 10px rgba(241, 196, 15, 0.3); }
-
-        /* TIER 3: MỤC NHỎ HƠN (CẤP ĐỘ) */
-        .level-selector { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; max-width: 700px; margin-bottom: 30px; padding: 0 10px; }
-        .level-btn { background-color: #f8f9fa; border: 2px solid transparent; padding: 6px 15px; border-radius: 15px; font-size: 0.9rem; font-weight: 700; color: var(--text-muted); cursor: pointer; transition: all 0.3s ease; }
-        .level-btn.active { background-color: var(--primary-dark); color: #fff; box-shadow: 0 4px 10px rgba(255, 71, 87, 0.3); }
-        
-        .content-section { display: none; flex-direction: column; align-items: center; width: 100%; max-width: 650px; padding: 0 15px; box-sizing: border-box;}
-        .content-section.active { display: flex; }
-        
         /* CÁC THÀNH PHẦN NỘI DUNG */
-        .country-img { width: 100%; height: 200px; object-fit: cover; border-radius: 20px; box-shadow: var(--shadow-soft); margin-bottom: 20px; border: 3px solid #fff; }
+        .country-img { width: 100%; height: 220px; object-fit: cover; border-radius: 20px; box-shadow: var(--shadow-soft); margin-bottom: 25px; border: 3px solid #fff; }
         .intro-card, .quiz-container { background: #fff; width: 100%; border-radius: 25px; padding: 35px; box-sizing: border-box; text-align: left; box-shadow: var(--shadow-soft); }
         .intro-card h2 { color: var(--primary-dark); margin-top: 0; text-align: center; font-size: 1.8rem; }
         .feature-list { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
@@ -108,7 +107,7 @@
         .history-list-item { background: #f8f9fa; padding: 12px 18px; border-radius: 12px; margin-bottom: 10px; border-left: 4px solid var(--primary-color); font-size: 0.95rem; font-weight: 600;}
         
         /* FLASHCARD */
-        .flashcard-container { perspective: 1000px; width: 380px; height: 480px; margin-bottom: 25px; max-width: 100%; }
+        .flashcard-container { perspective: 1000px; width: 400px; height: 500px; margin-bottom: 25px; max-width: 100%; }
         .flashcard { width: 100%; height: 100%; position: relative; transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1); transform-style: preserve-3d; cursor: pointer; border-radius: 30px; box-shadow: var(--shadow-soft); }
         .flashcard.flipped { transform: rotateY(180deg); }
         .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 30px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 25px; box-sizing: border-box; text-align: center; background: #fff; border: 3px solid #f8f9fa;}
@@ -176,49 +175,167 @@
         .status-saved { background: #fff9e6; color: var(--warning-color); }
 
         .footer { width: 100%; padding: 25px; text-align: center; font-size: 1rem; font-weight: 600; color: var(--text-muted); margin-top: auto; }
-        .footer a { color: var(--primary-dark); text-decoration: none; }
         
-        @media (max-width: 700px) { .exam-list { grid-template-columns: 1fr; } .word {font-size: 3.5rem;} .auth-buttons button {padding: 8px 12px; font-size: 0.9rem;} #welcome-text { display: none; } .feature-tabs { display: none; /* Giấu tab to trên mobile, dùng menu dọc */ } }
-        @media (min-width: 701px) { .hamburger { display: none; /* Giấu menu dọc trên desktop, dùng tab to */ } }
+        /* RESPONSIVE CHO ĐIỆN THOẠI VÀ TABLET NHỎ */
+        @media (max-width: 900px) {
+            .main-wrapper { margin-left: 0; width: 100%; }
+            .side-menu { left: -300px; }
+            .side-menu.active { left: 0; }
+            .hamburger { display: block; }
+            .exam-list { grid-template-columns: 1fr; }
+            .word {font-size: 3.5rem;}
+        }
     </style>
 </head>
 <body>
 
-    <nav class="top-nav">
-        <!-- Nút Menu này chỉ hiện trên Mobile -->
-        <button class="hamburger" onclick="toggleMenu()">☰ Chức năng</button>
-        
-        <div style="font-size: 1.5rem; font-weight: 800; color: var(--primary-dark); letter-spacing: 1px;">
-            🎓 Trạm Học Tập
-        </div>
-
-        <div class="auth-buttons">
-            <button class="noti-btn" onclick="openNotiModal()" title="Thông báo">🔔<span class="noti-badge" id="noti-badge"></span></button>
-            <div id="guest-nav">
-                <button class="btn-register" onclick="openModal('register')">Đăng ký</button>
-                <button class="btn-login" onclick="openModal('login')">Đăng nhập</button>
-            </div>
-            <div id="user-nav" style="display: none; align-items: center;">
-                <span id="welcome-text"></span>
-                <button class="btn-login" onclick="logout()" style="background: #ffa502; box-shadow: 0 4px 10px rgba(255, 165, 2, 0.3);">Đăng xuất</button>
-                <button class="btn-danger" onclick="deleteAccount()" title="Xóa tài khoản vĩnh viễn">Xóa TK</button>
-            </div>
-        </div>
-    </nav>
-
-    <!-- MENU DỌC (DÀNH CHO MOBILE - Chứa các Chức Năng) -->
+    <!-- SIDEBAR (MENU DỌC BÊN TRÁI) -->
     <div class="side-menu" id="sideMenu">
-        <h2>🚀 Chức Năng</h2>
+        <h2>🎓 Trạm Học Tập</h2>
+        <div class="subtitle">MENU CHỨC NĂNG</div>
+        
         <button class="feature-tab-btn active" onclick="switchTab('intro')">🏠 Giới Thiệu</button>
-        <button class="feature-tab-btn" onclick="switchTab('vocab')">📇 Từ Vựng</button>
+        <button class="feature-tab-btn" onclick="switchTab('vocab')">📇 Kho Từ Vựng</button>
         <button class="feature-tab-btn" onclick="switchTab('grammar')">📖 Ngữ Pháp</button>
-        <button class="feature-tab-btn" onclick="switchTab('exam')">📝 Luyện Đề</button>
-        <button class="feature-tab-btn" onclick="switchTab('review')">🎮 Ôn Tập</button>
+        <button class="feature-tab-btn" onclick="switchTab('exam')">📝 Luyện Giải Đề</button>
+        <button class="feature-tab-btn" onclick="switchTab('review')">🎮 Ôn Tập Quiz</button>
         <button class="feature-tab-btn" onclick="switchTab('notebook')">📚 Sổ Tay</button>
         <button class="feature-tab-btn" onclick="switchTab('history')">⏱ Lịch Sử</button>
     </div>
+    
     <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
 
+    <!-- MAIN CONTENT (BÊN PHẢI) -->
+    <div class="main-wrapper">
+        
+        <nav class="top-nav">
+            <button class="hamburger" onclick="toggleMenu()">☰ Bảng Điều Khiển</button>
+            <div class="auth-buttons">
+                <button class="noti-btn" onclick="openNotiModal()" title="Thông báo">🔔<span class="noti-badge" id="noti-badge"></span></button>
+                <div id="guest-nav">
+                    <button class="btn-register" onclick="openModal('register')">Đăng ký</button>
+                    <button class="btn-login" onclick="openModal('login')">Đăng nhập</button>
+                </div>
+                <div id="user-nav" style="display: none; align-items: center;">
+                    <span id="welcome-text"></span>
+                    <button class="btn-login" onclick="logout()" style="background: #ffa502; box-shadow: 0 4px 10px rgba(255, 165, 2, 0.3);">Đăng xuất</button>
+                    <button class="btn-danger" onclick="deleteAccount()" title="Xóa tài khoản vĩnh viễn">Xóa TK</button>
+                </div>
+            </div>
+        </nav>
+
+        <div class="main-content">
+            
+            <div class="header">
+                <h1 id="page-title">🏠 Giới Thiệu Chung</h1>
+            </div>
+
+            <!-- CHỌN NGÔN NGỮ -->
+            <div class="language-tabs" id="lang-buttons">
+                <button class="lang-btn active" onclick="changeExamType('HSK')">🇨🇳 Tiếng Trung</button>
+                <button class="lang-btn" onclick="changeExamType('TOEIC')">🇺🇸 Tiếng Anh TOEIC</button>
+                <button class="lang-btn" onclick="changeExamType('IELTS')">🇬🇧 Tiếng Anh IELTS</button>
+                <button class="lang-btn" onclick="changeExamType('TOPIK')">🇰🇷 Tiếng Hàn</button>
+                <button class="lang-btn" onclick="changeExamType('JLPT')">🇯🇵 Tiếng Nhật</button>
+            </div>
+
+            <!-- CHỌN CẤP ĐỘ -->
+            <div class="level-selector" id="level-buttons"></div>
+
+            <!-- CÁC SECTION NỘI DUNG -->
+            <div id="intro-section" class="content-section">
+                <img id="country-img" class="country-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvpt88mlCcbizuDj8HmSA99ajRs8UFf0i4bwp-bXQ1xA&s=10">
+                <div class="intro-card">
+                    <h2>Khám Phá Trạm Học Tập 🚀</h2>
+                    <div class="intro-warning" id="intro-warning">🔒 Bạn cần Đăng nhập / Đăng ký để mở khóa toàn bộ tính năng bài học!</div>
+                    <div class="feature-list">
+                        <div class="feature-item"><strong>🖥️ Giao diện Dashboard (Mới):</strong> Menu dọc cố định bên trái, nội dung học tập rộng rãi bên phải. Phân cấp rõ ràng: Chọn Chức năng ➔ Chọn Ngôn ngữ ➔ Chọn Cấp độ.</div>
+                        <div class="feature-item"><strong>✏️ Từ Vựng Cá Nhân:</strong> Tự do thêm từ vựng mới của riêng bạn vào hệ thống.</div>
+                        <div class="feature-item"><strong>🔄 Multi-Device Sync:</strong> Dữ liệu đồng bộ hoàn hảo trên mọi thiết bị qua Cloud.</div>
+                        <div class="feature-item"><strong>🎙️ Native Voice AI:</strong> Phát âm chuẩn giọng bản xứ.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="vocab-section" class="content-section">
+                <div style="margin-bottom: 20px; width: 100%; text-align: center;">
+                    <button class="nav-btn" onclick="openAddVocabModal()" style="background: var(--primary-color); color: white; padding: 12px 25px; font-size: 1.1rem; box-shadow: 0 5px 15px rgba(255,117,140,0.3);">➕ Thêm từ của riêng bạn</button>
+                </div>
+                
+                <div class="flashcard-container" id="fc-container">
+                    <div class="flashcard" id="flashcard" onclick="flipCard()">
+                        <div class="card-face front">
+                            <div id="custom-badge" style="position: absolute; top: 20px; left: 20px; font-size: 0.85rem; background: var(--warning-color); color: #fff; padding: 5px 12px; border-radius: 15px; font-weight: bold; display: none; box-shadow: 0 4px 10px rgba(255, 165, 2, 0.4);">Từ của bạn</div>
+                            <button class="btn-bookmark" id="btn-bookmark" onclick="toggleSaveWord(event)" title="Lưu từ này">★</button>
+                            <div class="word" id="word-cn">...</div>
+                            <div class="pinyin" id="word-pinyin">...</div>
+                            <div class="word-type" id="word-type">...</div>
+                            <button class="audio-btn" onclick="playAudio(event)" title="Nghe phát âm">🔊</button>
+                            <div class="hint" style="font-size: 0.95rem; color: #a4b0be; font-weight: 600;">👆 Chạm nền để lật thẻ</div>
+                        </div>
+                        <div class="card-face back">
+                            <div class="meaning" id="word-meaning">...</div>
+                            <div class="example-cn" id="ex-cn">...</div>
+                            <div class="example-vn" id="ex-vn">...</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="controls" id="vocab-controls">
+                    <button class="nav-btn" onclick="prevCard()">⬅️ Trước</button>
+                    <div class="progress" id="progress" style="font-weight: 800; width: 90px; text-align: center; color: var(--text-main); font-size: 1.1rem;">0 / 0</div>
+                    <button class="nav-btn" onclick="nextCard()">Sau ➡️</button>
+                </div>
+                <div id="vocab-empty" class="empty-state hidden">🚧 Từ vựng đang cập nhật...</div>
+            </div>
+
+            <div id="grammar-section" class="content-section">
+                <div class="grammar-list" id="grammar-list"></div>
+                <div id="grammar-empty" class="empty-state hidden">🚧 Ngữ pháp đang cập nhật...</div>
+            </div>
+
+            <div id="exam-section" class="content-section">
+                <div class="exam-list" id="exam-list"></div>
+                <div id="exam-empty" class="empty-state hidden">🚧 Đề thi đang cập nhật...</div>
+            </div>
+
+            <div id="review-section" class="content-section">
+                <div class="review-mode-selector" id="review-controls">
+                    <button class="btn-mode active" id="btn-rev-vocab" onclick="startReview('vocab')">🎯 Ôn Từ Vựng</button>
+                    <button class="btn-mode" id="btn-rev-grammar" onclick="startReview('grammar')">🧩 Ôn Ngữ Pháp</button>
+                </div>
+                <div class="quiz-container hidden" id="quiz-board">
+                    <div class="q-text" id="quiz-question">Câu hỏi</div>
+                    <div class="options-grid" id="quiz-options"></div>
+                    <button class="btn-next-q" id="btn-next-quiz" onclick="loadNextQuiz()">Tiếp theo ➡️</button>
+                </div>
+                <div id="review-empty" class="empty-state hidden">🚧 Dữ liệu chưa đủ để tạo bài trắc nghiệm.</div>
+            </div>
+
+            <div id="notebook-section" class="content-section">
+                <div class="notebook-list" id="notebook-list"></div>
+                <div id="notebook-empty" class="empty-state hidden">📭 Sổ tay trống. Hãy nhấn dấu ★ ở thẻ từ vựng nhé!</div>
+            </div>
+
+            <div id="history-section" class="content-section">
+                <div class="intro-card" style="margin-bottom: 20px;">
+                    <h3 style="color: var(--primary-dark); margin-top:0; text-align: left; font-size: 1.5rem;">📊 Tiến độ học tập (<span id="hist-lang-title"></span>)</h3>
+                    <div id="progress-stats"></div>
+                </div>
+                <div class="intro-card">
+                    <h3 style="color: var(--primary-dark); margin-top:0; text-align: left; font-size: 1.5rem;">🕒 Lịch sử truy cập</h3>
+                    <div id="login-history-list"></div>
+                </div>
+            </div>
+
+        </div> <!-- End main-content -->
+        
+        <footer class="footer">
+            <p>👨‍💻 <strong>Phát triển bởi:</strong> Lê Quốc Thịnh</p>
+        </footer>
+
+    </div> <!-- End main-wrapper -->
+
+    <!-- CÁC MODAL ẨN CHUNG -->
     <div class="modal" id="notiModal">
         <div class="modal-content" style="text-align: left;">
             <span class="close-modal" onclick="closeNotiModal()">✖</span>
@@ -227,7 +344,6 @@
         </div>
     </div>
 
-    <!-- MODAL ĐĂNG NHẬP / ĐĂNG KÝ -->
     <div class="modal" id="authModal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal()">✖</span>
@@ -241,7 +357,6 @@
         </div>
     </div>
 
-    <!-- MODAL THÊM TỪ VỰNG CÁ NHÂN -->
     <div class="modal" id="addVocabModal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeAddVocabModal()">✖</span>
@@ -257,132 +372,11 @@
         </div>
     </div>
 
-    <div class="main-content">
-        
-        <!-- TIER 1: MỤC LỚN (CHỨC NĂNG) - Hiện dạng nút bự trên Desktop -->
-        <div class="feature-tabs">
-            <button class="feature-btn active" onclick="switchTab('intro')">🏠 Giới Thiệu</button>
-            <button class="feature-btn" onclick="switchTab('vocab')">📇 Từ Vựng</button>
-            <button class="feature-btn" onclick="switchTab('grammar')">📖 Ngữ Pháp</button>
-            <button class="feature-btn" onclick="switchTab('exam')">📝 Luyện Đề</button>
-            <button class="feature-btn" onclick="switchTab('review')">🎮 Ôn Tập</button>
-            <button class="feature-btn" onclick="switchTab('notebook')">📚 Sổ Tay</button>
-            <button class="feature-btn" onclick="switchTab('history')">⏱ Lịch Sử</button>
-        </div>
-
-        <div class="header">
-            <!-- Tiêu đề sẽ thay đổi linh hoạt theo Chức năng -->
-            <h1 id="page-title">🏠 Giới Thiệu Chung</h1>
-        </div>
-
-        <!-- TIER 2: MỤC NHỎ (NGÔN NGỮ) -->
-        <div class="language-tabs" id="lang-buttons">
-            <button class="lang-btn active" onclick="changeExamType('HSK')">🇨🇳 HSK</button>
-            <button class="lang-btn" onclick="changeExamType('TOEIC')">🇺🇸 TOEIC</button>
-            <button class="lang-btn" onclick="changeExamType('IELTS')">🇬🇧 IELTS</button>
-            <button class="lang-btn" onclick="changeExamType('TOPIK')">🇰🇷 TOPIK</button>
-            <button class="lang-btn" onclick="changeExamType('JLPT')">🇯🇵 JLPT</button>
-        </div>
-
-        <!-- TIER 3: MỤC NHỎ HƠN (CẤP ĐỘ) -->
-        <div class="level-selector" id="level-buttons"></div>
-
-        <!-- CÁC SECTION NỘI DUNG CHÍNH -->
-        <div id="intro-section" class="content-section">
-            <img id="country-img" class="country-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvpt88mlCcbizuDj8HmSA99ajRs8UFf0i4bwp-bXQ1xA&s=10">
-            <div class="intro-card">
-                <h2>Khám Phá Các Khóa Học 🚀</h2>
-                <div class="intro-warning" id="intro-warning">🔒 Bạn cần Đăng nhập / Đăng ký để mở khóa toàn bộ tính năng bài học!</div>
-                <div class="feature-list">
-                    <div class="feature-item"><strong>📂 Cấu trúc mới (Mới):</strong> Thay đổi phân cấp giao diện thông minh hơn: Chọn Tính năng ➔ Chọn Ngôn ngữ ➔ Chọn Cấp độ.</div>
-                    <div class="feature-item"><strong>✏️ Từ Vựng Cá Nhân:</strong> Tự do thêm từ vựng mới của riêng bạn vào khóa học.</div>
-                    <div class="feature-item"><strong>🔄 Multi-Device Sync:</strong> Dữ liệu đồng bộ hoàn hảo trên mọi thiết bị qua Cloud.</div>
-                    <div class="feature-item"><strong>🎙️ Native Voice AI:</strong> Phát âm chuẩn giọng bản xứ.</div>
-                </div>
-            </div>
-        </div>
-
-        <div id="vocab-section" class="content-section">
-            <div style="margin-bottom: 20px; width: 100%; text-align: center;">
-                <button class="nav-btn" onclick="openAddVocabModal()" style="background: var(--primary-color); color: white; padding: 12px 25px; font-size: 1.1rem; box-shadow: 0 5px 15px rgba(255,117,140,0.3);">➕ Thêm từ của riêng bạn</button>
-            </div>
-            
-            <div class="flashcard-container" id="fc-container">
-                <div class="flashcard" id="flashcard" onclick="flipCard()">
-                    <div class="card-face front">
-                        <div id="custom-badge" style="position: absolute; top: 20px; left: 20px; font-size: 0.85rem; background: var(--warning-color); color: #fff; padding: 5px 12px; border-radius: 15px; font-weight: bold; display: none; box-shadow: 0 4px 10px rgba(255, 165, 2, 0.4);">Từ của bạn</div>
-                        <button class="btn-bookmark" id="btn-bookmark" onclick="toggleSaveWord(event)" title="Lưu từ này">★</button>
-                        <div class="word" id="word-cn">...</div>
-                        <div class="pinyin" id="word-pinyin">...</div>
-                        <div class="word-type" id="word-type">...</div>
-                        <button class="audio-btn" onclick="playAudio(event)" title="Nghe phát âm">🔊</button>
-                        <div class="hint" style="font-size: 0.95rem; color: #a4b0be; font-weight: 600;">👆 Chạm nền để lật thẻ</div>
-                    </div>
-                    <div class="card-face back">
-                        <div class="meaning" id="word-meaning">...</div>
-                        <div class="example-cn" id="ex-cn">...</div>
-                        <div class="example-vn" id="ex-vn">...</div>
-                    </div>
-                </div>
-            </div>
-            <div class="controls" id="vocab-controls">
-                <button class="nav-btn" onclick="prevCard()">⬅️ Trước</button>
-                <div class="progress" id="progress" style="font-weight: 800; width: 90px; text-align: center; color: var(--text-main); font-size: 1.1rem;">0 / 0</div>
-                <button class="nav-btn" onclick="nextCard()">Sau ➡️</button>
-            </div>
-            <div id="vocab-empty" class="empty-state hidden">🚧 Từ vựng đang cập nhật...</div>
-        </div>
-
-        <div id="grammar-section" class="content-section">
-            <div class="grammar-list" id="grammar-list"></div>
-            <div id="grammar-empty" class="empty-state hidden">🚧 Ngữ pháp đang cập nhật...</div>
-        </div>
-
-        <div id="exam-section" class="content-section">
-            <div class="exam-list" id="exam-list"></div>
-            <div id="exam-empty" class="empty-state hidden">🚧 Đề thi đang cập nhật...</div>
-        </div>
-
-        <div id="review-section" class="content-section">
-            <div class="review-mode-selector" id="review-controls">
-                <button class="btn-mode active" id="btn-rev-vocab" onclick="startReview('vocab')">🎯 Ôn Từ Vựng</button>
-                <button class="btn-mode" id="btn-rev-grammar" onclick="startReview('grammar')">🧩 Ôn Ngữ Pháp</button>
-            </div>
-            <div class="quiz-container hidden" id="quiz-board">
-                <div class="q-text" id="quiz-question">Câu hỏi</div>
-                <div class="options-grid" id="quiz-options"></div>
-                <button class="btn-next-q" id="btn-next-quiz" onclick="loadNextQuiz()">Tiếp theo ➡️</button>
-            </div>
-            <div id="review-empty" class="empty-state hidden">🚧 Dữ liệu chưa đủ để tạo bài trắc nghiệm.</div>
-        </div>
-
-        <div id="notebook-section" class="content-section">
-            <div class="notebook-list" id="notebook-list"></div>
-            <div id="notebook-empty" class="empty-state hidden">📭 Sổ tay trống. Hãy nhấn dấu ★ ở thẻ từ vựng nhé!</div>
-        </div>
-
-        <div id="history-section" class="content-section">
-            <div class="intro-card" style="margin-bottom: 20px;">
-                <h3 style="color: var(--primary-dark); margin-top:0; text-align: left; font-size: 1.5rem;">📊 Tiến độ học tập (<span id="hist-lang-title"></span>)</h3>
-                <div id="progress-stats"></div>
-            </div>
-            <div class="intro-card">
-                <h3 style="color: var(--primary-dark); margin-top:0; text-align: left; font-size: 1.5rem;">🕒 Lịch sử truy cập</h3>
-                <div id="login-history-list"></div>
-            </div>
-        </div>
-    </div>
-
-    <footer class="footer">
-        <p>👨‍💻 <strong>Phát triển bởi:</strong> Lê Quốc Thịnh</p>
-    </footer>
-
     <script>
         const notificationsData = [
-            { date: "Hôm nay", title: "📂 Phân cấp Giao diện mới", desc: "Đã thay đổi theo cấu trúc học tập hợp lý hơn: Bạn chọn Tính năng (Mục lớn) trước, rồi mới chọn Ngôn ngữ (Mục nhỏ) và Cấp độ. Rất gọn gàng và khoa học!" }
+            { date: "Hôm nay", title: "🖥️ Bố cục Dashboard chuyên nghiệp", desc: "Trang web đã được thiết kế lại thành dạng Bảng điều khiển. Cột menu trái chứa các Chức năng học, khu vực bên phải là Nội dung chính kèm thanh chọn Ngôn ngữ và Cấp độ. Việc học chưa bao giờ gọn gàng đến thế!" }
         ];
 
-        // --- CẤU HÌNH TIÊU ĐỀ ---
         const pageTitles = {
             'intro': '🏠 Giới Thiệu Chung',
             'vocab': '📇 Kho Từ Vựng',
@@ -801,7 +795,6 @@
             checkNotifications();
             if (!config[currentExamType].levels.includes(currentLevel)) currentLevel = config[currentExamType].levels[0];
             
-            // Render Cấu trúc ban đầu
             changeExamType(currentExamType, true); 
             switchTab(currentTab);
         };
@@ -818,7 +811,11 @@
         }
 
         function logout() { isLoggedIn = false; currentUser = ''; userProgress = {}; localStorage.setItem('app_is_logged_in', 'false'); localStorage.removeItem('app_username'); localStorage.removeItem('app_last_tab'); updateAuthUI(); switchTab('intro'); }
-        function toggleMenu() { document.getElementById('sideMenu').classList.toggle('active'); document.getElementById('overlay').classList.toggle('active'); }
+        
+        function toggleMenu() { 
+            document.getElementById('sideMenu').classList.toggle('active'); 
+            document.getElementById('overlay').classList.toggle('active'); 
+        }
         
         let currentAuthMode = 'login';
         function openModal(mode) { currentAuthMode = mode; updateModalUI_form(); document.getElementById('authModal').classList.add('active'); document.getElementById('authMessage').innerHTML = ""; }
@@ -882,22 +879,20 @@
             if (!isLoggedIn && tabName !== 'intro') { openModal('login'); return; }
             currentTab = tabName; localStorage.setItem('app_last_tab', currentTab); 
             
-            // Update Feature Tabs (Mục Lớn)
             document.querySelectorAll('.feature-btn, .feature-tab-btn').forEach(btn => btn.classList.remove('active')); 
             document.querySelectorAll(`.feature-btn[onclick="switchTab('${tabName}')"], .feature-tab-btn[onclick="switchTab('${tabName}')"]`).forEach(b => b.classList.add('active'));
             
-            // Update Title
             document.getElementById('page-title').innerText = pageTitles[tabName] || 'Trạm Học Tập';
 
-            // Show Content
             document.querySelectorAll('.content-section').forEach(sec => sec.classList.remove('active')); 
             document.getElementById(`${tabName}-section`).classList.add('active');
             
             renderContent();
             
-            // Close side menu if open (on mobile)
-            document.getElementById('sideMenu').classList.remove('active');
-            document.getElementById('overlay').classList.remove('active');
+            if(window.innerWidth <= 900) {
+                document.getElementById('sideMenu').classList.remove('active');
+                document.getElementById('overlay').classList.remove('active');
+            }
         }
 
         function renderContent() { if (currentTab === 'vocab') renderVocab(); else if (currentTab === 'grammar') renderGrammar(); else if (currentTab === 'exam') renderExam(); else if (currentTab === 'review') { reviewMode = 'vocab'; startReview('vocab'); } else if (currentTab === 'notebook') renderNotebook(); else if (currentTab === 'history') renderHistory(); }
