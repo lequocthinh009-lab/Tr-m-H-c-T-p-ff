@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trạm Học Tập Đa Ngôn Ngữ 30.0 🌍 (Multi-Device Sync)</title>
+    <title>Trạm Học Tập Đa Ngôn Ngữ 31.0 🌍 (Custom Vocab)</title>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root { --primary-color: #ff9a9e; --primary-dark: #ff758c; --bg-color: #fecfef; --card-bg: #ffffff; --text-main: #333333; --text-muted: #666666; --correct-color: #4caf50; --wrong-color: #f44336; --warning-color: #ff9800; }
@@ -28,6 +28,7 @@
         .exam-tab-btn.active { background: #4facfe; color: #ffffff; box-shadow: 0 4px 10px rgba(79, 172, 254, 0.3); }
         .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 150; display: none; opacity: 0; transition: opacity 0.3s; }
         .overlay.active { display: block; opacity: 1; }
+        
         .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 300; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s; }
         .modal.active { display: flex; opacity: 1; }
         .modal-content { background: #fff; width: 90%; max-width: 400px; padding: 30px; border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); text-align: center; position: relative; transform: translateY(-20px); transition: 0.3s; max-height: 80vh; overflow-y: auto;}
@@ -37,6 +38,7 @@
         .auth-input { width: 100%; padding: 12px 15px; margin-bottom: 15px; border: 2px solid #eee; border-radius: 15px; font-family: inherit; font-size: 1rem; box-sizing: border-box; transition: 0.3s; }
         .auth-input:focus { border-color: var(--primary-color); outline: none; }
         .btn-submit { width: 100%; background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%); border: none; padding: 12px; border-radius: 15px; color: #fff; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: 0.3s; font-family: inherit; margin-top: 10px; }
+        
         .auth-switch { margin-top: 20px; color: #666; font-size: 0.95rem; cursor: pointer; }
         .auth-switch span { color: var(--primary-dark); font-weight: bold; }
         .auth-switch span:hover { text-decoration: underline; }
@@ -78,7 +80,8 @@
         .example-vn { font-size: 1.05rem; color: var(--text-muted); font-style: italic; }
         
         .controls { display: flex; align-items: center; gap: 20px; background: rgba(255, 255, 255, 0.4); padding: 10px 25px; border-radius: 50px; backdrop-filter: blur(5px); }
-        button.nav-btn { background-color: #ffffff; border: none; padding: 10px 20px; font-size: 1rem; font-weight: 600; color: var(--primary-dark); border-radius: 25px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        button.nav-btn { background-color: #ffffff; border: none; padding: 10px 20px; font-size: 1rem; font-weight: 600; color: var(--primary-dark); border-radius: 25px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: 0.2s;}
+        button.nav-btn:hover { background: var(--primary-color); color: #fff;}
         .grammar-list, .notebook-list { width: 100%; display: flex; flex-direction: column; gap: 15px; }
         .grammar-card { background: #fff; border-radius: 20px; padding: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.05); text-align: left; border-left: 5px solid #4facfe; position: relative;}
         .g-title { font-size: 1.3rem; color: var(--primary-dark); font-weight: 700; margin: 0 0 10px 0; padding-right: 30px;}
@@ -148,23 +151,33 @@
         </div>
     </div>
 
+    <!-- MODAL ĐĂNG NHẬP / ĐĂNG KÝ -->
     <div class="modal" id="authModal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal()">✖</span>
             <h2 class="modal-title" id="modalTitle">Đăng nhập</h2>
-            
             <input type="text" id="authUsername" placeholder="Email / Tên tài khoản" class="auth-input">
             <input type="password" id="authPassword" placeholder="Mật khẩu" class="auth-input">
-
             <button class="btn-submit" id="btnSubmitAuth" onclick="handleAuth()">Vào học ngay</button>
             <div id="authMessage"></div> 
-            
-            <p class="auth-switch">
-                <span id="authSwitchText" onclick="switchAuthMode('register')">Chưa có tài khoản? Đăng ký ngay</span>
-            </p>
-            <p class="auth-switch" style="margin-top: 5px;">
-                <span id="authForgotText" onclick="switchAuthMode('forgot')" style="color: #888; font-weight: normal; font-size: 0.9rem;">Quên mật khẩu?</span>
-            </p>
+            <p class="auth-switch"><span id="authSwitchText" onclick="switchAuthMode('register')">Chưa có tài khoản? Đăng ký ngay</span></p>
+            <p class="auth-switch" style="margin-top: 5px;"><span id="authForgotText" onclick="switchAuthMode('forgot')" style="color: #888; font-weight: normal; font-size: 0.9rem;">Quên mật khẩu?</span></p>
+        </div>
+    </div>
+
+    <!-- MODAL THÊM TỪ VỰNG CÁ NHÂN -->
+    <div class="modal" id="addVocabModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeAddVocabModal()">✖</span>
+            <h2 class="modal-title">✨ Thêm Từ Của Bạn</h2>
+            <p style="font-size: 0.9rem; color: #666; margin-bottom: 15px; margin-top: -10px;">Từ vựng này sẽ chỉ hiển thị riêng cho tài khoản của bạn.</p>
+            <input type="text" id="cv-word" placeholder="Từ vựng (VD: 梦想)" class="auth-input">
+            <input type="text" id="cv-pinyin" placeholder="Pinyin / Phiên âm (Tùy chọn)" class="auth-input">
+            <input type="text" id="cv-type" placeholder="Từ loại (VD: danh từ)" class="auth-input">
+            <input type="text" id="cv-meaning" placeholder="Nghĩa tiếng Việt (*)" class="auth-input">
+            <textarea id="cv-ex-cn" placeholder="Ví dụ câu (Tùy chọn)" class="auth-input" style="resize:none; height: 60px;"></textarea>
+            <textarea id="cv-ex-vn" placeholder="Nghĩa của câu ví dụ (Tùy chọn)" class="auth-input" style="resize:none; height: 60px;"></textarea>
+            <button class="btn-submit" onclick="submitCustomVocab()">Lưu Từ Vựng 💾</button>
         </div>
     </div>
 
@@ -191,18 +204,23 @@
                 <h2>Chào mừng đến với Trạm Học Tập 🚀</h2>
                 <div class="intro-warning" id="intro-warning">🔒 Bạn cần Đăng nhập / Đăng ký để mở khóa toàn bộ tính năng bài học!</div>
                 <div class="feature-list">
-                    <div class="feature-item"><strong>🔄 Multi-Device Sync (Mới):</strong> Dữ liệu đồng bộ hoàn hảo. Học trên điện thoại, tiếp tục trên máy tính!</div>
-                    <div class="feature-item"><strong>📚 Big Data:</strong> Trọn bộ 300 từ vựng HSK 1.</div>
-                    <div class="feature-item"><strong>🎙️ Native Voice AI:</strong> Tự động ép trình duyệt phát âm chuẩn giọng bản xứ.</div>
-                    <div class="feature-item"><strong>🔒 Bảo mật:</strong> Khôi phục mật khẩu và Xóa tài khoản vĩnh viễn.</div>
+                    <div class="feature-item"><strong>✏️ Từ Vựng Cá Nhân (Mới):</strong> Đã có thể tự do thêm từ vựng mới của riêng bạn vào khóa học.</div>
+                    <div class="feature-item"><strong>🔄 Multi-Device Sync:</strong> Dữ liệu đồng bộ hoàn hảo trên mọi thiết bị.</div>
+                    <div class="feature-item"><strong>🎙️ Native Voice AI:</strong> Phát âm chuẩn giọng bản xứ.</div>
+                    <div class="feature-item"><strong>🎮 Ôn Tập:</strong> Thuật toán tự động trộn từ vựng gốc và từ vựng cá nhân để tạo bài thi.</div>
                 </div>
             </div>
         </div>
 
         <div id="vocab-section" class="content-section">
+            <div style="margin-bottom: 15px; width: 100%; text-align: center;">
+                <button class="nav-btn" onclick="openAddVocabModal()" style="background: var(--primary-color); color: white; padding: 12px 25px; font-size: 1.1rem; box-shadow: 0 5px 15px rgba(255,117,140,0.3);">➕ Thêm từ của riêng bạn</button>
+            </div>
+            
             <div class="flashcard-container" id="fc-container">
                 <div class="flashcard" id="flashcard" onclick="flipCard()">
                     <div class="card-face front">
+                        <div id="custom-badge" style="position: absolute; top: 15px; left: 20px; font-size: 0.8rem; background: var(--primary-color); color: #fff; padding: 4px 10px; border-radius: 12px; font-weight: bold; display: none; box-shadow: 0 2px 5px rgba(255,117,140,0.3);">Từ của bạn</div>
                         <button class="btn-bookmark" id="btn-bookmark" onclick="toggleSaveWord(event)" title="Lưu từ này">★</button>
                         <div class="word" id="word-cn">...</div>
                         <div class="pinyin" id="word-pinyin">...</div>
@@ -271,7 +289,7 @@
 
     <script>
         const notificationsData = [
-            { date: "Hôm nay", title: "🔄 Multi-Device Sync", desc: "Hệ thống đồng bộ độc lập qua Database. Bạn có thể đăng nhập trên điện thoại và máy tính mà tiến độ học tập luôn thống nhất!" }
+            { date: "Hôm nay", title: "✏️ Tính năng thêm từ vựng cá nhân", desc: "Bây giờ bạn đã có thể tự tay thêm những từ vựng mình thích vào hệ thống. Những từ này sẽ được lưu đồng bộ và hiển thị xen kẽ lúc ôn tập thẻ bài!" }
         ];
 
         function checkNotifications() {
@@ -482,7 +500,7 @@
                         {w:"牛奶",p:"niúnǎi",t:"Danh từ",m:"sữa",c:"喝牛奶。",v:"Uống sữa."},
                         {w:"女",p:"nǚ",t:"Tính từ",m:"nữ",c:"女孩。",v:"Cô bé."},
                         {w:"女儿",p:"nǚ’ér",t:"Danh từ",m:"con gái",c:"我女儿。",v:"Con gái tôi."},
-                        {w:"女朋友",p:"nǚpéngyou",t:"Danh từ",m:"bạn gái",c:"我女朋友。",v:"Bạn gái tôi."},
+                        {w:"男朋友",p:"nǚpéngyou",t:"Danh từ",m:"bạn gái",c:"我女朋友。",v:"Bạn gái tôi."},
                         {w:"女士",p:"nǚshì",t:"Danh từ",m:"quý bà",c:"王女士。",v:"Bà Vương."},
                         {w:"朋友",p:"péngyou",t:"Danh từ",m:"bạn bè",c:"好朋友。",v:"Bạn tốt."},
                         {w:"便宜",p:"piányi",t:"Tính từ",m:"rẻ",c:"很便宜。",v:"Rất rẻ."},
@@ -650,7 +668,6 @@
             const user = document.getElementById('authUsername').value.trim();
             const pass = document.getElementById('authPassword').value.trim();
             const msgBox = document.getElementById('authMessage');
-            
             if (!user || !pass) { msgBox.innerHTML = "<span style='color: var(--wrong-color);'>Vui lòng nhập đầy đủ thông tin!</span>"; return; }
 
             if (currentAuthMode === 'forgot') {
@@ -660,35 +677,25 @@
                 } else {
                     msgBox.innerHTML = `<span style='color: var(--correct-color);'>${res.message}</span>`;
                     setTimeout(() => switchAuthMode('login'), 2000);
-                }
-                return;
+                } return;
             }
 
             const res = await fetchAPI('/api/auth', { username: user, password: pass, type: currentAuthMode });
             if(res.error && res.error !== "Lỗi kết nối máy chủ!") {
                 msgBox.innerHTML = `<span style='color: var(--wrong-color);'>${res.error}</span>`;
             } else {
-                isLoggedIn = true; currentUser = user;
-                userProgress = res.progress || {}; 
-                
+                isLoggedIn = true; currentUser = user; userProgress = res.progress || {}; 
                 localStorage.setItem('app_is_logged_in', 'true'); localStorage.setItem('app_username', user); recordLoginTime();
-                
                 msgBox.innerHTML = "<span style='color: var(--correct-color);'>Thành công! Đang vào học...</span>";
-                
-                setTimeout(() => {
-                    closeModal(); updateAuthUI();
-                    document.getElementById('authUsername').value = ""; document.getElementById('authPassword').value = ""; msgBox.innerHTML = "";
-                    if (currentTab === 'intro') switchTab('vocab');
-                }, 800);
+                setTimeout(() => { closeModal(); updateAuthUI(); document.getElementById('authUsername').value = ""; document.getElementById('authPassword').value = ""; msgBox.innerHTML = ""; if (currentTab === 'intro') switchTab('vocab'); }, 800);
             }
         }
 
         async function deleteAccount() {
             if(!confirm(`⚠️ NGUY HIỂM: Bạn có chắc chắn muốn xóa vĩnh viễn tài khoản "${currentUser}" và toàn bộ dữ liệu học tập không? Hành động này không thể hoàn tác!`)) return;
             const res = await fetchAPI('/api/account', { username: currentUser }, 'DELETE');
-            if(res.success || res.error === "Lỗi kết nối máy chủ!") {
-                alert("Tài khoản của bạn đã được xóa khỏi hệ thống."); logout();
-            } else { alert("Có lỗi xảy ra: " + res.error); }
+            if(res.success || res.error === "Lỗi kết nối máy chủ!") { alert("Tài khoản của bạn đã được xóa khỏi hệ thống."); logout(); } 
+            else { alert("Có lỗi xảy ra: " + res.error); }
         }
 
         function saveProgress() {
@@ -698,35 +705,23 @@
 
         window.onload = () => { 
             updateAuthUI();
-            if(isLoggedIn) {
-                fetchAPI('/api/get-progress', { username: currentUser }).then(res => { 
-                    if(res.progress) { userProgress = res.progress; renderContent(); } 
-                });
-                recordLoginTime();
-            }
+            if(isLoggedIn) { fetchAPI('/api/get-progress', { username: currentUser }).then(res => { if(res.progress) { userProgress = res.progress; renderContent(); } }); recordLoginTime(); }
             checkNotifications();
-            
             document.querySelectorAll('.exam-tab-btn').forEach(btn => { btn.classList.remove('active'); if (btn.getAttribute('onclick').includes(`'${currentExamType}'`)) btn.classList.add('active'); });
             document.getElementById('main-title').innerText = `${config[currentExamType].icon} Trạm ${config[currentExamType].title} ${config[currentExamType].icon}`;
             document.getElementById('country-img').src = config[currentExamType].img;
-            
             if (!config[currentExamType].levels.includes(currentLevel)) currentLevel = config[currentExamType].levels[0];
             buildLevelButtons(); 
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             const activeTabBtn = document.querySelector(`.tab-btn[onclick="switchTab('${currentTab}')"]`); if(activeTabBtn) activeTabBtn.classList.add('active');
-            
             document.querySelectorAll('.content-section').forEach(sec => sec.classList.remove('active'));
             const activeSection = document.getElementById(`${currentTab}-section`); if(activeSection) activeSection.classList.add('active');
             renderContent(); 
         };
 
         function updateAuthUI() {
-            if (isLoggedIn) {
-                document.getElementById('guest-nav').style.display = 'none'; document.getElementById('user-nav').style.display = 'flex';
-                document.getElementById('welcome-text').innerText = `👋 Chào, ${currentUser}`; document.getElementById('intro-warning').style.display = 'none'; 
-            } else {
-                document.getElementById('guest-nav').style.display = 'block'; document.getElementById('user-nav').style.display = 'none'; document.getElementById('intro-warning').style.display = 'block';
-            }
+            if (isLoggedIn) { document.getElementById('guest-nav').style.display = 'none'; document.getElementById('user-nav').style.display = 'flex'; document.getElementById('welcome-text').innerText = `👋 Chào, ${currentUser}`; document.getElementById('intro-warning').style.display = 'none'; } 
+            else { document.getElementById('guest-nav').style.display = 'block'; document.getElementById('user-nav').style.display = 'none'; document.getElementById('intro-warning').style.display = 'block'; }
         }
 
         function recordLoginTime() {
@@ -735,56 +730,73 @@
             localStorage.setItem('app_history_' + currentUser, JSON.stringify(userHist));
         }
 
-        function logout() {
-            isLoggedIn = false; currentUser = ''; userProgress = {};
-            localStorage.setItem('app_is_logged_in', 'false'); localStorage.removeItem('app_username'); localStorage.removeItem('app_last_tab');
-            updateAuthUI(); switchTab('intro');
-        }
-
+        function logout() { isLoggedIn = false; currentUser = ''; userProgress = {}; localStorage.setItem('app_is_logged_in', 'false'); localStorage.removeItem('app_username'); localStorage.removeItem('app_last_tab'); updateAuthUI(); switchTab('intro'); }
         function toggleMenu() { document.getElementById('sideMenu').classList.toggle('active'); document.getElementById('overlay').classList.toggle('active'); }
         
         let currentAuthMode = 'login';
         function openModal(mode) { currentAuthMode = mode; updateModalUI_form(); document.getElementById('authModal').classList.add('active'); document.getElementById('authMessage').innerHTML = ""; }
         function closeModal() { document.getElementById('authModal').classList.remove('active'); }
         function switchAuthMode(mode) { currentAuthMode = mode; updateModalUI_form(); document.getElementById('authMessage').innerHTML = ""; document.getElementById('authPassword').value = ""; }
-        
         function updateModalUI_form() {
-            const title = document.getElementById('modalTitle'); const btn = document.getElementById('btnSubmitAuth');
-            const switchText = document.getElementById('authSwitchText'); const forgotText = document.getElementById('authForgotText'); const passInput = document.getElementById('authPassword');
-
-            if (currentAuthMode === 'login') { 
-                title.innerText = "Đăng nhập"; btn.innerText = "Vào học ngay"; passInput.placeholder = "Mật khẩu";
-                switchText.innerText = "Chưa có tài khoản? Đăng ký ngay"; switchText.onclick = () => switchAuthMode('register'); forgotText.style.display = "block";
-            } else if (currentAuthMode === 'register') { 
-                title.innerText = "Đăng ký"; btn.innerText = "Tạo tài khoản"; passInput.placeholder = "Mật khẩu";
-                switchText.innerText = "Đã có tài khoản? Đăng nhập"; switchText.onclick = () => switchAuthMode('login'); forgotText.style.display = "none";
-            } else if (currentAuthMode === 'forgot') {
-                title.innerText = "Khôi phục mật khẩu"; btn.innerText = "Đổi mật khẩu mới"; passInput.placeholder = "Nhập mật khẩu mới của bạn";
-                switchText.innerText = "Quay lại màn hình Đăng nhập"; switchText.onclick = () => switchAuthMode('login'); forgotText.style.display = "none";
-            }
+            const title = document.getElementById('modalTitle'); const btn = document.getElementById('btnSubmitAuth'); const switchText = document.getElementById('authSwitchText'); const forgotText = document.getElementById('authForgotText'); const passInput = document.getElementById('authPassword');
+            if (currentAuthMode === 'login') { title.innerText = "Đăng nhập"; btn.innerText = "Vào học ngay"; passInput.placeholder = "Mật khẩu"; switchText.innerText = "Chưa có tài khoản? Đăng ký ngay"; switchText.onclick = () => switchAuthMode('register'); forgotText.style.display = "block"; } 
+            else if (currentAuthMode === 'register') { title.innerText = "Đăng ký"; btn.innerText = "Tạo tài khoản"; passInput.placeholder = "Mật khẩu"; switchText.innerText = "Đã có tài khoản? Đăng nhập"; switchText.onclick = () => switchAuthMode('login'); forgotText.style.display = "none"; } 
+            else if (currentAuthMode === 'forgot') { title.innerText = "Khôi phục mật khẩu"; btn.innerText = "Đổi mật khẩu mới"; passInput.placeholder = "Nhập mật khẩu mới của bạn"; switchText.innerText = "Quay lại màn hình Đăng nhập"; switchText.onclick = () => switchAuthMode('login'); forgotText.style.display = "none"; }
         }
 
-        window.onclick = function(event) { if (event.target === document.getElementById('authModal')) closeModal(); if (event.target === document.getElementById('notiModal')) closeNotiModal(); }
+        window.onclick = function(event) { 
+            if (event.target === document.getElementById('authModal')) closeModal(); 
+            if (event.target === document.getElementById('notiModal')) closeNotiModal(); 
+            if (event.target === document.getElementById('addVocabModal')) closeAddVocabModal(); 
+        }
+
+        // --- XỬ LÝ TỪ VỰNG CÁ NHÂN ---
+        function openAddVocabModal() {
+            if (!isLoggedIn) { openModal('login'); return; }
+            document.getElementById('addVocabModal').classList.add('active');
+        }
+        function closeAddVocabModal() { document.getElementById('addVocabModal').classList.remove('active'); }
+        
+        function submitCustomVocab() {
+            const w = document.getElementById('cv-word').value.trim(); const p = document.getElementById('cv-pinyin').value.trim();
+            const t = document.getElementById('cv-type').value.trim(); const m = document.getElementById('cv-meaning').value.trim();
+            const c = document.getElementById('cv-ex-cn').value.trim(); const v = document.getElementById('cv-ex-vn').value.trim();
+            
+            if (!w || !m) { alert("Vui lòng nhập ít nhất Từ vựng và Nghĩa tiếng Việt!"); return; }
+            if (!userProgress['_custom_vocab']) userProgress['_custom_vocab'] = [];
+            
+            const exists = userProgress['_custom_vocab'].some(item => item.course === currentExamType && item.level === currentLevel && item.w === w);
+            if (exists) { alert("Từ vựng này đã có trong danh sách cá nhân của bạn rồi!"); return; }
+            
+            userProgress['_custom_vocab'].push({ course: currentExamType, level: currentLevel, w, p, t, m, c, v, isCustom: true });
+            saveProgress(); closeAddVocabModal();
+            
+            document.getElementById('cv-word').value = ''; document.getElementById('cv-pinyin').value = ''; document.getElementById('cv-type').value = '';
+            document.getElementById('cv-meaning').value = ''; document.getElementById('cv-ex-cn').value = ''; document.getElementById('cv-ex-vn').value = '';
+            
+            alert("Đã thêm từ vựng thành công!"); renderVocab();
+        }
+
+        function getFullVocabData() {
+            const baseData = db[currentExamType].vocab[currentLevel] || [];
+            const customData = (userProgress['_custom_vocab'] || []).filter(v => v.course === currentExamType && v.level === currentLevel);
+            return baseData.concat(customData);
+        }
+        function getItemKey(item, mode) { return `${currentExamType}_${currentLevel}_${mode}_${item.w || item.word || item.title}`; }
 
         function changeExamType(examType) {
             currentExamType = examType; localStorage.setItem('app_last_exam', currentExamType); 
-            document.querySelectorAll('.exam-tab-btn').forEach(btn => btn.classList.remove('active')); event.target.classList.add('active');
+            document.querySelectorAll('.exam-tab-btn').forEach(btn => { btn.classList.remove('active'); event.target.classList.add('active'); });
             document.getElementById('main-title').innerText = `${config[examType].icon} Trạm ${config[examType].title} ${config[examType].icon}`;
             const imgElement = document.getElementById('country-img'); imgElement.style.opacity = 0; setTimeout(() => { imgElement.src = config[examType].img; imgElement.style.opacity = 1; }, 300);
-            currentLevel = config[examType].levels[0]; localStorage.setItem('app_last_level', currentLevel); 
-            buildLevelButtons(); renderContent(); toggleMenu();
+            currentLevel = config[examType].levels[0]; localStorage.setItem('app_last_level', currentLevel); buildLevelButtons(); renderContent(); toggleMenu();
         }
 
         function buildLevelButtons() {
             const container = document.getElementById('level-buttons'); container.innerHTML = '';
             config[currentExamType].levels.forEach(levelName => {
                 const btn = document.createElement('button'); btn.className = `level-btn ${levelName === currentLevel ? 'active' : ''}`; btn.innerText = levelName;
-                btn.onclick = () => {
-                    if (!isLoggedIn) { openModal('login'); return; }
-                    document.querySelectorAll('.level-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active');
-                    currentLevel = levelName; localStorage.setItem('app_last_level', currentLevel); 
-                    if(currentTab === 'intro') { switchTab('vocab'); } else { renderContent(); }
-                }; container.appendChild(btn);
+                btn.onclick = () => { if (!isLoggedIn) { openModal('login'); return; } document.querySelectorAll('.level-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); currentLevel = levelName; localStorage.setItem('app_last_level', currentLevel); if(currentTab === 'intro') { switchTab('vocab'); } else { renderContent(); } }; container.appendChild(btn);
             });
         }
 
@@ -797,22 +809,18 @@
         }
 
         function renderContent() {
-            if (currentTab === 'vocab') renderVocab(); else if (currentTab === 'grammar') renderGrammar();
-            else if (currentTab === 'exam') renderExam(); else if (currentTab === 'review') { reviewMode = 'vocab'; startReview('vocab'); }
-            else if (currentTab === 'notebook') renderNotebook(); else if (currentTab === 'history') renderHistory();
+            if (currentTab === 'vocab') renderVocab(); else if (currentTab === 'grammar') renderGrammar(); else if (currentTab === 'exam') renderExam(); else if (currentTab === 'review') { reviewMode = 'vocab'; startReview('vocab'); } else if (currentTab === 'notebook') renderNotebook(); else if (currentTab === 'history') renderHistory();
         }
 
-        function getItemKey(item, mode) { return `${currentExamType}_${currentLevel}_${mode}_${item.w || item.word || item.title}`; }
-        
         function toggleSaveWord(event) {
-            event.stopPropagation(); const data = db[currentExamType].vocab[currentLevel][vocabIndex]; const key = getItemKey(data, 'vocab');
+            event.stopPropagation(); const data = getFullVocabData()[vocabIndex]; const key = getItemKey(data, 'vocab');
             if(!userProgress[key]) userProgress[key] = { correct: 0, wrong: 0, saved: false, itemData: data };
             userProgress[key].saved = !userProgress[key].saved; userProgress[key].itemData = data; saveProgress(); updateSaveBtnState(key);
         }
         function updateSaveBtnState(key) { const btn = document.getElementById('btn-bookmark'); if(userProgress[key] && userProgress[key].saved) btn.classList.add('saved'); else btn.classList.remove('saved'); }
 
         function renderVocab() {
-            const data = db[currentExamType].vocab[currentLevel] || [];
+            const data = getFullVocabData();
             if (data.length === 0) { document.getElementById('fc-container').classList.add('hidden'); document.getElementById('vocab-controls').classList.add('hidden'); document.getElementById('vocab-empty').classList.remove('hidden'); } 
             else { document.getElementById('fc-container').classList.remove('hidden'); document.getElementById('vocab-controls').classList.remove('hidden'); document.getElementById('vocab-empty').classList.add('hidden'); vocabIndex = 0; loadFlashcard(vocabIndex, data); }
             if(data.length > 0 && isLoggedIn) { const key = getItemKey(data[0], 'vocab'); if(!userProgress[key]) { userProgress[key] = { correct: 0, wrong: 0, saved: false, itemData: data[0] }; saveProgress(); } }
@@ -824,21 +832,22 @@
             document.getElementById('word-pinyin').textContent = data.p || data.pinyin;
             
             const typeElem = document.getElementById('word-type');
-            if(data.t) { typeElem.textContent = `[${data.t}]`; typeElem.style.display = 'block'; } 
-            else { typeElem.style.display = 'none'; }
+            if(data.t) { typeElem.textContent = `[${data.t}]`; typeElem.style.display = 'block'; } else { typeElem.style.display = 'none'; }
             
             document.getElementById('word-meaning').textContent = data.m || data.meaning;
             document.getElementById('ex-cn').textContent = data.c || data.exCn || ''; 
             document.getElementById('ex-vn').textContent = data.v || data.exVn || ''; 
             document.getElementById('progress').textContent = `${index + 1} / ${dataArray.length}`;
             
+            if (data.isCustom) document.getElementById('custom-badge').style.display = 'block'; else document.getElementById('custom-badge').style.display = 'none';
+
             updateSaveBtnState(getItemKey(data, 'vocab')); if (document.getElementById('flashcard').classList.contains('flipped')) document.getElementById('flashcard').classList.remove('flipped');
             if(isLoggedIn) { const key = getItemKey(data, 'vocab'); if(!userProgress[key]) { userProgress[key] = { correct: 0, wrong: 0, saved: false, itemData: data }; saveProgress(); } }
         }
 
         function flipCard() { document.getElementById('flashcard').classList.toggle('flipped'); }
-        function nextCard() { const data = db[currentExamType].vocab[currentLevel]; if (vocabIndex < data.length - 1) { vocabIndex++; loadFlashcard(vocabIndex, data); } }
-        function prevCard() { const data = db[currentExamType].vocab[currentLevel]; if (vocabIndex > 0) { vocabIndex--; loadFlashcard(vocabIndex, data); } }
+        function nextCard() { const data = getFullVocabData(); if (vocabIndex < data.length - 1) { vocabIndex++; loadFlashcard(vocabIndex, data); } }
+        function prevCard() { const data = getFullVocabData(); if (vocabIndex > 0) { vocabIndex--; loadFlashcard(vocabIndex, data); } }
 
         function renderGrammar() {
             const data = db[currentExamType].grammar[currentLevel] || []; const list = document.getElementById('grammar-list'); list.innerHTML = '';
@@ -861,7 +870,8 @@
 
         function startReview(mode) {
             reviewMode = mode; document.getElementById('btn-rev-vocab').classList.remove('active'); document.getElementById('btn-rev-grammar').classList.remove('active'); document.getElementById(`btn-rev-${mode}`).classList.add('active');
-            const data = db[currentExamType][mode][currentLevel] || []; const board = document.getElementById('quiz-board'); const empty = document.getElementById('review-empty');
+            const data = mode === 'vocab' ? getFullVocabData() : (db[currentExamType][mode][currentLevel] || []);
+            const board = document.getElementById('quiz-board'); const empty = document.getElementById('review-empty');
             if (data.length < 2) { board.classList.add('hidden'); empty.classList.remove('hidden'); } else { board.classList.remove('hidden'); empty.classList.add('hidden'); loadNextQuiz(data); }
         }
         
@@ -875,30 +885,30 @@
             if (reviewMode === 'vocab') { 
                 currentQuizCorrectAns = currentItem.m || currentItem.meaning; 
                 qBox.innerHTML = `Nghĩa của từ <span class="q-word-hl">${currentItem.w || currentItem.word}</span> <br><span style="font-size:1rem;color:#888">${currentItem.p || currentItem.pinyin}</span><br> là gì?`; 
-                options.forEach(opt => { 
-                    const ansMeaning = opt.m || opt.meaning;
-                    optBox.innerHTML += `<button class="opt-btn" onclick="checkAnswer(this, '${ansMeaning.replace(/'/g, "\\'")}')">${ansMeaning}</button>`; 
-                }); 
+                options.forEach(opt => { const ansMeaning = opt.m || opt.meaning; optBox.innerHTML += `<button class="opt-btn" onclick="checkAnswer(this, '${ansMeaning.replace(/'/g, "\\'")}')">${ansMeaning}</button>`; }); 
             } else { 
-                currentQuizCorrectAns = currentItem.desc; 
-                qBox.innerHTML = `Cấu trúc: <span style="color:var(--primary-dark)">${currentItem.formula}</span><br>có cách dùng như thế nào?`; 
+                currentQuizCorrectAns = currentItem.desc; qBox.innerHTML = `Cấu trúc: <span style="color:var(--primary-dark)">${currentItem.formula}</span><br>có cách dùng như thế nào?`; 
                 options.forEach(opt => { optBox.innerHTML += `<button class="opt-btn" onclick="checkAnswer(this, '${opt.desc.replace(/'/g, "\\'")}')">${opt.desc}</button>`; }); 
             }
         }
         function checkAnswer(btn, selectedAns) {
             const allBtns = document.querySelectorAll('.opt-btn'); allBtns.forEach(b => b.disabled = true);
-            if(!userProgress[currentQuizItemKey]) { const itemData = db[currentExamType][reviewMode][currentLevel].find(i => (i.w || i.word || i.title) === currentQuizItemKey.split('_').pop()); userProgress[currentQuizItemKey] = { correct: 0, wrong: 0, saved: false, itemData: itemData }; }
+            if(!userProgress[currentQuizItemKey]) { 
+                const itemData = (reviewMode === 'vocab' ? getFullVocabData() : db[currentExamType][reviewMode][currentLevel]).find(i => (i.w || i.word || i.title) === currentQuizItemKey.split('_').pop()); 
+                userProgress[currentQuizItemKey] = { correct: 0, wrong: 0, saved: false, itemData: itemData }; 
+            }
             if (selectedAns === currentQuizCorrectAns) { btn.classList.add('correct'); userProgress[currentQuizItemKey].correct++; } else { btn.classList.add('wrong'); userProgress[currentQuizItemKey].wrong++; allBtns.forEach(b => { if (b.innerText === currentQuizCorrectAns) b.classList.add('correct'); }); }
             saveProgress(); document.getElementById('btn-next-quiz').style.display = 'block';
         }
-        document.getElementById('btn-next-quiz').onclick = () => { const data = db[currentExamType][reviewMode][currentLevel] || []; loadNextQuiz(data); }
+        document.getElementById('btn-next-quiz').onclick = () => { const data = reviewMode === 'vocab' ? getFullVocabData() : (db[currentExamType][reviewMode][currentLevel] || []); loadNextQuiz(data); }
 
         function renderNotebook() {
             const list = document.getElementById('notebook-list'); const empty = document.getElementById('notebook-empty'); list.innerHTML = ''; let hasItems = false; const prefix = `${currentExamType}_${currentLevel}_`;
             for (const key in userProgress) {
-                if (key.startsWith(prefix)) {
+                if (key.startsWith(prefix) && key !== `${prefix}vocab_`) {
                     const stats = userProgress[key];
                     if (stats.saved || stats.wrong > stats.correct) {
+                        if (!stats.itemData) continue;
                         hasItems = true; let statusHtml = '';
                         if (stats.wrong > stats.correct) statusHtml = `<span class="nb-status status-bad">🔴 Hay quên (${stats.correct}/${stats.correct+stats.wrong})</span>`; else if (stats.saved) statusHtml = `<span class="nb-status status-saved">⭐ Đã lưu</span>`; else statusHtml = `<span class="nb-status status-good">🟢 Tốt</span>`;
                         const wordOrTitle = stats.itemData.w || stats.itemData.word || stats.itemData.title; 
@@ -912,7 +922,7 @@
 
         function renderHistory() {
             document.getElementById('hist-lang-title').innerText = `${config[currentExamType].title} - ${currentLevel}`;
-            const vocabData = db[currentExamType].vocab[currentLevel] || []; const totalVocab = vocabData.length; let learnedCount = 0; const prefix = `${currentExamType}_${currentLevel}_vocab_`;
+            const vocabData = getFullVocabData(); const totalVocab = vocabData.length; let learnedCount = 0; const prefix = `${currentExamType}_${currentLevel}_vocab_`;
             for (const key in userProgress) { if (key.startsWith(prefix) && userProgress[key].itemData) learnedCount++; }
             let percent = totalVocab > 0 ? Math.round((learnedCount / totalVocab) * 100) : 0;
             document.getElementById('progress-stats').innerHTML = `<div style="font-size: 1.1rem; color: #444;">Đã học: <strong>${learnedCount} / ${totalVocab}</strong> từ vựng</div><div class="progress-bar-bg"><div class="progress-bar-fill" style="width: ${percent}%;"></div></div><div style="text-align:right; font-size:0.9rem; font-weight:bold; color:var(--correct-color); margin-top:5px;">${percent}% Hoàn thành</div>`;
