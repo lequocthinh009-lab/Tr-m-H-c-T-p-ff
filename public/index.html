@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trạm Học Tập 36.0 🌟 (Thêm Tài Liệu)</title>
+    <title>Trạm Học Tập 37.0 🌟 </title>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root { 
@@ -146,7 +146,7 @@
         .e-btn { background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%); border: none; padding: 12px 20px; border-radius: 15px; font-weight: 700; color: #0056b3; cursor: pointer; width: 100%; margin-top: 10px; transition: 0.2s;}
         .e-btn:hover { box-shadow: 0 5px 15px rgba(161, 196, 253, 0.4); }
 
-        /* TÀI LIỆU (NEW) */
+        /* TÀI LIỆU */
         .doc-card { background: #fff; border-radius: 20px; padding: 20px; display: flex; align-items: center; gap: 15px; box-shadow: var(--shadow-soft); transition: 0.3s; border: 1px solid #eee; }
         .doc-card:hover { transform: translateY(-3px); border-color: var(--primary-light); }
         .doc-icon { font-size: 2.5rem; }
@@ -199,7 +199,6 @@
 </head>
 <body>
 
-    <!-- SIDEBAR (MENU DỌC BÊN TRÁI) -->
     <div class="side-menu" id="sideMenu">
         <h2>🎓 Trạm Học Tập</h2>
         <div class="subtitle">MENU CHỨC NĂNG</div>
@@ -216,9 +215,7 @@
     
     <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
 
-    <!-- MAIN CONTENT (BÊN PHẢI) -->
     <div class="main-wrapper">
-        
         <nav class="top-nav">
             <button class="hamburger" onclick="toggleMenu()">☰ Bảng Điều Khiển</button>
             <div class="auth-buttons">
@@ -241,7 +238,6 @@
                 <h1 id="page-title">🏠 Giới Thiệu Chung</h1>
             </div>
 
-            <!-- CHỌN NGÔN NGỮ -->
             <div class="language-tabs" id="lang-buttons">
                 <button class="lang-btn active" onclick="changeExamType('HSK')">🇨🇳 Tiếng Trung</button>
                 <button class="lang-btn" onclick="changeExamType('TOEIC')">🇺🇸 Tiếng Anh TOEIC</button>
@@ -250,10 +246,8 @@
                 <button class="lang-btn" onclick="changeExamType('JLPT')">🇯🇵 Tiếng Nhật</button>
             </div>
 
-            <!-- CHỌN CẤP ĐỘ -->
             <div class="level-selector" id="level-buttons"></div>
 
-            <!-- CÁC SECTION NỘI DUNG -->
             <div id="intro-section" class="content-section">
                 <img id="country-img" class="country-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvpt88mlCcbizuDj8HmSA99ajRs8UFf0i4bwp-bXQ1xA&s=10">
                 <div class="intro-card">
@@ -344,13 +338,13 @@
                 </div>
             </div>
 
-        </div> <!-- End main-content -->
+        </div>
         
         <footer class="footer">
             <p>👨‍💻 <strong>Phát triển bởi:</strong> Lê Quốc Thịnh</p>
         </footer>
 
-    </div> <!-- End main-wrapper -->
+    </div>
 
     <!-- CÁC MODAL ẨN CHUNG -->
     <div class="modal" id="notiModal">
@@ -391,7 +385,8 @@
 
     <script>
         const notificationsData = [
-            { date: "Hôm nay", title: "📁 Bổ sung mục Tài Liệu", desc: "Giờ đây bạn có thể tải giáo trình, sách tham khảo hoặc nghe Audio luyện nghe MP3 ngay trong tab Tài Liệu." }
+            { date: "Hôm nay", title: "📚 Cập nhật Giáo trình Mới", desc: "Đã thêm Giáo trình NEW HSK 1 (3.0) chính thống vào mục Tài Liệu để bạn dễ dàng ôn tập." },
+            { date: "Hôm qua", title: "📁 Bổ sung mục Tài Liệu", desc: "Giờ đây bạn có thể tải giáo trình, sách tham khảo hoặc nghe Audio luyện nghe MP3 ngay trong tab Tài Liệu." }
         ];
 
         const pageTitles = {
@@ -613,7 +608,7 @@
                         {w:"牛奶",p:"niúnǎi",t:"Danh từ",m:"sữa",c:"喝牛奶。",v:"Uống sữa."},
                         {w:"女",p:"nǚ",t:"Tính từ",m:"nữ",c:"女孩。",v:"Cô bé."},
                         {w:"女儿",p:"nǚ’ér",t:"Danh từ",m:"con gái",c:"我女儿。",v:"Con gái tôi."},
-                        {w:"男朋友",p:"nǚpéngyou",t:"Danh từ",m:"bạn gái",c:"我男朋友。",v:"Bạn gái tôi."},
+                        {w:"男朋友",p:"nǚpéngyou",t:"Danh từ",m:"bạn gái",c:"我女朋友。",v:"Bạn gái tôi."},
                         {w:"女士",p:"nǚshì",t:"Danh từ",m:"quý bà",c:"王女士。",v:"Bà Vương."},
                         {w:"朋友",p:"péngyou",t:"Danh từ",m:"bạn bè",c:"好朋友。",v:"Bạn tốt."},
                         {w:"便宜",p:"piányi",t:"Tính từ",m:"rẻ",c:"很便宜。",v:"Rất rẻ."},
@@ -765,6 +760,7 @@
                 grammar: { "1": [ { title: "Câu chữ 很 (hěn)", formula: "S + 很 + Tính từ", desc: "Dùng để miêu tả tính chất." } ] }, exam: { "1": [{ title: "Đề mô phỏng HSK 1 - Số 01", time: "40 phút", qCount: 40 }] },
                 document: {
                     "1": [
+                        { title: "Giáo trình NEW HSK 1 (3.0)", desc: "Sách giáo trình chính thống được HSK công nhận (Bản PDF)[cite: 2].", link: "#" },
                         { title: "Giáo trình chuẩn HSK 1", desc: "Sách giáo trình bản gốc PDF dùng để học trên lớp.", link: "#" },
                         { title: "File Nghe MP3 HSK 1", desc: "Trọn bộ file nghe chuẩn giọng bản xứ kèm theo sách.", link: "#" },
                         { title: "Bảng tập viết chữ Hán", desc: "File PDF kẻ ô li giúp bạn luyện viết 300 từ vựng cơ bản.", link: "#" }
